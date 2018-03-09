@@ -1,0 +1,18 @@
+$("#csv_log").html("")
+<% if @errors_import_csv.blank? %>
+  var div_log = "<div class='success-log' id='success_log'><h5><%= t('.import_success').gsub('%{count}', @line_number.to_s) %></h5></div>"
+  $("#csv_log").append(div_log)
+<% else %>
+  var div_log = "<div class='error-log field_with_errors' id='show_log'></div>"
+  $("#csv_log").append(div_log)
+  var summary = "<h5>" + "<%= t('.import_fail').gsub('%{count}', @errors_import_csv.size.to_s) %>".toString() + "</h5>"
+  $("#show_log").append(summary)
+  var ul = "<ul id='ul_error_log'></ul>"
+  $("#show_log").append(ul)
+  <% @errors_import_csv.each do |error| %>
+    var new_item = "<li><label class='mrg10L'>" + '<%= "#{error[:line]}行目 : #{error[:message].join(', ')}" %>'.toString() + "</label></li>"
+    $("#ul_error_log").append(new_item)
+  <% end %>
+<% end %>
+
+$('#spinner').hide();

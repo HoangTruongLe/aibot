@@ -1,0 +1,14 @@
+<tr data-path="<%= msg_content ? message_content_path(msg_content, format: 'json'): '' %>"
+      data-msg_content_id="<%= msg_content.try(:id) %>"
+      class="<%= link_card.new_record? ? 'ui-state-disabled' : '' %>">
+  <td>
+    <div class="m_link-card">
+      <div class="review m_link-card-review <%= link_card.new_record? ? 'hidden' : '' %>">
+        <%= render partial: "linkcard_review", locals: { link_card: link_card, preview: preview } %>
+      </div>
+      <div class="editor m_link-card-edit <%= link_card.new_record? ? '' : 'hidden' %>">
+        <%= render partial: "linkcard_editor", locals: { link_card: link_card } %>
+      </div>
+    </div>
+  </td>
+</tr>

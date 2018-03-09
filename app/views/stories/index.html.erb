@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <%= link_to "ストーリーレポート", story_report_stories_path, { class: "btn btn-save btn-submit-filter pull-right btn-smalll" }%>
+    </div>
+  </div>
+  <div class='row search-border'>
+    <h5>検索</h5>
+    <%= search_form_for @q, url: stories_path, method: :get do |f|%>
+      <div class="row">
+        <div class='col-sm-10 col-xs-10 mrg10B' >
+          <%= f.search_field :id_or_start_keyword_name_or_end_keyword_name_cont, placeholder: 'ID、主キーワード', class: 'form-control search-input' %>
+        </div>
+        <div class="col-sm-2 col-xs-2">
+          <%= link_to 'クリア', 'javascript:void(0);', class: 'btn btn-cancel clear-input-search btn-gray btn-clear-filter mrg10L', style: 'color: #000', onclick: "clearFilter();"%>
+          <%= submit_tag '検索', class: 'btn btn-save btn-submit-filter'%>
+        </div>
+      </div>
+      <br>
+    <%end%>
+    <table class='table table-striped table-bordered'>
+      <thead>
+        <tr class="active">
+          <th width="10%" class="text-center"><%= sort_link(@q, :id, 'ストーリーID', default_order: :desc) %></th>
+          <th width="15%" class="text-center">開始キーワード</th>
+          <th width="15%" class="text-center">最終キーワード</th>
+          <th width="10%" class="text-center">メッセージ数</th>
+          <th width="10%" class="text-center"><%= sort_link(@q, :display_number, 'ストーリー利用回数', default_order: :desc) %></th>
+          <th width="10%" class="text-center"><%= sort_link(@q, :created_at, '作成日時', default_order: :desc) %></th>
+          <th width="10%" class="text-center"><%= sort_link(@q, :updated_at, '最終更新日時', default_order: :desc) %></th>
+          <th width="15%" class="text-center">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% if @stories.size > 0 %>
+        <% @stories.each do |story| %>
+          <tr>
+            <td class="text-center"><%= story.id %></td>
+            <td class=""><%= story.start_keyword.try(:name) %></td>
+            <td class=""><%= story.end_keyword.try(:name) %></td>
+            <td class="text-center"><%= story.messages_list.size %></td>
+            <td class="text-center"><%= story.display_number %></td>
+            <td class="text-center"><%= format_datetime(story.created_at) %></td>
+            <td class="text-center"><%= format_datetime(story.updated_at) %></td>
+            <td class="text-center">
+              <%= link_to '詳細', story, class: 'btn btn-default btn-gray btn-action', style: "width: 70px;" %>
+              <%= link_to 'レポート', messages_report_story_path(story.id), class: "btn btn-primary btn-blue btn-action", style: "width: 70px;" %>
+            </td>
+          </tr>
+        <%end%>
+      <%else%>
+        <tr>
+          <td colspan="10" class="text-center">ストーリーが見つかりません</td>
+        </tr>
+      <%end%>
+      </tbody>
+    </table>
+    <div class='text-center'><%= paginate @stories %></div>
+  </div>
+</div>

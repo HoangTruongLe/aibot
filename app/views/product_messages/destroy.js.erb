@@ -1,0 +1,6 @@
+<% unless @product_message.errors.any? %>
+  parent = $("#product_message-<%= @product_message.id %>-editor").closest('div[class="m_product-message"]');
+  $(parent).addClass('hidden');
+  $("#destroy_message_content").modal('hide');
+  $("#spinner").hide();
+<% end %>

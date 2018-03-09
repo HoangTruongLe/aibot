@@ -1,0 +1,14 @@
+<% unless @link_card.errors.any? %>
+  parent = $("#link_card-<%= @link_card.id %>-editor").closest('div[class="m_link-card"]');
+  $(parent).find('.m_link-card-edit').addClass('hidden');
+
+  preview = $(parent).find('.m_link-card-review');
+  $(preview)[0].innerHTML = "<%= j render partial: 'messages/linkcard_review', locals: { link_card: @link_card, preview: false} %>";
+  $(parent).find('.m_link-card-review').removeClass('hidden');
+
+
+  tr_parent = $(parent).closest('tr');
+  $(tr_parent).removeClass('ui-state-disabled');
+
+  $('#spinner').hide();
+<% end %>

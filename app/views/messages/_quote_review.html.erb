@@ -1,0 +1,34 @@
+<% unless quote.new_record? %>
+  <div class="m_editor-quote-1 mrg20T">
+
+    <div class="m_editor-content <%= preview ? 'remove_border' : ''%>">
+      <h5>引用</h5>
+      <div class="m_editor-quote-textarea">
+        <div class="m_quote-content-wrapper">
+          <div class="m_quote-content">
+            <div class="m_quote-title content_wrapper"><span>❝</span> <strong><%= quote.try(:content) %></strong></div>
+            <div class="m_quote-reference">
+              <a class="content_wrapper" href="<%= quote.try(:quote_url) %>" target="_blank"><small><%= quote.try(:quote_source) %></small></a>
+            </div>
+            <div class="m_quote-comment content_wrapper">
+              <%= quote.try(:referral_comment) %>
+            </div>
+          </div>
+        </div>
+        <div style="clear: both"></div>
+      </div>
+    </div>
+    <% unless preview %>
+      <div class="m_editor-action">
+        <div class="col-sm-6 col-xs-6 m_editor-action-button">
+          <button type="button" class="btn btn-primary btn-blue-2 mrg5B edit-quote-btn"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 編集</button><br>
+          <button type="button" data-link='<%= "/quotes/#{quote.id}" %>' data-type="引用" class="btn btn-default btn-white-2 btn-delete-msg-content">
+            <i class="fa fa-trash-o" aria-hidden="true"></i> 削除
+          </button>
+        </div>
+      </div>
+    <% end %>
+
+  </div>
+
+<% end %>

@@ -1,0 +1,254 @@
+// Place all the styles related to the product controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.products-index {
+  tbody tr td {
+    vertical-align: middle !important;
+  }
+
+  .paginate-box {
+    text-align: center;
+    margin-bottom: 20px;
+
+    .pagination li a {
+      background-color: #ccc;
+      color: #000;
+    }
+
+    .pagination li.active a {
+      background-color: #666;
+      color: #fff;
+    }
+  }
+
+  ul.pagination {
+    margin: 0;
+  }
+
+  .search-box {
+    border: 1px solid #ddd;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 10px;
+    margin-bottom: 10px;
+
+    .search-input {
+      width: 100%;
+    }
+
+    .select-search {
+      width: 40%;
+    }
+
+    .download-button {
+      width: 45%;
+      font-size: 12px;
+      color: #286bcc;
+    }
+
+    .search-input-wrapper {
+      padding-right: 0;
+    }
+
+    .datepicker-input {
+      max-width: 140px;
+    }
+
+    .dtp-clear {
+      display: none;
+      clear: both;
+    }
+  }
+}
+
+.btn-clear-filter,
+.btn-submit-filter {
+  width: 45%;
+  font-size: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.btn-action {
+  font-size: 12px;
+  margin-bottom: 3px;
+}
+
+.modal-header {
+  padding: 20px 25px 10px 25px;
+  border: none;
+
+  .close {
+    font-weight: normal;
+    font-size: 40px;
+    opacity: 1;
+    position: absolute;
+    right: 10px;
+    top: 5px;
+  }
+
+  .modal-title {
+    line-height: 40px;
+    font-weight: bold;
+  }
+}
+
+.modal-content {
+  border-radius: 0;
+
+  .modal-body {
+    background: #fbfbfb;
+    border: 1px solid #ccc;
+    margin-left: 25px;
+    margin-right: 25px;
+    border-radius: 4px;
+
+    .label-csv-file {
+      font-weight: normal;
+      color: #999;
+      font-size: 12px;
+    }
+
+    .choose-file {
+      font-size: 12px;
+      border-radius: 4px;
+      color: #286bcc;
+      border: 1px solid #286bcc;
+      background: #fff;
+      padding-left: 30px;
+      padding-right: 30px;
+
+      &:hover {
+        background: #286bcc;
+        color: #fff;
+      }
+    }
+  }
+}
+
+.modal-footer {
+  padding: 0;
+  border: none;
+
+  .btn-csv-group {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    .csv-group {
+      width: 50%;
+      float: left;
+
+      button, a {
+        width: 150px;
+        color: #286bcc;
+        height: 35px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        font-size: 12px;
+      }
+    }
+    .close-csv-group {
+      padding-right: 5px;
+      a {
+        background: #eaeaea;
+        line-height: 21px;
+      }
+    }
+    .import-csv-group {
+      padding-left: 5px;
+      button {
+        background: rgb(193, 193, 193);
+        color: #fff;
+      }
+      .csv-import-hover {
+        background: #286bcc;
+      }
+    }
+  }
+}
+
+.modal-footer .btn-group button {
+  height:40px;
+  border-top-left-radius : 0;
+  border-top-right-radius : 0;
+  border: none;
+  border-right: 1px solid #ddd;
+}
+
+.modal-footer .btn-group:last-child > button {
+  border-right: 0;
+}
+
+.modal-dialog {
+  margin-top: 120px;
+}
+
+@media screen and (max-width: 1200px) {
+  .search-box {
+    .select-search {
+      width: 90% !important;
+    }
+    .download-button {
+      width: 100% !important;
+    }
+    .dtp-clear {
+      display: block !important;
+    }
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .search-box {
+    .input-group.date {
+      margin-bottom: 10px;
+    }
+    .datepicker-input {
+      max-width: 120px !important;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .search-box {
+    .select-search {
+      width: 100% !important;
+    }
+    .search-input-wrapper {
+      padding-right: 15px;
+      margin-bottom: 10px;
+    }
+    .seperate-dtp {
+      display: none;
+    }
+    .input-group.date {
+      margin-bottom: 10px;
+    }
+    .btn-search-group {
+      margin-bottom: 10px;
+    }
+    .datepicker-input {
+      max-width: initial !important;
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .search-box {
+    .dtp-report {
+      padding: 0;
+    }
+  }
+}
+
+.align-vertically{
+  vertical-align: middle !important;
+  float: none !important;
+}
+
+#line_button_wording {
+  a {
+    color: #fff;
+  }
+}

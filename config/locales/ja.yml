@@ -1,0 +1,968 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
+#
+# true, false, on, off, yes, no
+#
+# Instead, surround them with single quotes.
+#
+# en:
+#   'true': 'foo'
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+ja:
+  not_authorized_user: 'この操作を実行する権限がありません。'
+  number:
+     currency:
+        format:
+          unit: '¥'
+          delimiter: ','
+          separator: '.'
+          precision: 2
+          format: '%u%n'
+  active: "有効"
+  inactive: "無効"
+  cancel_button: "キャンセル"
+  update_button: "更新する"
+  delete_button: "削除"
+  create_button: '新規作成'
+  delete_confirm: "本気ですか？"
+  save_button: "登録する"
+  change_pass: "パスワードを変更する"
+  new_pass: "新しいアカウントにパスワード設定"
+  new_pass_button: "新規パスワード登録"
+  profile: "プロフィール"
+  message_title: "メッセージ管理"
+  tag_title: タグ管理
+  admin: 管理者
+  manager: マネージャー
+
+  devise:
+    confirmations:
+      confirmed: "アカウントが確認されました。ログインしています。"
+      send_instructions: "アカウントの確認方法を数分以内にメールでご連絡します。"
+      send_paranoid_instructions: "ご登録のメールアドレスが保存されている場合、アカウントの確認方法をメールでご連絡します。"
+    failure:
+      already_authenticated: "既にログインしています。"
+      inactive: "アカウントがアクティベートされていません。"
+      invalid: "ログイン失敗しました。メールアドレスまたはパスワードが誤っています。"
+      locked: "アカウントがロックされています。"
+      last_attempt: "あなたのアカウントがロックされる前に、もう1つの試みを持っています。"
+      not_found_in_database: "メールアドレスまたはパスワードが無効です。"
+      invalid_token: "認証キーが不正です。"
+      timeout: "一定時間が経過したため、再度ログインが必要です"
+      unauthenticated: "ログインまたは登録が必要です。"
+      unconfirmed: "本登録を行ってください。"
+    mailer:
+      confirmation_instructions:
+        subject: "アカウントの登録方法"
+      reset_password_instructions:
+        subject: "パスワードの再設定"
+      unlock_instructions:
+        subject: "アカウントのロック解除"
+      password_change:
+        subject: "パスワード再設定完了"
+    omniauth_callbacks:
+      failure: "%{kind} から承認されませんでした。理由：%{reason}"
+      success: "%{kind} から承認されました。"
+    passwords:
+      no_token: "このページにアクセスする事が出来ません。正しいURLでアクセスしている事を確認して下さい。"
+      send_instructions: "パスワードのリセット方法を数分以内にメールでご連絡します。"
+      send_paranoid_instructions: ""
+      updated: "パスワードを変更しました。"
+      updated_not_active: "パスワードを変更しました。"
+      password_reminder: "パスワードリマインダ"
+      reset_password: "送信する"
+    registrations:
+      destroyed: "アカウントを削除しました。またのご利用をお待ちしております。"
+      signed_up: "アカウント登録を受け付けました。"
+      signed_up_but_inactive: "アカウントは登録されていますが、アクティブになっていないため利用できません。"
+      signed_up_but_locked: "アカウントは登録されていますが、ロックされているため利用できません。"
+      signed_up_but_unconfirmed: "確認メールを登録したメールアドレス宛に送信しました。リンクを開いてアカウントを有効にして下さい。"
+      update_needs_confirmation: "アカウント情報が更新されました。更新の確認メールを新しいメールアドレス宛に送信しましたので、リンクを開いて更新を有効にして下さい。"
+      updated: "アカウントが更新されました。"
+      edit:
+        title: "パスワードを変更"
+    sessions:
+      signed_in: "ログインしました。"
+      signed_out: "ログアウトしました。"
+      login: "ログイン"
+      logout: "ログアウト"
+      remember_me:
+      forgot_password: "パスワードを忘れた方"
+      reset_password: "送信する"
+      login_header: "AI ChatBot ログイン"
+      new:
+        email: "メールアドレス"
+        password: "パスワード"
+    unlocks:
+      send_instructions: "アカウントのロックを解除する方法を数分以内にメールでご連絡します。"
+      send_paranoid_instructions: "アカウントが存在する場合、ロックを解除する方法をメールでご連絡します。"
+      unlocked: "アカウントのロックが解除されました。ログインしています。"
+
+  errors:
+    messages:
+      already_confirmed: "は既に登録済みです。ログインしてください"
+      confirmation_period_expired: "%{period}以内に確認する必要がありますので、新しくリクエストしてください。"
+      expired: "有効期限切れです。新規登録してください。"
+      not_found: "は見つかりませんでした。"
+      not_locked: "ロックされていません。"
+      not_saved:
+        one: "エラーにより、この %{resource} を保存できません："
+        other: "エラーに %{count} より、この %{resource} を保存できません："
+
+  activerecord:
+    models:
+      user:
+        one: "ユーザー"
+        other: "ユーザー"
+    attributes:
+      message:
+        keyword_id: 主キーワード
+      keyword:
+        id: "ID"
+        sylk_id: "Id"
+        name: "キーワード名"
+        activity: "アクティビティ"
+        master_category: "カテゴリ"
+        master_category_id: "カテゴリ"
+        master_category_name: "カテゴリ"
+        cpc: "CPC"
+        action: "操作"
+        activity_column: "アクティビティ"
+        active: "有効"
+        inactive: "無効"
+      master_category:
+        id: "ID"
+        name: "メッセージカテゴリ名"
+        activity: "アクティビティ"
+      user:
+        id: "ID"
+        name: "ユーザー名"
+        email: "メールアドレス"
+        password: "パスワード"
+        password_confirmation: "パスワード（確認）"
+        current_password: "現在のパスワード"
+        sign_in_count: "ログイン回数"
+        last_sign_in_at: "最終ログイン日時"
+        delete_flg: "削除"
+        created_at: "作成日時"
+        updated_at: "更新日時"
+        site_ids: "サイトID"
+      category:
+        id: "ID"
+        name: "商品カテゴリ名"
+        activity: "アクティビティ"
+        slug: "slug"
+        eval_A_name: "評価A Name"
+        eval_A_type: "評価A Type"
+        eval_A_value: "評価A Value"
+        eval_B_name: "評価B Name"
+        eval_B_type: "評価B Type"
+        eval_B_value: "評価B Value"
+        eval_C_name: "評価C Name"
+        eval_C_type: "評価C Type"
+        eval_C_value: "評価C Value"
+        eval_D_name: "評価D Name"
+        eval_D_type: "評価D Type"
+        eval_D_value: "評価D Value"
+        eval_E_name: "評価E Name"
+        eval_E_type: "評価E Type"
+        eval_E_value: "評価E Value"
+      product:
+        id: "ID"
+        sylk_id: "Id"
+        activity: "アクティビティ"
+        activity_column: "アクティビティ"
+        category: "商品カテゴリ"
+        category_id: "商品カテゴリ"
+        category_name: "商品カテゴリ"
+        site: "サイト"
+        site_id: "サイト"
+        site_name: "サイト"
+        description: "説明"
+        name: "商品名"
+        product_url: "商品URL"
+        catch_copy: "キャッチコピー"
+        slug: "slug"
+        price_per_time: "1回あたりの値段"
+        price: "定価"
+        campaign: "キャンペーン"
+        order_site: "通販サイト"
+        status_deliver_time: "配送時の状況"
+        credit_settlement: "クレジット決済"
+        postpay: "後払い"
+        cod: "代金引換"
+        bank_transfer: "銀行振り込み"
+        store_transfer: "コンビニ振込み"
+        postpay_column: "後払い"
+        cod_column: "代金引換"
+        bank_transfer_column: "銀行振り込み"
+        store_transfer_column: "コンビニ振込み"
+        delivery_date: "お届け日数"
+        money_back: "返金保証"
+        tags: "tags"
+        evaluation_score_a: "評価A"
+        evaluation_score_b: "評価B"
+        evaluation_score_c: "評価C"
+        evaluation_score_d: "評価D"
+        evaluation_score_e: "評価E"
+        summary: "要約"
+        evaluation_comment_a: "評価Aについて"
+        evaluation_comment_b: "評価Bについて"
+        evaluation_comment_c: "評価Cについて"
+        evaluation_comment_d: "評価Dについて"
+        evaluation_comment_e: "評価Eについて"
+        manufacturer: "メーカー / ブランド"
+        content: "内容量"
+        price_details: "値段詳細"
+        useful_ingredients: "有用成分"
+        components: "全成分一覧"
+        usage_target: "使用対象"
+        specificity: "におい / 味 / 大きさ "
+        evaluation_category_a: "評価A"
+        evaluation_category_b: "評価B"
+        evaluation_category_c: "評価C"
+        evaluation_category_d: "評価D"
+        evaluation_category_e: "評価E"
+        image_1_url: "画像1URL"
+        image_2_url: "画像2URL"
+        image_3_url: "画像3URL"
+        image_4_url: "画像4URL"
+        image_5_url: "画像5URL"
+        create_time: "作成時間"
+        update_time: "更新時間"
+        user: "ユーザー"
+        owner: "作成者"
+        csv_file_name: "csvファイル名前"
+        active: "有効"
+        inactive: "無効"
+      question:
+        content: "質問内容"
+        type: "タイプ"
+        answer: "回答"
+        level: "レベル"
+        keyword: "質問キーワード"
+        description: "説明"
+      form:
+        form_name: "フォーム名"
+        api_url: "API URL"
+        api_key: "API Key"
+        activity: "アクティビティ"
+      product_report:
+        product_id: "商品ID"
+        product_name: "商品名"
+        display_url: "表示URL"
+        site_name: "サイト"
+        sales: "売上"
+        sales_per_display: "1表示あたりの売上"
+        sales_per_click: "1クリックあたりの売上"
+        display_number: "表示数"
+        click_number: "クリック数"
+        cv_number: "CV数"
+        click_rate: "クリック率"
+        cv_rate: "CV率"
+        create_time: "calc_date"
+      answers:
+        content: "回答内容"
+        keyword: "回答キーワード"
+      answer:
+        content: "回答内容"
+        keyword: "回答キーワード"
+      tag:
+        name: タグ名
+        activity: "アクティビティ"
+      site:
+        name: "サイト名"
+        site_url: "サイトURL"
+      chatbot:
+        name: '名前'
+        activity: 'アクティビティ'
+        thumbnail: 'サムネイル'
+        profile: 'プロフィール'
+        rarity: 'レア度'
+        tag: 'タグ'
+        created_at: '登録日時'
+        id: 'ID'
+      partner_site:
+        id: 'ID'
+        site_url: 'サイトURL'
+        display_number: '表示数'
+      mesage_form:
+        id: 'ID'
+        form_name: 'フォーム名'
+        api_url: 'Action URL'
+        activity: 'アクティビティ'
+      chatbot_emotion_photos:
+        avatar:
+          one: "アバター"
+          other: "アバター"
+        avatar_content_type: 'アバターのコンテンツタイプ'
+      tutorial_steps:
+        image:
+          one: "画像"
+          other: "画像"
+        image_content_type: '画像のコンテンツタイプ'
+        title: 'タイトル'
+        content: '内容'
+        button_wording: 'ボタン文言'
+      line_message:
+        image:
+          one: "アバター"
+          other: "アバター"
+        content: '内容'
+        button_wording: 'ボタン文言'
+        language_note: '注意文言'
+    errors:
+      models:
+        user:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                has_many: '登録されているため削除できません'
+      restrict_dependent_destroy:
+        has_many: '132313213'
+      error_message: "入力エラーです。エラーとなっている項目は入力しなおしてください。"
+      format: "%{attribute}%{message}"
+      messages:
+        not_found: "は見つかりませんでした。"
+        accepted: "を受諾してください"
+        blank: "を入力してください"
+        present: "は入力しないでください"
+        confirmation: "と%{attribute}の入力が一致しません"
+        empty: "を入力してください"
+        equal_to: "は%{count}にしてください"
+        even: "は偶数にしてください"
+        exclusion: "は予約されています"
+        greater_than: "は%{count}より大きい値にしてください"
+        greater_than_or_equal_to: "は%{count}以上の値にしてください"
+        inclusion: "は一覧にありません"
+        invalid: "は不正な値です"
+        less_than: "は%{count}より小さい値にしてください"
+        less_than_or_equal_to: "は%{count}以下の値にしてください"
+        model_invalid: "バリデーションに失敗しました: %{errors}"
+        not_a_number: "は数値で入力してください"
+        not_an_integer: "は整数で入力してください"
+        odd: "は奇数にしてください"
+        required: "を入力してください"
+        taken: "はすでに存在します"
+        too_long: "は%{count}文字以内で入力してください"
+        too_short: "は%{count}文字以上で入力してください"
+        wrong_length: "は%{count}文字で入力してください"
+        other_than: "は%{count}以外の値にしてください"
+        record_invalid: "%{errors}"
+      template:
+        body: "次の項目を確認してください"
+        header:
+          one: "%{model}にエラーが発生しました"
+          other: "%{model}に%{count}個のエラーが発生しました"
+  home:
+    update_user:
+      profile_update_successfully: "ユーザーを更新しました。"
+      profile_update_fail: "ユーザーを"
+  messages:
+    new_title: "メッセージ作成"
+    edit_title: "メッセージ編集"
+    index_title: "メッセージ管理"
+    destroy:
+      message_destroy_successfully: "メッセージを削除しました。"
+    index:
+      placeholder_search: "ID,メッセージで検索"
+      search: "検索"
+      clear: "クリア"
+      message_title: "メッセージ作成"
+      id: "ID"
+      type: "タイプ"
+      level: "レベル"
+      question: "質問"
+      answers: "回答"
+      create_new_message: "メッセージ新規作成"
+      action: "操作"
+      show_button: "詳細"
+      edit_button: "編集"
+      question_not_found: "メッセージが見つかりません。"
+    update:
+      message_update_successfully: "メッセージを更新しました。"
+      message_create_successfully: "メッセージを登録しました。"
+    answer_fields:
+      remove_ans: "回答削除する"
+    question_description_fields:
+      remove_ans: "説明削除する"
+    create:
+      message_create_successfully: "メッセージを登録しました。"
+    form:
+      title: "メッセージ新規作成"
+      cancel_button: "キャンセル"
+      save_button: "登録する"
+      update_button: "更新する"
+      delete_button: "削除"
+      delete_confirm: "本気ですか？"
+      add_answer: "回答追加する"
+      add_description: "説明追加する"
+      please_select: "選択してください"
+    message_preview:
+      create_message: メッセージ作成
+  categories:
+    category_title: "商品カテゴリ管理"
+    title: "商品カテゴリ管理"
+    edit: "商品カテゴリ編集"
+    new: "商品カテゴリ新規作成"
+    category_logs: "更新履歴"
+    show: "商品カテゴリ詳細"
+    create:
+      category_create_successfully: "商品カテゴリを登録しました。"
+    update:
+      category_update_successfully: "商品カテゴリを更新しました。"
+    destroy:
+      destroy_category_successfully: "商品カテゴリを削除しました。"
+    form:
+      title: "商品カテゴリ新規作成"
+      cancel_button: "キャンセル"
+      save_button: "登録する"
+      update_button: "更新する"
+      delete_button: "削除"
+      delete_confirm: "本気ですか？"
+      activity:
+        active: "有効"
+        inactive: "無効"
+    index:
+      placeholder_search: "ID,カテゴリ名で検索"
+      product_category_title: "商品カテゴリ管理"
+      create_category: "商品カテゴリを新規作成"
+      category_not_found: "商品カテゴリが見つかりません。"
+      clear: クリア
+      search: 検索
+      all:  全て
+      title:
+        name: カテゴリ名
+        activity: アクティビティ
+        slug: Slug
+        eval_a: 評価A
+        eval_b: 評価B
+        eval_c: 評価C
+        eval_d: 評価D
+        eval_e: 評価E
+        user: 登録者
+        created_at: 登録日時
+        updated_at: 更新日時
+        action: 操作
+      action:
+        show: 詳細
+        edit: 編集
+    category_show:
+      list_button: "一覧へもどる"
+      edit_button: "編集する"
+      delete_button: "削除"
+      delete_confirm: "本気ですか？"
+      create_category: 商品カテゴリを新規作成
+    logs:
+      detail: "詳細"
+      time_update: "更新日時"
+      user_update: "更新者"
+      user_update: "更新者"
+      action: "操作"
+      user_create: "登録者"
+      time_create: "登録日時"
+  helpers:
+    placeholder:
+      chatbot:
+        name: "名前を入力してください"
+        profile: "プロフィールを入力してください"
+        rarity: "レア度を入力してください"
+        tag: "タグを入力してください"
+  views:
+    pagination:
+      first: "&laquo; 最初"
+      last: "最後 &raquo;"
+      next: "次 &rsaquo;"
+      previous: "&lsaquo; 前"
+      truncate: "&hellip;"
+    helpers:
+      page_entries_info:
+        more_pages:
+          display_entries: "<b>%{total}</b>中の%{entry_name}を表示しています <b>%{first} - %{last}</b>"
+        one_page:
+          display_entries:
+            one: "<b>%{count}</b>レコード表示中です %{entry_name}"
+            other: "<b>%{count}</b>レコード表示中です %{entry_name}"
+            zero: "レコードが見つかりませんでした %{entry_name}"
+      placeholder:
+        category:
+          name: "商品カテゴリ名を入力してください"
+          slug: "slugを入力してください"
+          eval_A_name: "評価A Nameを入力してください"
+          eval_A_type: "評価A Typeを入力してください"
+          eval_A_value: "評価A Valueを入力してください"
+          eval_B_name: "評価B Nameを入力してください"
+          eval_B_type: "評価B Typeを入力してください"
+          eval_B_value: "評価B Valueを入力してください"
+          eval_C_name: "評価C Nameを入力してください"
+          eval_C_type: "評価C Typeを入力してください"
+          eval_C_value: "評価C Valueを入力してください"
+          eval_D_name: "評価D Nameを入力してください"
+          eval_D_type: "評価D Typeを入力してください"
+          eval_D_value: "評価D Valueを入力してください"
+          eval_E_name: "評価E Nameを入力してください"
+          eval_E_type: "評価E Typeを入力してください"
+          eval_E_value: "評価E Valueを入力してください"
+    errors:
+      messages:
+        record_invalid: "バリデーションに失敗しました: %{errors}"
+        restrict_dependent_destroy:
+          has_one: "%{record}が存在しているので削除できません"
+          has_many: "%{record}が存在しているので削除できません"
+  products:
+    product_title: "商品管理"
+    edit: 商品編集
+    update:
+      product_update_successfully: "商品を更新しました。"
+    form:
+      id: "ID"
+      title: "商品新規作成"
+      cancel_button: "キャンセル"
+      save_button: "登録する"
+      update_button: "更新する"
+      delete_button: "削除"
+      delete_confirm: "本気ですか？"
+      activity:
+        active: "有効"
+        inactive: "無効"
+      site: "---本番のサイトを選択---"
+    import_csv:
+      import_success: "%{count}行がインポート出来ました。"
+      import_fail: "下記の%{count} エラーが発生しています。再度確認してください。"
+      line: "行"
+    index:
+      title: "商品一覧"
+      upload_csv: "CSVをアップロード"
+      download_csv: "CSVをダウンロード"
+      download_report: "レポートをダウンロード"
+      search_title: "検索"
+      placeholder_search: "ID、商品名、商品タグで検索"
+      search_cat_label: "商品カテゴリ："
+      date_report_label: "レポート抽出期間："
+      search_activity_label: "アクティビティ："
+      id: "ID"
+      activity: "アクティビティ"
+      name: "商品名"
+      thumbnail: "サムネイル"
+      category: "商品カテゴリ"
+      site: "サイト"
+      tags: "商品タグ"
+      user: "登録者"
+      created_at: "登録日"
+      updated_at: "最終更新日"
+      action: "操作"
+      show_button: "詳細"
+      edit_button: "編集"
+      clear_button: "クリア"
+      search_button: "検索"
+      all: "全て"
+      active: "有効"
+      inactive: "無効"
+      product_not_found: "商品が見つかりません。"
+      import_csv: "CSVをアップロードする"
+      close_btn_csv: "キャンセル"
+      import_btn_csv: "アップロードする"
+      file_name: "ファイルが選択されていません"
+      choose_file: "CSVファイルを選択する"
+    product_show:
+      list_button: "一覧へもどる"
+      edit_button: "編集する"
+      delete_button: "削除"
+      delete_confirm: "本気ですか？"
+      log_title: "更新履歴"
+    logs:
+      log_title: "更新履歴"
+      user_create: "登録者"
+      time_create: "登録日時"
+      csv_file_name: "ファイル名"
+      time_update: "更新日時"
+      user_update: "更新者"
+      action: "操作"
+      detail: "詳細"
+    destroy:
+      destroy_product_successfully: "商品を削除しました。"
+  tutorials:
+    update:
+      tutorial_update_successfully: "チュートリアルが更新されました。"
+    breadcrumb_title: 'サイト管理'
+    edit: '編集'
+    detail: '詳細'
+    management: 'チュートリアル管理'
+    destroy:
+      destroy_tutorial_successfully: "チュートリアルを削除しました。"
+  chatbots:
+    update:
+      chatbot_update_successfully: "チャットボットを更新しました。"
+    create:
+      chatbot_create_successfully: "チャットボットを登録しました。"
+    destroy:
+      chatbot_destroy_successfully: "チャットボットを削除しました。"
+      chatbot_destroy_unsuccessfully: "チャットボットを削除できませんでした。"
+    new: '新規作成'
+    edit: '編集'
+    detail: '詳細'
+    breadcrumb_title: 'Botキャラクター設定'
+    show:
+      delete_button: "削除"
+      delete_confirm: "本気ですか？"
+      list_button: "一覧へもどる"
+      edit_button: "編集する"
+      create_chatbot: 新規チャットボットを作成
+    index:
+      create_site: "新規登録"
+      action:
+        show: "詳細"
+        edit: "編集"
+        tutorial: "チュートリアル"
+        line_message: "Line"
+      title:
+        id: ID
+        name: "名前"
+        activity: "アクティビティ"
+        thumbnail: "サムネイル"
+        rarity: "レア度"
+        created_at: "登録日時"
+        created_by: "登録者"
+        action: "操作"
+      chatbot_title: 'Botキャラクター設定'
+      create_chatbot: '新規作成'
+      chatbot_not_found: "このチャットボックスが見つかりません。"
+    edit_title: 'Botキャラクター編集'
+    new_title: 'Botキャラクター新規作成'
+  line_messages:
+    update:
+      line_message_update_successfully: 'ラインメッセージは更新されました。'
+    breadcrumb_title: 'ラインメッセージ管理'
+    edit: '編集'
+    detail: '詳細'
+    management: 'LINE導線'
+    destroy:
+      destroy_line_message_successfully: "ラインメッセージを削除しました。"
+  sites:
+    index:
+      product_site_title: "サイト管理"
+      create_site: "新規登録"
+      search_label: "検索"
+      clear: "削除"
+      placeholder_search: "ID, 名前"
+      search_button: "検索"
+      action:
+        show: "詳細"
+        edit: "編集"
+      title:
+        name: "サイト名"
+        site_url: "サイトURL"
+        api_key: "APIキー"
+        chatbot_script: "Chatbot script"
+        cv_tag_script: "Conversion tag script"
+        aibot_script: "AIBot Address"
+        user: "登録者"
+        created_at: "作成日"
+        updated_at: "更新日"
+        action: "操作"
+      site_not_found: "このサイトは見つかりません。"
+    form:
+      title: ""
+      cancel_button: "キャンセル"
+      save_button: "登録する"
+      update_button: "更新する"
+      delete_confirm: "本気ですか？"
+      delete_button: "削除"
+      placeholder_name: "名前"
+      placeholder_site_url: "サイトURL"
+    update:
+      site_update_successfully: "サイトを更新しました。"
+    create:
+      site_create_successfully: "サイトを登録しました。"
+    show:
+      delete_button: "削除"
+      delete_confirm: "本気ですか？"
+      list_button: "一覧へもどる"
+      edit_button: "編集する"
+      create_site: サイトを新規登録
+    destroy:
+      destroy_site_successfully: "サイトを削除しました。"
+    new: "新しいサイト作成"
+    edit: "新しいサイト編集"
+    breadcrumb_title: サイト管理
+  statistics:
+    products:
+      title: "製品の統計情報"
+      id: "製品番号"
+      name: "商品名"
+      display: "表示数"
+      click: "クリック数"
+      dislike: "嫌いの数"
+    index:
+      title: "Chatbotの統計情報"
+      session_not_found: "データが見つかりません"
+      number_of_opening_chatbot: "Chatbotへのクリック数"
+      session: "Session"
+      start_time: "始まる時間"
+      end_time: "終了時間"
+      time: "合計時間"
+      average_time: "平均時間:"
+    conversations:
+      conversation_not_found: 会話が見つかりません
+  master:
+    master_breadcum: "マスター管理"
+    master_categories:
+      index:
+        master_category: "メッセージカテゴリ管理"
+        create_master_category: "TOPカテゴリを新規作成"
+        search: "検索"
+        clear: "クリア"
+        placeholder_search: "カテゴリ名で検索"
+        activity_title: "アクティビティ"
+        sub_category_new: サブカテゴリを追加する
+        sub_category_edit: カテゴリを編集する
+        sub_category_delete: カテゴリ削除
+        sub_category_error: カテゴリを削除できません
+        all: "全て"
+        edit_master_category: "編集"
+        delete_master_category: "削除"
+        update: 更新する
+        register: 登録する
+        create_sub_master_category: "サブカテゴリを新規作成"
+      new:
+        category_new: "サブカテゴリを追加する"
+        sub_category_new: "サブカテゴリを追加する"
+      form:
+        register: "登録する"
+        update: "更新する"
+        activity:
+          active: "有効"
+          inactive: "無効"
+      create:
+        master_category_created_successfully: "メッセージカテゴリを登録しました。"
+      update:
+        sub_category_edit: "カテゴリを編集する"
+        master_category_updated_successfully: "メッセージカテゴリを更新しました。"
+      destroy:
+        master_category_destroyed_successfully: "メッセージカテゴリを削除しました。"
+        delete_confirmation: "を本当に削除しますか？"
+        delete: "削除する"
+        sub_category_delete: "カテゴリ削除"
+      warning_destroy:
+        sub_category_error: "カテゴリを削除できません"
+        error_log: "は既にキーワードに<br>登録されているため削除できません"
+        back: "もどる"
+    tags:
+      edit: "タグ編集"
+      form_new:
+        activity:
+          active: "有効"
+          inactive: "無効"
+      update:
+        tag_update_successfully: "タグを更新しました。"
+      create:
+        tag_create_successfully: "タグを登録しました。"
+      destroy:
+        tag_destroy_successfully: "タグを削除しました。"
+      index:
+        new: "新しいタグ作成"
+        clear: クリア
+        destroy: 削除する
+        create: 登録する
+        update: 更新する
+        search: 検索
+        all:  全て
+        placeholder_search: "ID、タグ名で検索"
+        tag_not_found: "タグが見つかりません。"
+        confirm_delete_tag: "を本当に削除しますか？"
+        alert_tag: "は既にメッセージに登録されているため削除できません"
+        title:
+          name: タグ名
+          activity: アクティビティ
+          action: 操作
+          create: タグを新規作成する
+          destroy: タグ削除
+          alert: タグを削除できません
+          comeback: もどる
+      action:
+          delete: "削除"
+          edit: "編集"
+    keywords:
+      index:
+        keyword_management: "キーワード管理"
+        create_keyword: "キーワードを新規作成"
+        search: "検索"
+        clear: "クリア"
+        all: "全て"
+        placeholder_search: "キーワード名で検索"
+        activity_title: "アクティビティ"
+        keyword_not_found: "キーワードが見つかりません"
+        edit: "編集"
+        delete: "削除"
+        import_csv: "CSVをアップロードする"
+        close_btn_csv: "キャンセル"
+        import_btn_csv: "アップロードする"
+        file_name: "ファイルが選択されていません"
+        choose_file: "CSVファイルを選択する"
+      new:
+        keyword_new: "キーワードを新規作成する"
+      update:
+        keyword_updated_successfully: "キーワードを更新しました。"
+        keyword_edit: "キーワードを編集する"
+      create:
+        keyword_created_successfully: "キーワードを登録しました。"
+      form:
+        register: "登録する"
+        update: "更新する"
+        please_choose_master_category: "カテゴリーを選択してください"
+      destroy:
+        keyword_destroyed_successfully: "キーワードを削除しました。"
+        delete_confirmation: "を本当に削除しますか？"
+        delete: "削除する"
+        destroy_delete: "キーワード削除"
+      warning_destroy:
+        keyword_error: "キーワードを削除できません"
+        error_log: "は既にメッセージに<br>登録されているため削除できません"
+        back: "もどる"
+      import_csv:
+        import_success: "%{count}行がインポート出来ました。"
+        import_fail: "下記の%{count} エラーが発生しています。再度確認してください。"
+        line: "行"
+  users:
+    user_management: ユーザー管理
+    show:
+      create_user: ユーザーを新規追加
+    create:
+      create_user_successfully: メール内容を確認してらから、新しいアカウントにパスワードを設定してください。
+    update:
+      update_user_successfully: ユーザーは正常に更新されました
+    destroy:
+      destroy_user_successfully: 正常に破壊する
+  partner_sites:
+    index: '起動回数'
+  conversion_tags:
+    index:
+      conversion_tag: "コンバージョントラッキングの統計"
+      date_report_label: "レポート抽出期間："
+  chatbot_mailer:
+    set_password:
+      mail_subject: 新しいアカウントにパスワード設定
+  forms:
+    breadcrumb_title: 'フォーム管理'
+    form_detail: '詳細'
+    form:
+      title: ""
+      cancel_button: "キャンセル"
+      save_button: "登録する"
+      update_button: "更新する"
+      delete_confirm: "本気ですか？"
+      delete_button: "削除"
+      placeholder_name: "名前"
+      automatically_generate: 自動生成
+      manually_generate: 手動生成
+      label: ラベル
+      label_for_checkbox: チェックボックスラベル
+      label_for_combobox: コンボボックスラベル
+      label_for_radio_button: ラジオボタンラベル
+      add_btn: 追加する
+      preview_btn: プレビュー
+      place_holder: プレースホルダー
+      input_name: 入力名
+      validation: バリデーション
+      required: 必須
+      format_number: 番号の形式
+      format_email: メールの形式
+      pld_label: ラベルを入力してください
+      type_combobox: コンボボックス
+      pld_type_combobox: コンボボックス名を入力してください
+      type_checkbox: チェックボックス
+      pld_type_checkbox: チェックボックス名を入力してください
+      type_radio: ラジオボタン
+      pld_type_radio: ラジオ名を入力してください
+      pld_type_hidden_field: 隠しフィールドを入力してください
+      pld_place_holder: プレースホルダーを入力してください
+      pld_input_name: 名を入力してください
+      pld_option_name: Option nameを入力してください
+      pld_option_value: Option valueを入力してください
+      pld_radio_name: Radio nameを入力してください
+      pld_radio_value: Radio valueを入力してください
+      pld_checkbox_name: Checkbox nameを入力してください
+      pld_checkbox_value: Checkbox valueを入力してください
+      texbox: テキストボックス
+      combobox: コンボボックス
+      checkbox: チェックボックス
+      radio_buttons: ラジオボタン
+      form_editor: フォームエディタ
+      hidden_field: 隠しフィールド
+      hidden_value: 値を入力してください
+      response: 応答
+      link_card: リンクカード
+      text_message: メール
+      password: パスワード
+    response_fields:
+      response_type: レスポンスタイプ
+      url: URL
+      text_message: テキストメッセージ
+      link_card: リンクカード
+      key: キー
+      header_key: キー
+      header_value: 値
+      type: type
+      pld_key: キーを入力してください
+      pld_position: 表示位置入力してください
+      pld_header_key: キーを入力してください
+      pld_header_value: 値を入力してください
+      pld_value: 値を入力してください
+      pld_url: URLを入力してください
+      pld_text_message: テキストメッセージを入力してください
+      error: エラー
+      success: 成功
+      success: 成功
+    form_header_fields:
+      header_key: キー
+      header_value: 値
+      pld_header_key: キーを入力してください
+      pld_header_value: 値を入力してください
+    index:
+      title: 'フォーム管理'
+      id: 'ID'
+      name: 'フォーム名'
+      action_url: 'Action URL'
+      created_user: '登録者'
+      created_at: '登録日'
+      updated_at: '最終更新日'
+      action: '操作'
+      create_new: 'フォーム作成'
+      show_button: '詳細'
+      edit_button: '編集'
+      form_not_found: 'フォームが見つかりません'
+    new: 新規フォーム
+    edit: フォーム編集
+    show:
+      create_new: 'フォーム作成'
+      list_button: '一覧へもどる'
+      edit_button: '編集'
+      delete_button: '削除'
+      delete_confirm: '本気ですか？'
+    update:
+      form_update_successfully: メッセージフォームの更新に成功しました。
+    create:
+      form_create_successfully: メッセージフォームの作成に成功しました。
+    destroy:
+      destroy_form_successfully: メッセージフォームの削除に成功しました。

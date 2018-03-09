@@ -1,0 +1,14 @@
+<tr data-path="<%= msg_content ? message_content_path(msg_content, format: 'json'): '' %>"
+      data-msg_content_id="<%= msg_content.try(:id) %>"
+      class="<%= quote.new_record? ? 'ui-state-disabled' : '' %>">
+  <td>
+    <div class="m_quote">
+      <div class="review m_quote-review <%= quote.new_record? ? 'hidden' : '' %>">
+        <%= render partial: "quote_review", locals: { quote: quote, preview: preview } %>
+      </div>
+      <div class="editor m_quote-edit  <%= quote.new_record? ? '' : 'hidden' %>">
+        <%= render partial: "quote_editor", locals: { quote: quote } %>
+      </div>
+    </div>
+  </td>
+</tr>

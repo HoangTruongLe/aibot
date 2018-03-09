@@ -1,0 +1,417 @@
+<%= form_for @form, html: { class: "form-horizontal form_class" } do |f| %>
+	<div class="row">
+    <div class="col-sm-6 padding-0">
+      <h4><%= t('.title') %></h4>
+    </div>
+    <div class="col-sm-6 text-right padding-0">
+			<button data-target="#form_preview_modal" data-toggle="modal" type="button" class="btn btn-default btn-white-1" name="button"><%= t('.preview_btn')%></button>
+      <%= link_to "#{t('.cancel_button')}", forms_path, class: "btn btn-cancel" %>
+      <%= f.submit "#{@form.id.present? ? t('.update_button') : t('.save_button')}", class: "btn btn-save submit_btn" %>
+    </div>
+  </div>
+	<% if @form.errors.any? %>
+	<br>
+	<div class="error-log">
+		<h5><%= t("activerecord.errors.error_message")%></h5>
+		<ul>
+			<% @form.errors.full_messages.each do |msg| %>
+				<li><%= msg %></li>
+			<% end %>
+		</ul>
+	</div>
+	<% end %>
+  <div class="row form-input-wrapper">
+    <div class="form-group">
+      <%= f.label :form_name, class: "control-label col-sm-2 required" %>
+      <div class="col-sm-9">
+        <%= f.text_field :form_name, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :api_url, class: "control-label col-sm-2 required" %>
+      <div class="col-sm-9">
+        <%= f.text_field :api_url, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :activity, class: "control-label col-sm-2" %>
+      <div class="col-sm-10">
+        <div class="radio radio-primary radio-inline">
+          <%= f.radio_button :activity, true %>
+          <%= f.label :activity_true, t('active') %>
+        </div>
+        <div class="radio radio-primary radio-inline">
+          <%= f.radio_button :activity, false %>
+          <%= f.label :activity_false, t('inactive') %>
+        </div>
+      </div>
+    </div>
+		<div class="form-group">
+      <%= f.label 'フォームメソッド', class: "control-label col-sm-2" %>
+      <div class="col-sm-10">
+        <div class="radio radio-primary radio-inline">
+          <%= f.radio_button :form_action, 'POST' %>
+          <%= f.label :form_action_post, 'POST' %>
+        </div>
+        <div class="radio radio-primary radio-inline">
+          <%= f.radio_button :form_action, 'PUT' %>
+          <%= f.label :form_action_put, 'PUT/PATCH' %>
+        </div>
+				<div class="radio radio-primary radio-inline">
+          <%= f.radio_button :form_action, 'GET' %>
+          <%= f.label :form_action_get, 'GET' %>
+        </div>
+      </div>
+    </div>
+		<div class="form-group">
+			<%= f.label 'ヘッダ', class: "control-label col-sm-2" %>
+			<div class="col-sm-9">
+				<%= f.fields_for :form_headers do |form_header| %>
+					<%= render 'form_header_fields', f: form_header %>
+				<% end %>
+				<div class="links">
+					<%= link_to_add_association 'ヘッダを追加する', f, :form_headers, { class: "btn btn-primary btn-blue-1 m_add_answer-button"} %>
+				</div>
+			</div>
+		</div>
+    <div class="form-group">
+      <div class="col-sm-10 pull-right">
+        <div class="radio radio-primary radio-inline">
+          <%= f.radio_button :auto_generate, true %>
+          <%= f.label :auto_generate_true, t('.automatically_generate') %>
+        </div>
+        <div class="radio radio-primary radio-inline">
+          <%= f.radio_button :auto_generate, false %>
+          <%= f.label :auto_generate_false, t('.manually_generate') %>
+        </div>
+      </div>
+    </div>
+		<%= f.hidden_field :form_body %>
+		<div id="selected_form"></div>
+		<div class="col-sm-9 col-sm-offset-2" id="controls_render_area">
+			<%= raw(@form.form_body) if @form.auto_generate %>
+		</div>
+		<div class="col-sm-9 col-sm-offset-2">
+			<%= f.fields_for :responses do |response| %>
+				<%= render 'response_fields', f: response %>
+			<% end %>
+			<div class="links">
+				<%= link_to_add_association 'add response', f, :responses, { class: "btn btn-primary btn-blue-1 m_add_answer-button", id: "add_link", style: 'display: none'} %>
+			</div>
+		</div>
+  </div>
+  <div class="row">
+		<div class="col-sm-6 text-left padding-0">
+      <%= link_to("#{t('.delete_button')}", @form, method: "delete", data: { confirm: t('.delete_confirm') }, class: "btn btn-cancel btn-delete") if @form.id.present?%>
+    </div>
+    <div class="col-sm-6 text-right padding-0">
+			<button data-target="#form_preview_modal" data-toggle="modal" type="button" class="btn btn-default btn-white-1" name="button"><%= t('.preview_btn')%></button>
+      <%= link_to "#{t('.cancel_button')}", forms_path, class: "btn btn-cancel" %>
+			<%= f.submit "#{@form.id.present? ? t('.update_button') : t('.save_button')}", class: "btn btn-save submit_btn" %>
+    </div>
+  </div>
+	<div id="form_preview_modal" class="modal fade" role="dialog">
+	  <div class="modal-dialog modal-dialog-message">
+	    <div class="modal-content modal-content-message">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	        <h4 class="modal-title text-center">メッセッジプレビュー</h4>
+	      </div>
+	      <div class="modal-body">
+          <div class="c_text_body cf row" >
+						<div class="col-sm-12" id="form_preview">
+						</div>
+						<div class="col-sm-12">
+							<input type="button" class="preview_OK_button" value="OK">
+						</div>
+					</div>
+	      </div>
+	      <br>
+	    </div>
+	  </div>
+	</div>
+<% end %>
+<script type="text/javascript">
+$(document).ready(function(){
+	var selected_form = $('input[id=form_auto_generate_true]:checked').length > 0 ? auto_form : manual_form
+	$('#selected_form').html(selected_form)
+	$('input[type=radio][name="form[auto_generate]"]').change(function() {
+    if (this.value == 'true') {
+      $('#selected_form').html(auto_form)
+			$('#controls_render_area').html($('#form_form_body').val())
+			$('.preview_OK_button').css("display", "block");
+    }else {
+			$('#controls_render_area').html('')
+			$('#selected_form').html(manual_form)
+			$('.preview_OK_button').css("display", "none");
+    }
+		preview_form();
+  });
+  $('#form_preview_modal').on('shown.bs.modal', function (e) {
+		$('#form_preview').html('');
+		preview_form();
+  })
+	$('#form_preview_modal').on('hidden.bs.modal', function (e) {
+		$('#form_preview').html('');
+  })
+	$('.submit_btn').on('click',function(event){
+		event.preventDefault();
+		preview_form();
+		$('.form_class').submit();
+	})
+	$('#controls_render_area input').on("change",function(){
+		$(this).attr('value', $(this).val())
+	});
+	$('#controls_render_area').find('input[value="authenticity_token_modified"]').val('authenticity_token')
+})
+
+function add_control(current_control){
+	switch(current_control) {
+    case "text":
+      $('#controls_render_area').append(`<div class="col-sm-12 m_editor-question-2 mrg20B form_controls">
+																					<button type="button" onclick="$(this).parent().remove()" class="btn btn-danger pull-right" style="border-radius:50%" name="button">x</button>
+																					<div class="form_controls_text col-sm-10">
+																						<div class="form-group">
+																							<label class="control-label col-sm-3"><%= t('.label') %></label>
+																							<div class="col-sm-5">
+																								<input onchange="set_value(this)" type="text"  placeholder="<%= t('.pld_label') %>" class="fctl_label form-control">
+																							</div>
+																						</div>
+																						<div class="form-group">
+																							<label class="control-label col-sm-3"><%= t('.input_name') %></label>
+																							<div class="col-sm-5">
+																								<input onchange="set_value(this)" type="text" placeholder="<%= t('.pld_input_name') %>" class="fctl_input_name form-control">
+																							</div>
+																							<div class="col-sm-3">
+																									<label class="control-label pad10T mrg10L"><%= t('.password') %></label>
+																									<div class="col-sm-1">
+																										<div class="checkbox checkbox-primary">
+																											<input onchange="set_value(this)" class="chk_password" type="checkbox"><label></label>
+																										</div>
+																									</div>
+																							</div>
+																						</div>
+																						<div class="form-group">
+																							<label class="control-label col-sm-3"><%= t('.place_holder') %></label>
+																							<div class="col-sm-5">
+																								<input onchange="set_value(this)" type="text" placeholder="<%= t('.pld_place_holder') %>" class="fctl_place_holder form-control">
+																							</div>
+																						</div>
+																						<div class="form-group">
+																							<label class="control-label col-sm-3"><%= t('.validation') %></label>
+																							<div class="col-sm-9">
+																								<div class="form-group">
+																									<label class="control-label pad10T"><%= t('.required') %></label>
+																			            <div class="col-sm-1">
+																			              <div class="checkbox checkbox-primary">
+																			                <input onchange="set_value(this)" class="chk_required" type="checkbox"><label></label>
+																			              </div>
+																			            </div>
+																			          </div>
+																								<div class="form-group">
+																									<label class="control-label pad10T"><%= t('.format_number') %></label>
+																			            <div class="col-sm-1">
+																			              <div class="checkbox checkbox-primary">
+																			                <input onchange="set_value(this)" class="chk_number" type="checkbox"><label></label>
+																			              </div>
+																			            </div>
+																			          </div>
+																								<div class="form-group">
+																									<label class="control-label pad10T"><%= t('.format_email') %></label>
+																			            <div class="col-sm-1">
+																			              <div class="checkbox checkbox-primary">
+																			                <input onchange="set_value(this)" class="chk_email" type="checkbox"><label></label>
+																			              </div>
+																			            </div>
+																			          </div>
+																							</div>
+																						</div>
+																					</div>
+																				</div>`)
+      break;
+    case "combobox":
+			$('#controls_render_area').append(render_control('form_controls_combobox', '<%= t('.type_combobox') %>', '<%= t('.pld_label') %>', '<%= t('.pld_type_combobox') %>', '<%= t('.pld_option_name') %>', '<%= t('.pld_option_value') %>'))
+      break;
+    case "checkbox":
+			$('#controls_render_area').append(render_control('form_controls_checkbox', '<%= t('.type_checkbox') %>', '<%= t('.pld_label') %>', '<%= t('.pld_type_checkbox') %>', '<%= t('.pld_checkbox_name') %>', '<%= t('.pld_checkbox_value') %>'))
+      break;
+    case "radio":
+			$('#controls_render_area').append(render_control('form_controls_radio', '<%= t('.type_radio') %>', '<%= t('.pld_label') %>', '<%= t('.pld_type_radio') %>', '<%= t('.pld_radio_name') %>', '<%= t('.pld_radio_value') %>'))
+      break;
+		case "hidden_field":
+			$('#controls_render_area').append(render_control('form_controls_hidden_field', '<%= t('.hidden_field') %>', '<%= t('.hidden_value') %>', '<%= t('.pld_type_hidden_field') %>', '', ''))
+      break;
+  }
+}
+function preview_form(){
+	if ($('input[id=form_auto_generate_true]:checked').length > 0) {
+		$('.form_controls').each(function(index, value){
+			var control =  $(value).children('div:first')
+			var child_element = $(value).children('div:nth-child(2)')
+			if($(control).hasClass('form_controls_text')){
+				var required = $(control).find('.chk_required').is(':checked') ? '<span>*</span>' : ''
+				var chk_required = $(control).find('.chk_required').is(':checked') ? 'data-validate_required="true"' : 'data-validate_required="false"'
+				var chk_number = $(control).find('.chk_number').is(':checked') ? 'data-validate_number="true"' : 'data-validate_number="false"'
+				var chk_email = $(control).find('.chk_email').is(':checked') ? 'data-validate_email="true"' : 'data-validate_email="false"'
+				var chk_password = $(control).find('.chk_password').is(':checked') ? 'password' : 'text'
+				$('#form_preview').append(`<div class="form-group">
+											               <p>`+$(control).find('.fctl_label').val()+required+`</p>
+											               <input `+ chk_required + " " + chk_number + " " + chk_email +` type="`+ chk_password +`" name="`+$(control).find('.fctl_input_name').val()+`" placeholder="`+$(control).find('.fctl_place_holder').val()+`">
+											             </div>`)
+			}
+			if($(control).hasClass('form_controls_combobox')){
+				var option = ''
+				$(child_element).find('.fctl_option').each(function(index, value){
+					var opt = `<option value="`+ $(value).find('.fctl_option_val').val() +`"  >`+$(value).find('.fctl_option_name').val()+`</option>`
+					option += opt
+				})
+				$('#form_preview').append(`<div class="form-group">
+											               <p>`+$(control).find('.fctl_label').val()+`</p>
+																		 <select class="form-control" name="`+$(control).find('.fctl_name').val()+`"	>
+																		 `+ option +`
+														         </select>
+											             </div>`)
+			}
+			if($(control).hasClass('form_controls_checkbox')){
+				var option = ''
+				$(child_element).find('.fctl_option').each(function(index, value){
+					var control_id = 'inlineCheckbox_' + Math.floor(Math.random()*1E16)
+					var chks = `<div class="checkbox checkbox-primary checkbox-inline">
+											  <input class="form-check-input" type="checkbox" name="`+$(control).find('.fctl_name').val()+`" id="`+control_id+`" value="`+ $(value).find('.fctl_option_val').val() +`">
+											  <label class="form-check-label" for="`+control_id+`">`+$(value).find('.fctl_option_name').val()+`</label>
+											</div>`
+					option += chks
+				})
+				$('#form_preview').append(`<div class="form-group">
+											               <p>`+$(control).find('.fctl_label').val()+`</p>
+																		 `+option+`
+											             </div>`)
+			}
+			if($(control).hasClass('form_controls_radio')){
+				var option = ''
+				var radio_group_name = $(control).find('.fctl_name').val()
+				$(child_element).find('.fctl_option').each(function(index, value){
+					var is_checked = $(value).find(`input[name=`+radio_group_name+`]:checked`).length > 0 ? 'checked' : ''
+					var radio_id = 'radio_' + Math.floor(Math.random()*1E16)
+					var radio_buttons = `<div class="radio radio-primary radio-inline">
+															  <input class="form-check-input" type="radio" name="`+$(control).find('.fctl_name').val()+`" id="`+radio_id+`" `+ is_checked +` value="`+ $(value).find('.fctl_option_val').val() +`" >
+															  <label class="form-check-label" for="`+radio_id+`">`+$(value).find('.fctl_option_name').val()+`</label>
+															</div>`
+					option += radio_buttons
+				})
+				$('#form_preview').append(`<div class="form-group">
+											               <p>`+$(control).find('.fctl_label').val()+`</p>
+																		 `+option+`
+											             </div>`)
+			}
+			if($(control).hasClass('form_controls_hidden_field')){
+				$('#form_preview').append(`<input type="hidden" name="`+$(control).find('.fctl_name').attr('value')+`" value="`+$(control).find('.fctl_value').val()+`">`)
+			}
+		})
+		$('#form_form_body').val($('#controls_render_area').html().trim())
+	}else{
+		$('#form_preview').html($('#form_generated_body').val())
+	}
+	$('#form_generated_body').val($('#form_preview').html().trim())
+}
+
+function append_editor(editor, name, val, form_class, control_name){
+	var control_value = ''
+	var radio_id = 'radio_' + Math.floor(Math.random()*1E16)
+	if(form_class == 'form_controls_radio'){
+		control_value = `<div class="radio radio-primary radio-inline">
+										 	<input onchange="set_value(this)" type="radio" name="`+ control_name +`" id="`+radio_id+`">
+											<label class="form-check-label" for="`+radio_id+`">既定値</label>
+										 </div>`
+	}
+	$(editor).parents('.form_controls').find(".option_render_area").append(`<div class="form-group fctl_option">
+																																					  <div class="col-sm-1">
+																																							<button type="button" onclick="$(this).closest('.form-group').remove()" class="btn btn-danger pull-right btn_remove_control">-</button>
+																																						</div>
+																																						<div class="col-sm-4">
+																																							<input onchange="set_value(this)" type="text" placeholder="`+name+`" class="fctl_option_name form-control">
+																																						</div>
+																																						<div class="col-sm-4">
+																																						  <input onchange="set_value(this)" type="text" name="`+ control_name +`" placeholder="`+val+`" class="fctl_option_val form-control" >
+																																						</div>
+																																						`+control_value+`
+																																					</div>`)
+}
+
+function render_control(form_class, type, control_label, control_name, option_name, option_value){
+	var controls_tobe_rendered = '';
+	if (form_class ==  'form_controls_hidden_field'){
+		controls_tobe_rendered = `<div class="col-sm-4">
+																<input onchange="set_value(this)" type="text" placeholder="`+control_name+`"  class="fctl_name form-control">
+															</div>
+															<div class="col-sm-4">
+																<input onchange="set_value(this)" type="text" placeholder="`+control_label+`"  class="fctl_value form-control">
+															</div>`
+	}else{
+		controls_tobe_rendered = `<div class="col-sm-4">
+																<input onchange="set_value(this)" type="text" placeholder="`+control_label+`"  class="fctl_label form-control">
+															</div>
+															<div class="col-sm-4">
+																<input onchange="set_value(this)" type="text" placeholder="`+control_name+`"  class="fctl_name form-control">
+															</div>
+															<button type="button" onclick="append_editor(this, '`+option_name+`', '`+ option_value+`', '`+form_class+`', $(this).parent().find('.fctl_name').val())" class="btn btn_add_control">+</button>`
+	}
+	return `<div class="col-sm-12 m_editor-question-2 mrg20B form_controls">
+						<button type="button" onclick="$(this).parent().remove()" class="btn btn-danger pull-right" style="border-radius:50%" name="button">x</button>
+						<div class="`+form_class+` col-sm-11">
+							<div class="form-group">
+								<label class="control-label col-sm-3">`+type+`</label>
+								`+ controls_tobe_rendered +`
+							</div>
+							<div class="option_render_area">
+							</div>
+						</div>
+					</div>`
+}
+
+function manual_form(){
+	return `<div class="form-group" id="auto_form">
+						<label class="control-label col-sm-2"><%= t('.form_editor') %></label>
+						<div class="col-sm-9">
+							<%= text_area_tag 'form[generated_body]', @form.form_body && !@form.generated_body ? '' : @form.generated_body, cols: 10, rows: 20, class: "form-control", placeholder: 'HTML formを入力してください' %>
+						</div>
+					</div>`
+}
+
+function auto_form(){
+	return `<div class="form-group" id="manual_form">
+						<label class="control-label col-sm-2">コントロール</label>
+						<div class="col-sm-2">
+							<select class="form-control" name="controls" id="controls_box">
+								<option value="text" selected='true'><%= t('.texbox')%></option>
+								<option value="combobox"><%= t('.combobox')%></option>
+								<option value="checkbox"><%= t('.checkbox')%></option>
+								<option value="radio"><%= t('.radio_buttons')%></option>
+								<option value="hidden_field"><%= t('.hidden_field')%></option>
+							</select>
+							<%= hidden_field_tag 'form[generated_body]', @form.generated_body %>
+						</div>
+						<div class="col-sm-2">
+							<button type="button" class="btn btn-save" style="width: 70px" onclick="add_control($('#controls_box').val())" name="button"><%= t('.add_btn')%></button>
+						</div>
+						<div class="col-sm-2">
+							<button type="button" class="btn btn-save" style="width: 70px" onclick="$('#add_link').trigger('click')" name="button">応答追加</button>
+						</div>
+					</div>`
+}
+
+function set_value(control){
+	if ($(control).attr("type")=='text'){
+		$(control).attr("value", $(control).val())
+		if ($(control).attr('value') == 'authenticity_token'){
+			$(control).attr("value", $(control).val() + '_modified')
+		}
+	}else{
+		if ($(control).is(":checked")){
+			$(control).attr( "checked", true );
+		}else {
+			$(control).attr( "checked", false );
+		}
+	}
+}
+</script>

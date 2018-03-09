@@ -1,0 +1,67 @@
+<div class="container">
+  <div class="row">
+    <div class="pull-right mrg10B">
+      <%= link_to "#{t('forms.show.create_new')}", new_form_path, class: "btn btn-primary btn-blue-1", style: "width: 200px"%>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6 padding-0">
+      <h5>ID: <%= @form.id %></h5>
+    </div>
+    <div class="col-sm-6 text-right padding-0">
+      <%= link_to "#{t('forms.show.list_button')}", forms_path, class: "btn btn-cancel" %>
+      <%= link_to "#{t('forms.show.edit_button')}", edit_form_path(@form), class: "btn btn-save"%>
+    </div>
+  </div>
+
+  <div class="row form-input-wrapper">
+    <div class="row">
+      <div class="col-sm-3 text-right">
+        <%= "登録者: #{ @form.try(:created_user).try(:name) }"%>
+      </div>
+      <div class="col-sm-3 text-right">
+        <%= "登録日時: #{ format_datetime(@form.created_at) }"%>
+      </div>
+      <div class="col-sm-3 text-right">
+        <%= "最終更新者: #{ @form.try(:updated_user).try(:name) }"%>
+      </div>
+      <div class="col-sm-3 text-right">
+        <%= "最終更新日: #{ format_datetime(@form.updated_at) }"%>
+      </div>
+    </div>
+    <br>
+    <table class="table">
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.mesage_form.form_name') %></td>
+        <td class="column_data"><%= @form.form_name %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.mesage_form.activity') %></td>
+        <td class="column_data"><%= format_boolean(@form.activity) %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.mesage_form.api_url') %></td>
+        <td class="column_data"><%= link_to @form.api_url, @form.api_url, { target: "_blank" } %></td>
+      </tr>
+    </table>
+    <% if @form.generated_body %>
+      <div class="c_text_body cf row col-centered" >
+        <div class="col-sm-12" id="form_preview"></div>
+        <%= raw @form.generated_body %>
+        <div class="col-sm-12">
+          <input type="button" class="preview_OK_button" value="OK">
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6 text-left padding-0">
+      <%= link_to "#{t('forms.show.delete_button')}", @mesage_form, method: "delete", data: { confirm: t('forms.show.delete_confirm') }, class: "btn btn-cancel btn-delete" %>
+    </div>
+    <div class="col-sm-6 text-right padding-0">
+      <%= link_to "#{t('forms.show.list_button')}", forms_path, class: "btn btn-cancel" %>
+      <%= link_to "#{t('forms.show.edit_button')}", edit_form_path(@form), class: "btn btn-save"%>
+    </div>
+  </div>
+</div>

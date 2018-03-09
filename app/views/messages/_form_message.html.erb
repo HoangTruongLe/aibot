@@ -1,0 +1,14 @@
+<tr data-path="<%= msg_content ? message_content_path(msg_content, format: 'json'): '' %>"
+      data-msg_content_id="<%= msg_content.try(:id) %>"
+      class="<%= form_message && form_message.new_record? ? 'ui-state-disabled' : '' %>">
+  <td>
+    <div class="m_form-message">
+      <div class="review m_form-message-review <%= form_message && form_message.new_record? ? 'hidden' : '' %>">
+        <%= render partial: "form_message_review", locals: { form_message: form_message, preview: preview } %>
+      </div>
+      <div class="editor m_form-message-edit  <%= form_message && form_message.new_record? ? '' : 'hidden' %>">
+        <%= render partial: "form_message_editor", locals: { form_message: form_message } %>
+      </div>
+    </div>
+  </td>
+</tr>

@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="row col-sm-10 pull-right mrg10B">
+    <%= link_to "#{t('.create_message')}", new_message_path, class: "btn btn-primary btn-blue-1 pull-right", style: "width: 200px"%>
+  </div>
+  <div class="row col-sm-10 pull-right mrg20B">
+    <a class='btn btn-default btn-blue-1 pull-right mrg10L' style="width: 200px" href="<%= message_detail_report_message_path %>">メッセージ詳細の報告</a>
+    <a class='btn btn-default btn-white-1 pull-right mrg10L' style="width: 200px" href="/messages/<%= @message.id %>/copy_message">コピーして新しく作成</a>
+    <a class='btn btn-primary btn-blue-1 pull-right' href="/messages/<%= @message.id %>/edit" >編集する</a>
+  </div>
+  <%= render partial: 'messages/message_preview_info', locals: { message_contents: @message_contents } %>
+  <br>
+  <div class="row col-sm-2" style="text-align: left">
+    <a id="btn-delete-message" class='btn btn-default btn-white-1'><span style="color:red">削除</span></a>
+  </div>
+  <div class="row col-sm-10 pull-right">
+    <a class='btn btn-default btn-blue-1 pull-right mrg10L' style="width: 200px" href="<%= message_detail_report_message_path %>">メッセージ詳細の報告</a>
+    <a class='btn btn-default btn-white-1 pull-right mrg10L' style="width: 200px" href="/messages/<%= @message.id %>/copy_message">コピーして新しく作成</a>
+    <a class='btn btn-primary btn-blue-1 pull-right' href="/messages/<%= @message.id %>/edit" >編集する</a>
+  </div>
+</div>
+<%= render partial: 'destroy' %>
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('#btn-delete-message').click(function(){
+      var current_element = $(this)
+      var link = '/messages/<%= @message.id %>'
+      $('#destroy_message_content').find("#delete_message_content_id").attr('href', link)
+      $('#destroy_message_content').find("#delete_message_content_id").attr('data-remote', false)
+      $('#destroy_message_content').find("#message_type").text("このメッセージを削除しますか。")
+      $("#destroy_message_content").modal("show")
+    })
+  })
+</script>

@@ -1,0 +1,28 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="col-sm-6 col-xs-6">
+    <a class="navbar-brand title-chatbot" href="/">AI ChatBot</a>
+  </div>
+  <div class="col-sm-6 col-xs-6 menu-right text-right">
+    <% if current_user %>
+      <%= select_tag "name", options_from_collection_for_select(current_sites, "id", "name", selected: User.current_site_id), {class: 'form-control activity-select pull-left', style: 'margin-top: 7px', onchange: "set_current_site(this.value)"} %>
+      <%= link_to destroy_user_session_path , :method => :delete do %>
+        <%= fa_icon "sign-out" %> <%= t('devise.sessions.logout') %>
+      <% end %>
+    <% end %>
+  </div>
+</nav>
+<script type="text/javascript">
+function set_current_site(current_data){
+  $.ajax({
+      type: "PUT",
+      url: '/sites/set_current_site',
+      contentType: "application/json",
+      data: JSON.stringify({
+        current_data: current_data
+      }),
+      success: function(data) {
+        location.reload();
+      }
+  });
+}
+</script>

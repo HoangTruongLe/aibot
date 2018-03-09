@@ -1,0 +1,50 @@
+<div class="m_linkcard_preview">
+  <% unless link_card.new_record? %>
+    <div class="m_editor-linkcard-1 mrg20T">
+      <div class="m_editor-content <%= preview ? 'remove_border' : ''%>">
+        <h5>リンクカード</h5>
+        <div class="m_editor-linkcard-wrapper">
+          <div class="m_linkcard-textarea">
+            <div class="m_linkcard-url">
+              <h5>リンクURL：</h5>
+              <p><a href="<%= link_card.try(:url) %>" target="_blank"><%= link_card.try(:url) %></a></p>
+            </div>
+            <% if link_card.title %>
+            <div class="m_linkcard-title">
+              <h5>タイトル：</h5>
+              <p><%= link_card.try(:title) %></p>
+            </div>
+            <% end %>
+            <% if link_card.description %>
+            <div class="m_linkcard-description">
+              <h5>内容：</h5>
+              <p><%= link_card.description %></p>
+            </div>
+            <% end %>
+          </div>
+
+          <div class="m_linkcard-preview">
+            <div class="preview-wrapper">
+              <img src="<%= link_card.try(:image_url) %>" />
+              <div class="preview-content">
+                <div class="preview-title"><%= link_card.try(:title) %></div>
+                <div class="preview-description"><%= link_card.try(:description) %></div>
+              </div>
+            </div>
+          </div>
+          <div style="clear: both"></div>
+        </div>
+      </div>
+      <% unless preview %>
+        <div class="m_editor-action">
+          <div class="col-sm-6 col-xs-6 m_editor-action-button">
+            <button type="button" class="btn btn-primary btn-blue-2 mrg5B edit-link-card-btn"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 編集</button><br>
+            <button type="button" data-link='<%= "/link_cards/#{link_card.id}" %>' data-type="リンクカード" class="btn btn-default btn-white-2 btn-delete-msg-content">
+              <i class="fa fa-trash-o" aria-hidden="true"></i> 削除
+            </button>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

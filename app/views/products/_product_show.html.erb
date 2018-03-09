@@ -1,0 +1,271 @@
+<% parent_product = product.try(:product) || product %>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6 padding-0">
+      <h5>ID: <%= is_product ? product.id : "#{ parent_product.id } #{t('.log_title')}" %></h5>
+    </div>
+    <% if is_product %>
+    <div class="col-sm-6 text-right padding-0">
+      <%= link_to "#{t('.list_button')}", products_path, class: "btn btn-cancel" %>
+      <%= link_to "#{t('.edit_button')}", edit_product_path(product), class: "btn btn-save"%>
+    </div>
+    <% end %>
+  </div>
+  <div class="row form-input-wrapper">
+    <div class="row">
+      <div class="col-sm-3 text-right">
+        <%= "登録者: #{ is_product ? product.try(:owner).try(:name) : parent_product.try(:owner).try(:name) }"%>
+      </div>
+      <div class="col-sm-3 text-right">
+        <%= "登録日時: #{ format_datetime(is_product ? product.created_at : parent_product.created_at) }"%>
+      </div>
+      <div class="col-sm-3 text-right">
+        <%= "最終更新者: #{ product.try(:user).try(:name) }"%>
+      </div>
+      <div class="col-sm-3 text-right">
+        <%= "最終更新日: #{ format_datetime(product.updated_at) }"%>
+      </div>
+    </div>
+    <br>
+    <table class="table">
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.id') %></td>
+        <td class="column_data"><%= is_product ? product.id : "#{ parent_product.id } #{t('.log_title')}" %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.activity') %></td>
+        <td class="column_data"><%= format_boolean(product.try(:activity)) %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.category') %></td>
+        <td class="column_data"><%= product.try(:category).try(:name) %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.site') %></td>
+        <td class="column_data"><%= product.try(:site).try(:name) %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.name') %></td>
+        <td class="column_data"><%= product.name %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.slug') %></td>
+        <td class="column_data"><%= product.slug %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.product_url') %></td>
+        <td class="column_data"><%= link_to product.product_url, product.product_url %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.catch_copy') %></td>
+        <td class="column_data"><%= product.catch_copy %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.price_per_time') %></td>
+        <td class="column_data"><%= product.price_per_time %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.price') %></td>
+        <td class="column_data"><%= product.price %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.campaign') %></td>
+        <td class="column_data"><%= product.campaign %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.order_site') %></td>
+        <td class="column_data"><%= product.order_site %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.status_deliver_time') %></td>
+        <td class="column_data"><%= product.status_deliver_time %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.credit_settlement') %></td>
+        <td class="column_data"><%= product.credit_settlement %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.postpay') %></td>
+        <td class="column_data"><%= format_boolean(product.postpay) %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.cod') %></td>
+        <td class="column_data"><%= format_boolean(product.cod) %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.bank_transfer') %></td>
+        <td class="column_data"><%= format_boolean(product.bank_transfer) %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.store_transfer') %></td>
+        <td class="column_data"><%= format_boolean(product.store_transfer) %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.delivery_date') %></td>
+        <td class="column_data"><%= product.delivery_date %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.money_back') %></td>
+        <td class="column_data"><%= product.money_back %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.tags') %></td>
+        <td class="column_data"><%= product.try(:tags) %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.evaluation_score_a') %></td>
+        <td class="column_data"><%= product.evaluation_score_a %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.evaluation_score_b') %></td>
+        <td class="column_data"><%= product.evaluation_score_b %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.evaluation_score_c') %></td>
+        <td class="column_data"><%= product.evaluation_score_c %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.evaluation_score_d') %></td>
+        <td class="column_data"><%= product.evaluation_score_d %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.evaluation_score_e') %></td>
+        <td class="column_data"><%= product.evaluation_score_e %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.summary') %></td>
+        <td class="column_data"><%= product.summary %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.evaluation_comment_a') %></td>
+        <td class="column_data"><%= product.evaluation_comment_a %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.evaluation_comment_b') %></td>
+        <td class="column_data"><%= product.evaluation_comment_b %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.evaluation_comment_c') %></td>
+        <td class="column_data"><%= product.evaluation_comment_c %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.evaluation_comment_d') %></td>
+        <td class="column_data"><%= product.evaluation_comment_d %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.evaluation_comment_e') %></td>
+        <td class="column_data"><%= product.evaluation_comment_e %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.manufacturer') %></td>
+        <td class="column_data"><%= product.manufacturer %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.content') %></td>
+        <td class="column_data"><%= product.content %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.price_details') %></td>
+        <td class="column_data"><%= product.price_details %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.useful_ingredients') %></td>
+        <td class="column_data"><%= product.useful_ingredients %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.components') %></td>
+        <td class="column_data"><%= product.components %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.usage_target') %></td>
+        <td class="column_data"><%= product.usage_target %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.specificity') %></td>
+        <td class="column_data"><%= product.specificity %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.evaluation_category_a') %></td>
+        <td class="column_data"><%= product.evaluation_category_a %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.evaluation_category_b') %></td>
+        <td class="column_data"><%= product.evaluation_category_b %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.evaluation_category_c') %></td>
+        <td class="column_data"><%= product.evaluation_category_c %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.evaluation_category_d') %></td>
+        <td class="column_data"><%= product.evaluation_category_d %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.evaluation_category_e') %></td>
+        <td class="column_data"><%= product.evaluation_category_e %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.image_1_url') %></td>
+        <td class="column_data">
+          <% if product.image_1_url %>
+            <% product.image_1_url.split(',').each do |image_url| %>
+              <%= link_to image_url, image_url, target: "_blank" %>
+            <% end %>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.image_2_url') %></td>
+        <td class="column_data">
+          <% if product.image_2_url %>
+            <% product.image_2_url.split(',').each do |image_url| %>
+              <%= link_to image_url, image_url, target: "_blank" %>
+            <% end %>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.image_3_url') %></td>
+        <td class="column_data">
+          <% if product.image_3_url %>
+            <% product.image_3_url.split(',').each do |image_url| %>
+              <%= link_to image_url, image_url, target: "_blank" %>
+            <% end %>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.image_4_url') %></td>
+        <td class="column_data">
+          <% if product.image_4_url %>
+            <% product.image_4_url.split(',').each do |image_url| %>
+              <%= link_to image_url, image_url, target: "_blank" %>
+            <% end %>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.product.image_5_url') %></td>
+        <td class="column_data">
+          <% if product.image_5_url %>
+            <% product.image_5_url.split(',').each do |image_url| %>
+              <%= link_to image_url, image_url, target: "_blank" %>
+            <% end %>
+          <% end %>
+        </td>
+      </tr>
+    </table>
+
+  </div>
+  <% if is_product %>
+  <div class="row">
+    <div class="col-sm-6 text-left padding-0">
+      <%= link_to "#{t('.delete_button')}", product, method: "delete", data: { confirm: t('.delete_confirm') }, class: "btn btn-cancel btn-delete" %>
+    </div>
+    <div class="col-sm-6 text-right padding-0">
+      <%= link_to "#{t('.list_button')}", products_path, class: "btn btn-cancel" %>
+      <%= link_to "#{t('.edit_button')}", edit_product_path(product), class: "btn btn-save" %>
+    </div>
+  </div>
+  <% end %>
+</div>

@@ -1,0 +1,12 @@
+<tr class="active">
+  <th width="5%" class="text-center"><%= sort_link @q, :id, 'ID', {default_order: :desc}, { :remote => true, :method => :get } %></th>
+  <th width="10%" class="text-center">メッセージタイプ</th>
+  <th width="6%" class="text-center">アクティビティ</th>
+  <th width="6%" class="text-center"><%= sort_link @q, :priority, 'プライオリティ', {}, { :remote => true, :method => :get } %></th>
+  <th width="10%" class="text-center">主キーワード</th>
+  <th width="10%" class="text-center">関連キーワード</th>
+  <th width="10%" class="text-center">カテゴリー</th>
+  <th width="9%" class="text-center"><%= sort_link @q, :created_at, '作成日時', {}, { :remote => true, :method => :get } %></th>
+  <th width="9%" class="text-center"><%= sort_link @q, :updated_at, '最終更新日時', {}, { :remote => true, :method => :get } %></th>
+  <th width="20%" class="text-center">操作</th>
+</tr>

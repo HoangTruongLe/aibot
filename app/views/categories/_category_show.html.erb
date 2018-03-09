@@ -1,0 +1,130 @@
+<% parent_category = category.try(:category) %>
+<div class="container">
+  <div class="row mrg10B">
+    <div class="pull-right">
+      <%= link_to "#{t('.create_category')}", new_category_path, class: "btn btn-primary btn-blue-1", style: "width: 200px"%>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6 padding-0">
+      <h5>ID: <%= is_category ? category.id : "#{ parent_category.id } 更新履歴" %></h5>
+    </div>
+    <% if is_category %>
+      <div class="col-sm-6 text-right padding-0">
+        <%= link_to "#{t('.list_button')}", categories_path, class: "btn btn-cancel" %>
+        <%= link_to "#{t('.edit_button')}", edit_category_path(category), class: "btn btn-save"%>
+      </div>
+    <% end %>
+  </div>
+  <div class="row form-input-wrapper">
+    <div class="row">
+      <div class="col-sm-3 text-right">
+        <%= "登録者: #{ is_category ? category.try(:owner).try(:name) : parent_category.try(:owner).try(:name) }"%>
+      </div>
+      <div class="col-sm-3 text-right">
+        <%= "登録日時: #{ format_datetime(is_category ? category.created_at : parent_category.created_at) }"%>
+      </div>
+      <div class="col-sm-3 text-right">
+        <%= "最終更新者: #{ category.try(:user).try(:name) }"%>
+      </div>
+      <div class="col-sm-3 text-right">
+        <%= "最終更新日: #{ format_datetime(category.updated_at) }"%>
+      </div>
+    </div>
+    <br>
+    <table class="table">
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.category.id') %></td>
+        <td class="column_data"><%= is_category ? category.id : "#{ parent_category.id }" %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.category.name') %></td>
+        <td class="column_data"><%= category.name %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.category.activity') %></td>
+        <td class="column_data"><%= category.activity %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.category.slug') %></td>
+        <td class="column_data"><%= category.slug %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.category.eval_A_name') %></td>
+        <td class="column_data"><%= category.eval_A_name %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.category.eval_A_type') %></td>
+        <td class="column_data"><%= category.eval_A_type %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.category.eval_A_value') %></td>
+        <td class="column_data"><%= category.eval_A_value %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.category.eval_B_name') %></td>
+        <td class="column_data"><%= category.eval_B_name %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.category.eval_B_type') %></td>
+        <td class="column_data"><%= category.eval_B_type %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.category.eval_B_value') %></td>
+        <td class="column_data"><%= category.eval_B_value %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.category.eval_C_name') %></td>
+        <td class="column_data"><%= category.eval_C_name %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.category.eval_C_type') %></td>
+        <td class="column_data"><%= category.eval_C_type %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.category.eval_C_value') %></td>
+        <td class="column_data"><%= category.eval_C_value %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.category.eval_D_name') %></td>
+        <td class="column_data"><%= category.eval_D_name %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.category.eval_D_type') %></td>
+        <td class="column_data"><%= category.eval_D_type %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.category.eval_D_value') %></td>
+        <td class="column_data"><%= category.eval_D_value %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.category.eval_E_name') %></td>
+        <td class="column_data"><%= category.eval_E_name %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.category.eval_E_type') %></td>
+        <td class="column_data"><%= category.eval_E_type %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.category.eval_E_value') %></td>
+        <td class="column_data"><%= category.eval_E_value %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.category.tags') %></td>
+        <td class="column_data"><%= category.try(:tags) %></td>
+      </tr>
+    </table>
+
+  </div>
+  <% if is_category %>
+  <div class="row">
+    <div class="col-sm-6 text-left padding-0">
+      <%= link_to "#{t('.delete_button')}", category, method: "delete", data: { confirm: t('.delete_confirm') }, class: "btn btn-cancel btn-delete" %>
+    </div>
+    <div class="col-sm-6 text-right padding-0">
+      <%= link_to "#{t('.list_button')}", categories_path, class: "btn btn-cancel" %>
+      <%= link_to "#{t('.edit_button')}", edit_category_path(category), class: "btn btn-save" %>
+    </div>
+  </div>
+  <% end %>
+</div>

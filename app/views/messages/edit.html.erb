@@ -1,0 +1,296 @@
+<div data-message-id="<%= @message.id %>" data-modal-type='' class="container m_messages-wrapper">
+  <div class="row mrg10B">
+    <div class="col-sm-6 col-xs-6">
+      <h4>メッセージを作成</h4>
+    </div>
+    <div class="col-sm-6 col-xs-6 text-right">
+      <button type="submit" class="btn btn-default btn-white-1" onclick="get_message_preview();">プレビュー</button>
+      <button type="submit" class="btn btn-primary btn-blue-1" onclick="$('#message_submit').click();">メッセージを登録する</button>
+    </div>
+  </div>
+
+  <div class="row ">
+    <div class="col-sm-12 col-xs-12 ">
+      <div class="m_messages">
+        <div class="row m_infor">
+          <div class="col-sm-6 m_infor-left text-right">
+            ID: <%= @message.id %>
+          </div>
+          <div class="col-sm-6 m_infor-right text-right">
+            <span class="m_infor-username mrg20R">登録者：<%= current_user.name %></span>
+            <span class="m_infor-updated">更新日時：<%= format_datetime(@message.updated_at) %></span>
+          </div>
+        </div>
+        <% if flash[:error] %>
+        	<br>
+        	<div class="error-log">
+        		<h5><%= t("activerecord.errors.error_message")%></h5>
+        		<ul>
+        			<% flash[:error].each do |msg| %>
+        				<li><%= msg %></li>
+        			<% end %>
+        		</ul>
+        	</div>
+        <% end %>
+        <div class="row m_general">
+          <%= form_for @message, html: { class: "form-horizontal" } do |f| %>
+          <button type="submit" id="message_submit" class="btn btn-primary btn-blue-1" style="display: none"></button>
+          <h5>メッセージ設定</h5>
+          <hr>
+          <%= hidden_field_tag 'message[site_id]', User.current_site_id %>
+          <div class="mrg20T m_message-type">
+            <label class='mrg20R pad10T' style="width: 10%; float:left">Botキャラクター：</label>
+            <div class="col-md-4">
+              <%= f.select :chatbot_id, Chatbot.activity.all.map { | chatbot | [ chatbot.name, chatbot.id ]}, {}, { class: "form-control"} %>
+              <%= hidden_field_tag 'selected_chatbot', @message.try(:chatbot).try(:name) %>
+            </div>
+          </div>
+          <div style="clear: both"></div>
+          <div class="mrg20T m_message-type">
+            <label class='mrg20R'>タイプ：</label>
+            <div class="m_clear-sp"></div>
+            <div class="radio radio-primary radio-inline">
+              <%= f.radio_button :message_type, 'open' %>
+              <%= f.label :message_type_open, Message.message_types.key('open') %>
+            </div>
+            <div class="radio radio-primary radio-inline">
+              <%= f.radio_button :message_type, 'middle'  %>
+              <%= f.label :message_type_middle, Message.message_types.key('middle') %>
+            </div>
+            <div class="radio radio-primary radio-inline">
+              <%= f.radio_button :message_type, 'close' %>
+              <%= f.label :message_type_close, Message.message_types.key('close') %>
+            </div>
+          </div>
+          <div class="mrg10T m_activity-priority">
+            <label class="mrg20R">アクティビティ：</label>
+            <div class="radio radio-primary radio-inline">
+              <%= f.radio_button :activity, true %>
+              <%= f.label :activity_true, '有効' %>
+            </div>
+            <div class="radio radio-primary radio-inline mrg20R">
+              <%= f.radio_button :activity, false %>
+              <%= f.label :activity_false, '無効' %>
+            </div>
+            <div class="m_clear-sp"></div>
+            <label class="mrg20R">プライオリティ：</label>
+            <input type="number" max='100' min='0' onchange="check_min_max(this)" class="m_priority-input" name="message[priority]" value="<%= @message.priority == nil ? '50' : @message.priority %>" id="message_priority" />
+          </div>
+          <div class="row mrg10T m_keyword">
+            <div class="col-sm-6 mrg10B m_input-wrapper message-key-choose" onclick="open_primary_keyword_modal()">
+              <input id='p_keyword_box' type="text" disabled class="m_input disable-white <%= 'validate_failed' if flash[:error] %>"
+                      value="<%= ('主キーワード※： ' + @pri_keyword.name) if @pri_keyword %>" maxlength="255"
+                      placeholder="主キーワード※："/>
+              <span id='p_keyword_button' type="button" class="m_input-selection">設定</span>
+              <%= hidden_field_tag 'message[keyword_id]', @message.try(:keyword).try(:id) %>
+            </div>
+            <div class="col-sm-6 mrg10B pad0L m_input-wrapper message-key-choose" onclick="open_relative_keyword_modal()">
+              <input id='r_keyword_box' type="text" disabled class="m_input disable-white"
+                    maxlength="255" placeholder="関連キーワード："/>
+              <span id='r_keyword_button' type="button" class="m_input-selection">設定</span>
+            </div>
+            <%= hidden_field_tag 'message[keyword_ids]', @message.try(:keywords).pluck(:id)  %>
+          </div>
+          <div class="row m_tag">
+            <div class="col-sm-12 m_input-wrapper message-key-choose" onclick="$('#tag_modal').modal('show')">
+              <input id='tag_box' type="text" class="m_input disable-white" disabled value="<%= 'タグ： ' + @message.tags.map(&:name).join(', ') if @message.tags.size > 0 %>" maxlength="255" placeholder="タグ：" />
+              <span id='tag_button'class="m_input-selection">設定</span>
+            </div>
+            <%=  hidden_field_tag 'message[tag_ids]', @message.try(:tags).pluck(:id) %>
+          </div>
+          <% end %>
+        </div>
+        <div class="row m_editor mrg25T">
+          <h5>メッセージ本文</h5>
+          <hr>
+          <div class="m_button-tab-wrapper text-center">
+            <a class="btn btn-default m_button-tab" onclick="add_new_text_message();">テキスト</a>
+            <a class="btn btn-default m_button-tab" onclick="add_new_question_answer();">クエッション</a>
+            <a class="btn btn-default m_button-tab" onclick="add_new_link_card();">リンクカード</a>
+            <a class="btn btn-default m_button-tab" onclick="add_new_product_message();">商品</a>
+            <a id='btn_photos' class="btn btn-default m_button-tab">画像</a>
+            <a id='btn_videos' class="btn btn-default m_button-tab">動画</a>
+            <a class="btn btn-default m_button-tab" onclick="add_new_quote();">引用</a>
+            <a class="btn btn-default m_button-tab" onclick="add_new_form_message();">フォーム</a>
+          </div>
+          <%= render partial: 'destroy' %>
+          <%= render partial: 'spinner' %>
+          <%= render partial: 'alert' %>
+          <% if @message_contents %>
+          <table id="m_content" class="m_content" data-count="<%=  @message_contents.count %>">
+            <tbody class='render_section'>
+              <% @message_contents.each do |msg_content| %>
+                <% case msg_content.content_type %>
+                <% when "LinkCard" %>
+                  <%= render partial: 'linkcard', locals: { msg_content: msg_content, link_card: msg_content.content, preview: false } %>
+                <% when "PhotoGroup" %>
+                  <% photos = Photo.where(message_id: msg_content.message_id , photo_group_id: msg_content.content_id) %>
+                  <% if photos.count > 0 %>
+                    <%= render partial: 'photo', locals: { msg_content: msg_content, photos: photos, message_id: msg_content.message_id, content_id: msg_content.content_id, new_record: false, preview: false } %>
+                  <% end %>
+                <% when "VideoGroup" %>
+                  <% video = Video.where(message_id: msg_content.message_id , video_group_id: msg_content.content_id).compact.last %>
+                  <% if video %>
+                    <%= render partial: 'video', locals: { msg_content: msg_content, video: video, message_id: msg_content.message_id, content_id: msg_content.content_id, new_record: false, preview: false } %>
+                  <% end %>
+                <% when "TextMessage" %>
+                  <%= render partial: 'text_message', locals: { msg_content: msg_content, text_message: msg_content.content, preview: false } %>
+                <% when "Question" %>
+                  <%= render partial: 'question_answer', locals: { msg_content: msg_content, question: msg_content.content, preview: false } %>
+                <% when "ProductMessage" %>
+                  <%= render partial: 'product_message', locals: { msg_content: msg_content, product_message: msg_content.content, preview: false } %>
+                <% when "Quote" %>
+                  <%= render partial: 'quote', locals: { msg_content: msg_content, quote: msg_content.content, preview: false } %>
+                <% when "FormMessage" %>
+                  <%= render partial: 'form_message', locals: { msg_content: msg_content, form_message: msg_content.content, preview: false } %>
+                <% end %>
+              <% end %>
+            </tbody>
+          </table>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-sm-6 col-xs-6">
+    </div>
+    <div class="col-sm-6 col-xs-6 text-right">
+      <button type="submit" class="btn btn-default btn-white-1" onclick="get_message_preview();">プレビュー</button>
+      <button type="submit" class="btn btn-primary btn-blue-1" onclick="$('#message_submit').click();">メッセージを登録する</button>
+    </div>
+  </div>
+</div>
+<%= render partial: 'tag', locals: { message_tags: @message.try(:tags).pluck(:id, :name) } %>
+<%= render partial: 'p_keyword' %>
+<%= render partial: 'r_keyword', locals: { message_keywords: @message.try(:keywords).pluck(:id, :name) } %>
+<div id='message_preview'></div>
+<%= render partial: "messages/product_search" %>
+<%= render partial: "messages/form_search" %>
+<%= render partial: "messages/message_search" %>
+<script type="text/javascript">
+  $('[name="message\[message_type\]"]').on('change',function(){
+    $('[name="message\[message_type\]"][checked="checked"]').removeAttr('checked')
+    $('[name="message\[message_type\]"]:checked').attr('checked', 'checked')
+  })
+  $('[name="message\[activity\]"]').on('change',function(){
+    $('[name="message\[activity\]"][checked="checked"]').removeAttr('checked')
+    $('[name="message\[activity\]"]:checked').attr('checked', 'checked')
+  })
+  $('[name="message\[chatbot_id\]"]').on('change',function(){
+    $('#selected_chatbot').val(($(this).find(":selected").text()))
+  })
+  function open_primary_keyword_modal () {
+    $('.m_messages-wrapper').attr('data-modal-type', 'primary')
+    $('#primary_modal').modal('show')
+  }
+
+  function open_relative_keyword_modal () {
+    $('.m_messages-wrapper').attr('data-modal-type', 'relative')
+    $('#relative_modal').modal('show')
+  }
+
+  $('#btn_photos').on('click', function (){
+    $.ajax({
+        type: "GET",
+        url: '/photos/message_photo_group',
+        contentType: "application/json",
+        data: {message_id: "<%= @message.id %>" },
+        success: function(data) {
+          $('.render_section').append(data)
+        }
+    });
+  });
+
+  $('#btn_videos').on('click', function (){
+    $.ajax({
+        type: "GET",
+        url: '/videos/message_video_group',
+        contentType: "application/json",
+        data: {message_id: "<%= @message.id %>" },
+        success: function(data) {
+          $('.render_section').append(data)
+        }
+    });
+  })
+
+  function add_new_link_card() {
+    html = "<%= j render partial: 'linkcard', locals: { msg_content: nil, link_card: LinkCard.new(message_id: @message.id), preview: false } %>";
+    $("#m_content > tbody:last-child").append(html);
+    render_new_id();
+  }
+
+  function add_new_quote() {
+    html = "<%= j render partial: 'quote', locals: { msg_content: nil, quote: Quote.new(message_id: @message.id), preview: false } %>";
+    $("#m_content > tbody:last-child").append(html);
+    render_new_id();
+  }
+
+  function add_new_text_message() {
+    html = "<%= j render partial: 'text_message', locals: { msg_content: nil, text_message: TextMessage.new(message_id: @message.id), preview: false } %>";
+    $("#m_content > tbody:last-child").append(html);
+    selector = $("#m_content tr:last");
+    init_editor(selector);
+    $('.wysiwyg-editor').attr("onclick", '$(this).focus();');
+    render_new_id();
+  }
+
+  function add_new_question_answer() {
+    html = "<%= j render partial: 'question_answer', locals: { msg_content: nil, question: Question.new(message_id: @message.id), preview: false } %>";
+    $("#m_content > tbody:last-child").append(html);
+    render_new_id();
+  }
+
+  function add_new_product_message() {
+    html = "<%= j render partial: 'product_message', locals: { msg_content: nil, product_message: ProductMessage.new(message_id: @message.id), preview: false } %>";
+    $("#m_content > tbody:last-child").append(html);
+    render_new_id();
+  }
+
+  function add_new_form_message() {
+    html = "<%= j render partial: 'form_message', locals: { msg_content: nil, form_message: FormMessage.new(message_id: @message.id), preview: false } %>";
+    $("#m_content > tbody:last-child").append(html);
+    render_new_id();
+  }
+
+  function get_message_preview() {
+    $.ajax({
+      type: "GET",
+      url: '/messages/<%= @message.id %>/preview.js',
+      contentType: "application/javascript",
+      dataType: "html",
+      success: function (data) {
+        $('#message_preview').append(data)
+        $('#message_preview_modal').modal('show');
+      }
+    })
+  }
+
+  function check_min_max(e){
+    if (e.value > parseInt($(e).attr('max'))){
+      $(e).val(parseInt($(e).attr('max')));
+    }
+    if (e.value < parseInt($(e).attr('min'))){
+      $(e).val(parseInt($(e).attr('min')));
+    }
+  }
+
+  function render_new_id() {
+    el = $("#m_content tr:last");
+    var new_id = randomString(16);
+    div_element = $(el).find('.template-element')[0];
+    val_element = $(el).find('.template-id')[0];
+
+    $(div_element).attr('id', new_id);
+    $(val_element).attr('value', new_id);
+  }
+
+  function randomString(length) {
+    var chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var result = '';
+    for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+    return result;
+  }
+
+</script>

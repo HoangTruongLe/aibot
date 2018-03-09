@@ -1,0 +1,12 @@
+<% unless @form_message.errors.any? %>
+  parent = $("#form_message-<%= @form_message.id %>-editor").closest('div[class="m_form-message"]');
+  $(parent).find('.m_form-message-edit').addClass('hidden');
+  preview = $(parent).find('.m_form-message-review');
+  $(preview)[0].innerHTML = "<%= j render partial: 'messages/form_message_review', locals: { form_message: @form_message, preview: false} %>";
+  $(parent).find('.m_form-message-review').removeClass('hidden');
+
+  tr_parent = $(parent).closest('tr');
+  $(tr_parent).removeClass('ui-state-disabled');
+
+  $('#spinner').hide();
+<% end %>

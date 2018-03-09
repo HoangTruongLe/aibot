@@ -1,0 +1,169 @@
+
+<style type="text/css">
+  #overlay {
+    width: 70% !important;
+    left: 15%;
+  }
+  @media(max-width: 768px) {
+    #overlay {
+      width: 100% !important;
+      left: 0;
+    }
+  }
+</style>
+<div class="container products-index">
+	<div class="row margin-b10">
+		<div class="col-sm-6 col-xs-6"><h4><%= t('.title') %></h4></div>
+		<div class="col-sm-6 col-xs-6 text-right">
+			<button data-toggle="modal" data-target="#squarespaceModal"
+							class="btn btn-primary btn-submit-filter btn-blue"
+							style="width: 180px; font-size: 13px;">
+				<%= t('.upload_csv') %>
+			</button>
+		</div>
+		<div class="center"></div>
+	</div>
+	<div class="row search-box">
+		<div class="row"><h5 class="col-sm-12"><%= t('.search_title') %></h5></div>
+		<%= search_form_for @q, html: { class: "form-inline form-group" } do |f| %>
+			<div class="row">
+				<div class="col-sm-8">
+						<div class="col-sm-9 search-input-wrapper">
+							<%= f.search_field :name_cont, class: "form-control search-input", placeholder: t('.placeholder_search') %>
+						</div>
+						<div class="col-sm-3 padding-0 text-center btn-search-group">
+							<%= button_tag t('.clear_button'), type: "button", onclick: "clearFilter();", class: "btn btn-default btn-clear-filter btn-gray" %>
+							<%= f.submit t('.search_button'), class: "btn btn-primary btn-submit-filter btn-blue" %>
+						</div>
+				</div>
+				<div class="col-sm-4 text-right">
+					<%= link_to t('.download_csv'), export_csv_products_path, class: "btn btn-default margin-b10 download-button btn-gray" %>
+					<a href="javascript:void(0)" class="btn btn-default margin-b10 download-button btn-gray" onclick="download_report()"><%= t('.download_report') %></a>
+					<script type="text/javascript">
+						function download_report() {
+							start_time = $("#start_time").val()
+							end_time = $("#end_time").val()
+							window.location.href = '<%= export_report_products_path %>?start_time='+ start_time + '&end_time=' + end_time
+						}
+					</script>
+				</div>
+			</div>
+			<div class="row" style="font-size: 13px;">
+				<div class="col-sm-6">
+						<div class="search-input-wrapper">
+							<div class="col-sm-6 form-group margin-t10 padding-0">
+								<label class="control-label text-normal"><%= t('.search_cat_label') %></label>
+								<%= f.select :category_name_eq, options_from_collection_for_select(Category.all, "name", "name", @q.category_name_eq), { include_blank: t('.all') },  { class: "form-control select-search" } %>
+							</div>
+							<div class="col-sm-6 form-group margin-t10 padding-0">
+								<label class="control-label text-normal"><%= t('.search_activity_label') %></label>
+								<%= f.select :activity_eq, [[t('.active'), true], [t('.inactive'), false]], { include_blank: t('.all'), selected: @q.activity_eq },  { class: "form-control select-search" } %>
+							</div>
+						</div>
+				</div>
+        <div class="col-sm-6 form-group margin-t10 dtp-report">
+          <label class="control-label text-normal"><%= t('.date_report_label') %></label><div class="dtp-clear"></div>
+          <div class='input-group date' id='dtp-start-time'>
+            <input type="text" id="start_time" name="start_date" value="" class='form-control datepicker datepicker-input' data-provide='datepicker'>
+            <span class="input-group-addon">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+          </div>
+          <span class="seperate-dtp">〜</span>
+          <div class='input-group date' id='dtp-end-time'>
+            <input type="text" id="end_time" name="end_date" value="" class='form-control datepicker datepicker-input' data-provide='datepicker'>
+            <span class="input-group-addon">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+          </div>
+				</div>
+			</div>
+		<% end %>
+	</div>
+	<div class="row list-box">
+			<div class="col-sm-12">
+				<table class="table table-striped table-bordered">
+					<thead>
+						<tr class="active">
+							<th width="4%" class="text-center align-vertically"><%= sort_link(@q, :id, t('.id'), default_order: :desc) %></th>
+              <th width="7%" class="text-center align-vertically"><%= t('.activity') %></th>
+							<th width="7%" class="text-center align-vertically"><%= t('.thumbnail') %></th>
+							<th width="12%" class="text-center align-vertically"><%= t('.name') %></th>
+							<th width="10%" class="text-center align-vertically"><%= t('.category') %></th>
+							<th width="10%" class="text-center align-vertically"><%= t('.tags') %></th>
+							<th width="8%" class="text-center align-vertically"><%= t('.site') %></th>
+							<th width="6%" class="text-center align-vertically"><%= t('.user') %></th>
+ 							<th width="7%" class="text-center align-vertically"><%= sort_link(@q, :created_at, t('.created_at'), default_order: :desc) %></th>
+ 							<th width="8%" class="text-center align-vertically"><%= sort_link(@q, :updated_at, t('.updated_at'), default_order: :desc) %></th>
+ 							<th width="12%" class="text-center align-vertically"><%= t('.action') %></th>
+						</tr>
+					</thead>
+					<tbody>
+						<% if @products.size > 0 %>
+							<% @products.each do |p| %>
+								<tr>
+									<td class="text-center"><%= p.id %></td>
+									<td class="text-center"><%= format_activity(p.activity) %></td>
+                  <% thumbnail = split_string_to_array(p.image_1_url, p.image_2_url, p.image_3_url, p.image_4_url, p.image_5_url)[0] || "empty.jpg" %>
+                  <td><%= image_tag thumbnail, size: "100x80" %></td>
+									<td><%= link_to(p.name, p.product_url, target: "_blank") %></td>
+									<td><%= p.try(:category).try(:name) %></td>
+									<td><%= p.tags %></td>
+									<td><%= link_to p.site.try(:name), site_path(p.site) if p.try(:site) %></td>
+									<td><%= p.try(:owner) %></td>
+									<td class="text-right"><%= format_datetime(p.created_at) %></td>
+									<td class="text-right"><%= link_to(format_datetime(p.updated_at), logs_product_path(p)) %></a></td>
+									<td class="text-center">
+										<%= link_to(t('.show_button'), product_path(p), class: "btn btn-default btn-gray btn-action") %>
+										<%= link_to(t('.edit_button'), edit_product_path(p), class: "btn btn-primary btn-blue btn-action") %>
+									</td>
+								</tr>
+							<% end %>
+						<% else %>
+							<tr>
+								<td colspan="11" class="text-center"><%= t('.product_not_found') %></td>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
+	</div>
+	<div class="text-center"><%= paginate @products %></div>
+</div>
+
+<!-- CSV Import modal -->
+<div class="modal fade" id="squarespaceModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+	<div class="modal-content">
+    <%= render partial: 'spinner' %>
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+			<h4 class="modal-title" id="lineModalLabel"><%= t('.import_csv') %></h4>
+		</div>
+    <%= form_tag(import_csv_products_path, multipart: true, method: "post", remote: true) do %>
+		<div class="modal-body">
+      <!-- Modal Content -->
+      <div class="form-group mrg5B">
+        <%= label_tag 'csv_file', t('.file_name'), class: 'label-csv-file mrg10B' %>
+        <label class="input-group-btn">
+          <span class="btn btn-default choose-file"><%= t('.choose_file') %> <%= file_field_tag "csv_file", accept: 'text/csv', style: "display: none;" %></span>
+        </label>
+      </div>
+			<!-- Error logs -->
+			<div id="csv_log" class="form-group mrg10T mrg5B">
+		  </div>
+		</div>
+		<div class="modal-footer">
+			<div class="btn-group text-center btn-csv-group" role="group" aria-label="group button">
+				<div class="csv-group close-csv-group text-right" role="group">
+					<%= link_to(t('.close_btn_csv'), products_path, class: "btn btn-default") %>
+				</div>
+				<div class="csv-group import-csv-group text-left" role="group">
+					<button type="submit" id="import-csv-button" class="btn btn-default btn-hover-green" disabled="true" onclick="$('#spinner').show();" data-action="save" role="button"><%= t('.import_btn_csv') %></button>
+				</div>
+			</div>
+		</div>
+    <% end %>
+	</div>
+  </div>
+</div>

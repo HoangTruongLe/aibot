@@ -1,0 +1,120 @@
+<%= form_for @chatbot, html: { class: "form-horizontal", multipart: true } do |f| %>
+<div class="row">
+	<div class="col-sm-6 padding-0">
+		<h4><%= @chatbot.id.present? ? t('chatbots.edit_title') : t('chatbots.new_title') %></h4>
+	</div>
+	<div class="col-sm-6 text-right padding-0">
+		<%= link_to "#{t('cancel_button')}", chatbots_path, class: "btn btn-cancel" %>
+		<%= f.submit "#{@chatbot.id.present? ? t('update_button') : t('save_button')}", class: "btn btn-save" %>
+	</div>
+</div>
+<div class="row">
+	<% if @chatbot.errors.any? %>
+	<br>
+	<div class="error-log">
+		<h5><%= t("activerecord.errors.error_message")%></h5>
+		<ul>
+			<% @chatbot.errors.full_messages.each do |msg| %>
+			<li><%= msg %></li>
+			<% end %>
+		</ul>
+	</div>
+	<% end %>
+</div>
+<div class="row form-input-wrapper">
+	<% if @chatbot.id %>
+	<div class="form-group">
+		<%= f.label :id, class: "control-label col-sm-2" %>
+		<div class="col-sm-9">
+			<%= f.label @chatbot.id, style: 'margin-top:7px; font-weight: bold' %>
+		</div>
+	</div>
+	<% end %>
+	<div class="form-group">
+		<%= f.label :name, class: "control-label col-sm-2 required" %>
+		<div class="col-sm-9">
+			<%= f.text_field :name, class: "form-control", placeholder: true %>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= f.label :activity, class: "control-label col-sm-2" %>
+		<div class="col-sm-9">
+			<div class="radio radio-primary radio-inline">
+				<%= f.radio_button :activity, true %>
+				<%= f.label :activity_true, t('active') %>
+			</div>
+			<div class="radio radio-primary radio-inline">
+				<%= f.radio_button :activity, false %>
+				<%= f.label :activity_false, t('inactive') %>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= f.label :thumbnail, class: "control-label col-sm-2" %>
+		<div class="col-sm-9">
+			<div class="form-group">
+				<% @chatbot_emotion_photos.each do |chatbot_emotion_photo| %>
+					<%= fields_for "chatbot[chatbot_emotion_photos_attributes][]", chatbot_emotion_photo do |emo| %>
+						<%= emo.hidden_field :chatbot_emotion_id, value: chatbot_emotion_photo.chatbot_emotion_id %>
+						<%= emo.hidden_field :name, value: chatbot_emotion_photo.name %>
+						<%= emo.hidden_field :id %>
+						<div class="col-sm-1 chatbot_thumbnail_wrapper">
+							<img class='chatbot_thumbnail' src="<%= chatbot_emotion_photo.image_url unless chatbot_emotion_photo.image_url == '/assets/missing.png' %>"/>
+						</div>
+						<div class="col-sm-2 pad5T">
+							<%= emo.label chatbot_emotion_photo.name, class: "control-label", style: "text-align:left" %>
+							<% if type == 'new'%>
+								<label class="mrg20L" style="color: #BABABA">未登録</label>
+							<% end %>
+						</div>
+						<div class="col-md-9 mrg15B ">
+							<span class="btn btn-default choose-file upload-avatar-btn" onclick="$(this).next().trigger('click');">アップロード</span>
+							<%= emo.file_field :avatar,
+											class: "btn btn-default",
+											accept: 'image/x-png,image/gif,image/jpeg',
+											style: "display: none;",
+											onchange: "readURL(this)"%>
+						</div>
+					<% end %>
+				<% end %>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= f.label :profile, class: "control-label col-sm-2" %>
+		<div class="col-sm-9">
+			<%= f.text_field :profile, class: "form-control", placeholder: true %>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= f.label :rarity, class: "control-label col-sm-2" %>
+		<div class="col-sm-9">
+			<%= f.text_field :rarity, class: "form-control", placeholder: true %>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= f.label :tag, class: "control-label col-sm-2" %>
+		<div class="col-sm-9">
+			<%= f.text_field :tag, class: "form-control", placeholder: true %>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-12 text-right">
+		<%= link_to "#{t('cancel_button')}", chatbots_path, class: "btn btn-cancel" %>
+		<%= f.submit "#{@chatbot.id.present? ? t('update_button') : t('save_button')}", class: "btn btn-save" %>
+	</div>
+</div>
+<% end %>
+<%= render partial: 'destroy' %>
+<script type="text/javascript">
+	function readURL(input) {
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				$(input).parent().prev().prev().find('img').attr('src', e.target.result).width(150).height(200);
+			};
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+</script>

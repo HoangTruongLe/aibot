@@ -1,0 +1,17 @@
+<script>
+  <% if notice %>
+    toastr["success"]("<%= notice %>");
+  <% end %>
+  <% if  alert %>
+    toastr["error"]("<%= alert %>");
+  <% end %>
+  <% if flash[:warning] %>
+    toastr["warning"]("<%= flash[:warning] %>");
+  <% end %>
+  <% if flash[:success_popup] %>
+    swal("Success", "<%= flash[:success_popup] %>", "success");
+  <% end %>
+  <% if flash[:error_popup] %>
+    swal("Error", "<%= flash[:error_popup] %>", "error");
+  <% end %>
+</script>

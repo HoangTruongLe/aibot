@@ -1,0 +1,80 @@
+<div class="sidebar-wrapper">
+  <div class="main-navigation">
+    <ul class="nav nav-sidebar main-sidebar-menu">
+      <li class="<%= "active" if current_page?(root_path) %>"><a class='disabled' href="<%= root_path %>"><span><%= fa_icon "home" %> ダッシュボード</span></a></li>
+      <li class="<%= "active" if active_namespace('messages', 'edit') %>">
+        <a href="<%= new_message_path %>"><span><%= fa_icon "pencil-square-o" %> メッセージ作成</span></a>
+      </li>
+      <li class="<%= "active" if current_page?(messages_path) %>">
+        <a href="<%= messages_path %>"><span><%= fa_icon "pencil-square-o" %> メッセージ管理</span></a>
+      </li>
+      <li class="<%= "active" if current_page?(stories_path) %>"><a href="<%= stories_path %>"><span><%= fa_icon "pencil-square-o" %>ストーリー管理</span></a></li>
+      <li><a href="#" id='btn-1' data-toggle='collapse' data-target="#submenu1" aria-expanded="false"><span><%= fa_icon "comment-o" %> マスター管理</span></a>
+        <ul class="nav collapse nav nav-sidebar main-sidebar-menu <%= "in" if active_namespace('master') %>" id="submenu1" role="menu" aria-labelledby="btn-1">
+          <li class="<%= "active" if current_page?(master_master_categories_path) %>"><%= link_to 'メッセージカテゴリ管理', master_master_categories_path%></li>
+          <li class="<%= "active" if current_page?(master_keywords_path) %>"><%= link_to 'キーワード管理', master_keywords_path%></li>
+          <li class="<%= "active" if current_page?(master_tags_path) %>"><%= link_to 'タグ管理', master_tags_path%></li>
+        </ul>
+      </li>
+      <li class="<%= "active" if active_namespace('forms') %>"><a href="<%= forms_path %>"><span><%= fa_icon "info-circle" %>フォーム管理</span></a></li>
+      <li class="<%= "active" if active_namespace('products') %>"><a href="<%= products_path %>"><span><%= fa_icon "pencil-square-o" %> 商品管理</span></a></li>
+      <li class="<%= "active" if active_namespace('categories') %>"><a href="<%= categories_path %>"><span><%= fa_icon "folder-o" %> 商品カテゴリ管理</span></a></li>
+      <li class="<%= "active" if active_namespace('chatbots') %>"><a href="<%= chatbots_path %>"><span><%= fa_icon "github-alt" %>Botキャラクター管理</span></a></li>
+      <li class="<%= "active" if active_namespace('sites') %>"><a href="<%= sites_path %>"><span><%= fa_icon "address-book" %>サイト管理</span></a></li>
+      <li class="<%= "active" if current_page?(profile_path) %>">
+        <%= link_to profile_path do %>
+          <span><%= fa_icon "user" %> プロフィール</span>
+        <%end%>
+      </li>
+      <% if current_user.admin? %>
+        <li class="<%= "active" if current_page?(users_path) %>">
+          <%= link_to users_path do %>
+            <span><%= fa_icon "users" %> ユーザー</span>
+          <%end%>
+        </li>
+      <%end%>
+      <li><a href="#" id='btn-statistic' data-toggle='collapse' data-target="#submenu-statistic" aria-expanded="false"><span><%= fa_icon "bar-chart" %>統計</span></a>
+        <ul class="nav collapse nav nav-sidebar main-sidebar-menu <%= "in" if active_statistic() %>" id="submenu-statistic" role="menu" aria-labelledby="btn-statistic">
+          <li class="<%= "active" if current_page?(statistics_products_path) %>">
+            <%= link_to statistics_products_path do %>
+              <span>製品の統計情報</span>
+            <%end%>
+          </li>
+          <li class="<%= "active" if current_page?(statistics_sessions_path) %>">
+            <%= link_to statistics_sessions_path do %>
+              <span>Chatbotの統計情報</span>
+            <% end %>
+          </li>
+          <li class="<%= "active" if current_page?(partner_sites_path) %>">
+            <%= link_to partner_sites_path do %>
+              <span>起動回数</span>
+            <% end %>
+          </li>
+          <li class="<%= "active" if current_page?(conversion_tags_path) %>">
+            <%= link_to conversion_tags_path do %>
+              <span>コンバージョントラッキングの統計</span>
+            <% end %>
+          </li>
+        </ul>
+      </li>
+
+      <!-- <li><%= link_to('Api Keys', apikey_index_path) %></li> -->
+    </ul>
+  </div>
+  <%= render "footer" %>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    if ($("ul.main-sidebar-menu li.active").length) {
+      $('.sidebar-wrapper').scrollTop($("ul.main-sidebar-menu li.active").offset().top);
+    }
+  });
+  $('#btn-statistic').on('click',function(){
+    $('#submenu-statistic').slideToggle(function(){
+      $('.sidebar-wrapper').animate({
+        scrollTop: $('#submenu-statistic').offset().top
+      }, 'fast');
+    });
+  });
+</script>

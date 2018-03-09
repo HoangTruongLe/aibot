@@ -1,0 +1,2 @@
+class ChatbotEmotion < ApplicationRecord
+end

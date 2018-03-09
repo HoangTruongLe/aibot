@@ -1,0 +1,6 @@
+<% unless @text_message.errors.any? %>
+  parent = $("#text_message-<%= @text_message.id %>-editor").closest('div[class="m_text-message"]');
+  $(parent).addClass('hidden');
+  $("#destroy_message_content").modal('hide');
+  $("#spinner").hide();
+<% end %>

@@ -1,0 +1,84 @@
+<div class="container">
+  <div class="row mrg10B">
+    <div class="pull-right">
+      <%= link_to "#{t('.create_chatbot')}", new_chatbot_path, class: "btn btn-primary btn-blue-1", style: "width: 200px"%>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6 padding-0">
+      <h5>ID: <%= @chatbot.id %></h5>
+    </div>
+    <div class="col-sm-6 text-right padding-0">
+      <%= link_to "#{t('.list_button')}", chatbots_path, class: "btn btn-cancel" %>
+      <%= link_to "#{t('.edit_button')}", edit_chatbot_path(@chatbot), class: "btn btn-save"%>
+    </div>
+  </div>
+  <div class="row form-input-wrapper">
+    <div class="row">
+      <div class="col-sm-12 col-lg-12">
+        <div class="col-sm-9 text-right">
+          <%= "登録者: #{ @chatbot.created_user.try(:name) }"%>
+        </div>
+        <div class="col-sm-3 text-right">
+          <%= "登録日時: #{ format_datetime(@chatbot.created_at) }"%>
+        </div>
+      </div>
+    </div>
+    <br>
+
+    <table class="table">
+      <tr>
+        <td class="column_header text-right"><%= t('activerecord.attributes.chatbot.id') %></td>
+        <td class="column_data"><%= @chatbot.id %></td>
+      </tr>
+      <tr>
+        <td class="column_header text-right"><%= t('activerecord.attributes.chatbot.name') %></td>
+        <td class="column_data"><%= @chatbot.name %></td>
+      </tr>
+      <tr>
+        <td class="column_header text-right"><%= t('activerecord.attributes.chatbot.activity') %></td>
+        <td class="column_data"><%= format_activity(@chatbot.activity) %></td>
+      </tr>
+      <tr>
+        <td class="column_header text-right"><%= t('activerecord.attributes.chatbot.thumbnail') %></td>
+        <td class="column_data">
+          <% if @chatbot.chatbot_emotion_photos.size > 0 %>
+            <% @chatbot.chatbot_emotion_photos.each do |photo| %>
+              <div class="row" style="margin-left: -15px">
+                <div class="col-sm-1 mrg20B">
+                  <img class='chatbot_thumbnail' src="<%= photo.image_url %>" >
+                </div>
+                <div class="col-sm-11 pull-right mrg20B" >
+                  <label style="padding: 10px 0;"><%= photo.name %></label>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td class="column_header text-right"><%= t('activerecord.attributes.chatbot.profile') %></td>
+        <td class="column_data"><%= @chatbot.try(:profile) %></td>
+      </tr>
+      <tr>
+        <td class="column_header text-right"><%= t('activerecord.attributes.chatbot.rarity') %></td>
+        <td class="column_data"><%= @chatbot.try(:rarity) %></td>
+      </tr>
+      <tr>
+        <td class="column_header text-right"><%= t('activerecord.attributes.chatbot.tag') %></td>
+        <td class="column_data"><%= @chatbot.try(:tag) %></td>
+      </tr>
+    </table>
+
+  </div>
+  <div class="row">
+    <div class="col-sm-6 text-left padding-0">
+      <a id="btn-delete-chatbot" class='btn btn-default btn-white-1'><span style="color:red">削除</span></a>
+    </div>
+    <div class="col-sm-6 text-right padding-0">
+      <%= link_to "#{t('.list_button')}", chatbots_path, class: "btn btn-cancel" %>
+      <%= link_to "#{t('.edit_button')}", edit_chatbot_path(@chatbot), class: "btn btn-save" %>
+    </div>
+  </div>
+</div>
+<%= render partial: 'destroy' %>

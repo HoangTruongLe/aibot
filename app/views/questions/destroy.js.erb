@@ -1,0 +1,6 @@
+<% unless @question.errors.any? %>
+  parent = $("#question-<%= @question.id %>-editor").closest('div[class="m_question"]');
+  $(parent).addClass('hidden');
+  $("#destroy_message_content").modal('hide');
+  $("#spinner").hide();
+<% end %>

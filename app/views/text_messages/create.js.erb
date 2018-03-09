@@ -1,0 +1,23 @@
+<% unless @text_message.errors.any? %>
+
+  template_id = "<%= @template_id %>";
+  parent = $("#" + template_id).closest('div[class="m_text-message"]');
+
+  // Change editor
+  editor = $(parent).find('.m_text-message-edit');
+  $(editor).addClass('hidden');
+  $(editor)[0].innerHTML = "<%= j render partial: 'messages/text_editor', locals: { text_message: @text_message }  %>";
+
+  // Change datapath
+  tr_parent = $(parent).closest('tr');
+  $(tr_parent).attr("data-path", "/message_contents/<%= @text_message.message_content.id %>.json");
+  $(tr_parent).attr("data-msg_content_id", "<%= @text_message.message_content.id %>");
+  $(tr_parent).removeClass('ui-state-disabled');
+
+  // Change preview
+  preview = $(parent).find('.m_text-message-review');
+  $(preview)[0].innerHTML = "<%= j render partial: 'messages/text_review', locals: { text_message: @text_message, preview: false} %>";
+  $(parent).find('.m_text-message-review').removeClass('hidden');
+
+  $('#spinner').hide();
+<% end %>

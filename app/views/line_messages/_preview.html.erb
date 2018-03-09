@@ -1,0 +1,18 @@
+<div id="preview_modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content line_message_modal_content">
+      <div class="modal-header preview_modal_header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <img id="preview_header" src="<%= line_message.image_url if line_message %>">
+      </div>
+      <div class="text-center preview_modal_body">
+        <p id="line_top_paragraph"><%= line_message.content if line_message %></p>
+        <div class="btn btn_line_message" id="line_button_wording">
+          <%= image_tag("c_icon_line.svg", style: 'width: 20px; height: 20px') %>
+          <a href="<%= line_message.line_address if line_message %>"><%= line_message.button_wording if line_message %></a>
+        </div>
+        <p class="mrg15T mrg15B" style="font-size:9px; font-weight: 600" id="line_bottom_paragraph"><%= line_message.language_note if line_message %></p>
+      </div>
+    </div>
+  </div>
+</div>

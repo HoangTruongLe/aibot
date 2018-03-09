@@ -1,0 +1,12 @@
+<% unless @product_message.errors.any? %>
+  parent = $("#product_message-<%= @product_message.id %>-editor").closest('div[class="m_product-message"]');
+  $(parent).find('.m_product-message-edit').addClass('hidden');
+  preview = $(parent).find('.m_product-message-review');
+  $(preview)[0].innerHTML = "<%= j render partial: 'messages/product_message_review', locals: { product_message: @product_message, preview: false} %>";
+  $(parent).find('.m_product-message-review').removeClass('hidden');
+
+  tr_parent = $(parent).closest('tr');
+  $(tr_parent).removeClass('ui-state-disabled');
+
+  $('#spinner').hide();
+<% end %>

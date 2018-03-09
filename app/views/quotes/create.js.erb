@@ -1,0 +1,23 @@
+<% unless @quote.errors.any? %>
+
+  template_id = "<%= @template_id %>";
+  parent = $("#" + template_id).closest('div[class="m_quote"]');
+
+  // Change editor
+  editor = $(parent).find('.m_quote-edit');
+  $(editor)[0].innerHTML = "<%= j render partial: 'messages/quote_editor', locals: { quote: @quote}  %>";
+  $(editor).addClass('hidden');
+
+  // Change datapath
+  tr_parent = $(parent).closest('tr');
+  $(tr_parent).attr("data-path", "/message_contents/<%= @quote.message_content.id %>.json");
+  $(tr_parent).attr("data-msg_content_id", "<%= @quote.message_content.id %>");
+  $(tr_parent).removeClass('ui-state-disabled');
+
+  // Change preview
+  preview = $(parent).find('.m_quote-review');
+  $(preview)[0].innerHTML = "<%= j render partial: 'messages/quote_review', locals: { quote: @quote, preview: false} %>";
+  $(parent).find('.m_quote-review').removeClass('hidden');
+
+  $('#spinner').hide();
+<% end %>

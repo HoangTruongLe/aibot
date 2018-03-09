@@ -1,0 +1,21 @@
+<!-- Destroy Category modal -->
+<div class="modal fade category-modal" id="destroy_error" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-warning">
+	<div class="modal-content modal-content-boder">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+			<h4 class="modal-title text-center"><%= t('.keyword_error') %></h4>
+		</div>
+    <div class="modal-body text-center">
+      <!-- Modal Content -->
+      <span id="keyword_destroy_error"></span><%= raw t(".error_log") %>
+    </div>
+		<div class="modal-footer">
+      <a class="btn btn-primary btn-submit-filter btn-blue btn-smalll" data-dismiss="modal">
+        <%= t('.back') %>
+      </a>
+		</div>
+	</div>
+	</div>
+</div>
+<!-- /Destroy Category modal -->

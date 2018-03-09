@@ -1,0 +1,6 @@
+<% unless @quote.errors.any? %>
+  parent = $("#quote-<%= @quote.id %>-editor").closest('div[class="m_quote"]');
+  $(parent).addClass('hidden');
+  $("#destroy_message_content").modal('hide');
+  $("#spinner").hide();
+<% end %>

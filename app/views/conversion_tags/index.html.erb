@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="row margin-b10">
+    <div class="col-sm-3 col-xs-3">
+      <h4>コンバージョントラッキングの統計</h4>
+    </div>
+  </div>
+  <div class="row margin-b10">
+    <div class="col-sm-10 form-group margin-t10 dtp-report" style="margin-top: 0px">
+      <label class="control-label text-normal label-inline"><%= t('.date_report_label') %></label><div class="dtp-clear"></div>
+      <div class='input-group date control-inline' id='dtp-start-time'>
+        <input type="text" id="start_time" name="start_date" value="" class='form-control datepicker datepicker-input' data-provide='datepicker'>
+        <span class="input-group-addon">
+          <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+      </div>
+      <span class="label-inline">〜</span>
+      <div class='input-group date control-inline' id='dtp-end-time'>
+        <input type="text" id="end_time" name="end_date" value="" class='form-control datepicker datepicker-input' data-provide='datepicker'>
+        <span class="input-group-addon">
+          <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+      </div>
+    </div>
+    <div class="col-sm-2 col-xs-2">
+      <a href="javascript:void(0)" class="btn btn-save btn-submit-filter pull-right" style="width: 100%" onclick="download_report()">CSVファイル出力</a>
+      <script type="text/javascript">
+        function download_report() {
+          start_time = $("#start_time").val()
+          end_time = $("#end_time").val()
+          window.location.href = '<%= cv_tags_csv_conversion_tags_path %>?start_time='+ start_time + '&end_time=' + end_time
+        }
+      </script>
+    </div>
+  </div>
+
+  <table class='table table-striped table-bordered site-index-table'>
+    <thead>
+      <tr class="active">
+        <th class="text-center" width="15%">日時</th>
+        <th class="text-center" width="35%">コンバージョンURL</th>
+        <th class="text-center" width="20%">UserAgent情報</th>
+        <th class="text-center" width="25%">IPアドレス情報</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% if @conversion_tags.size > 0 %>
+      <% @conversion_tags.each do |conversion_tag| %>
+        <tr>
+          <td class="text-left"><%= format_datetime(conversion_tag.created_at) %></td>
+          <td class="text-left"><%= conversion_tag&.current_url %></td>
+          <td class="text-left"><%= conversion_tag&.session_statistic&.browser %></td>
+          <td class="text-left"><%= conversion_tag&.session_statistic&.ip_address %></td>
+        </tr>
+      <%end%>
+    <%else%>
+      <tr>
+        <td colspan="4" class="text-center">No Data</td>
+      </tr>
+    <%end%>
+    </tbody>
+  </table>
+  <div class='text-center'><%= paginate @conversion_tags %></div>
+</div>

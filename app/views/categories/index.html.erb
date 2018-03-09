@@ -1,0 +1,75 @@
+<div class="container">
+  <div class="row margin-b10">
+    <div class="col-sm-6 col-xs-6"><h4><%= t('.product_category_title')%></h4></div>
+    <div class="col-sm-6 col-xs-6 text-right"><%= link_to t('.create_category'), new_category_path, class: "btn btn-save", style: "width: 180px;" %></div>
+  </div>
+  <div class='row search-border'>
+    <h5><%= t('.search')%></h5>
+    <%= search_form_for @q, url: categories_path, method: :get do |f|%>
+      <div class='col-sm-6 col-xs-12 mrg10B' >
+        <%= f.search_field :id_or_name_cont, placeholder: t('.placeholder_search'), class: 'form-control'%>
+      </div>
+
+      <div class='col-sm-6 col-xs-12'>
+        <div class="col-sm-6 col-xs-12 padding-0 mrg10B">
+          <%= f.label "#{t('.title.activity')}:", style: 'font-weight: normal; line-height: 34px;', class: "activity-label padding-0" %>
+          <%= f.select :activity_eq, Category::ACTIVITY, { include_blank: t('.all'), selected: @q.activity_eq },  { class: "form-control activity-select" } %>
+        </div>
+        <div class="col-sm-6 col-xs-12 form-inline padding-0 text-center">
+          <%= link_to t('.clear'), 'javascript:void(0);', class: 'btn btn-cancel clear-input-search btn-gray btn-clear-filter', style: 'color: #000'%>
+          <%= f.submit t('.search'), class: 'btn btn-save btn-submit-filter'%>
+        </div>
+      </div>
+    <%end%>
+  </div>
+
+  <table class='table table-striped table-bordered category-index-table'>
+    <thead>
+      <tr class="active">
+        <th width="4%" class="align-vertically"><%= sort_link(@q, :id) %></th>
+        <th width="10%" class="align-vertically"> <%=t('.title.name')%> </th>
+        <th width="10%" class="align-vertically"> <%=t('.title.activity')%> </th>
+        <th width="7%" class="align-vertically"> <%=t('.title.slug')%> </th>
+        <th width="7%" class="align-vertically"> <%=t('.title.eval_a')%> </th>
+        <th width="7%" class="align-vertically"> <%=t('.title.eval_b')%> </th>
+        <th width="7%" class="align-vertically"> <%=t('.title.eval_c')%> </th>
+        <th width="7%" class="align-vertically"> <%=t('.title.eval_d')%> </th>
+        <th width="7%" class="align-vertically"> <%=t('.title.eval_e')%> </th>
+        <th width="7%" class="align-vertically"> <%=t('.title.user')%> </th>
+        <th width="7%" class="align-vertically"> <%=t('.title.created_at')%> </th>
+        <th width="7%" class="align-vertically"> <%=t('.title.updated_at')%> </th>
+        <th width="13%" class="align-vertically"> <%=t('.title.action')%> </th>
+      </tr>
+    </thead>
+    <tbody>
+    <% if @categories.size > 0 %>
+      <%@categories.each do |category|%>
+        <tr>
+          <td class="text-center"><%= category.id %></td>
+          <td><%= category.name %></td>
+          <td class="text-center"><%= format_activity(category.activity)%></td>
+          <td><%= category.slug %></td>
+          <td><%= [category.eval_A_name, category.eval_A_type, category.eval_A_value].reject(&:blank?).join(', ') %></td>
+          <td><%= [category.eval_B_name, category.eval_B_type, category.eval_B_value].reject(&:blank?).join(', ') %></td>
+          <td><%= [category.eval_C_name, category.eval_C_type, category.eval_C_value].reject(&:blank?).join(', ') %></td>
+          <td><%= [category.eval_D_name, category.eval_D_type, category.eval_D_value].reject(&:blank?).join(', ') %></td>
+          <td><%= [category.eval_E_name, category.eval_E_type, category.eval_E_value].reject(&:blank?).join(', ') %></td>
+          <td><%= category.try(:user).try(:name) %></td>
+          <td class="text-right"><%= format_datetime(category.created_at)%></td>
+          <td class="text-right"><%= link_to format_datetime(category.updated_at), logs_category_path(category)%></td>
+          <td class="text-center">
+            <%= link_to t('.action.show'), category_path(category), class: 'btn btn-default btn-gray btn-action'%>
+            <%= link_to t('.action.edit'), edit_category_path(category), class: 'btn btn-primary btn-blue btn-action'%>
+          </td>
+        </tr>
+      <%end%>
+    <%else%>
+      <tr>
+        <td colspan="13" class="text-center"><%= t('.category_not_found') %></td>
+      </tr>
+    <%end%>
+    </tbody>
+  </table>
+
+  <div class='text-center'><%=paginate @categories%></div>
+</div>

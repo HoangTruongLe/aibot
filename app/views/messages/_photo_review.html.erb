@@ -1,0 +1,48 @@
+<div id="photo_review_<%= content_id %>" class="m_editor-photo-1 mrg20T">
+  <div class="m_editor-content <%= preview ? 'remove_border' : ''%>">
+    <h5>画像</h5>
+    <div class="m_editor-photo-wrapper">
+      <div class="m_photo-list">
+        <ul id="images_preview_<%= content_id %>">
+          <% if photos %>
+            <% photos.each do |photo| %>
+              <li><img class="dz-image" src="<%= photo.photo.expiring_url %>" id="image_<%= photo.id %>" ></li>
+            <% end %>
+          <% end %>
+        </ul>
+      </div>
+      <div style="clear: both"></div>
+    </div>
+  </div>
+  <% unless preview %>
+    <div class="m_editor-action">
+      <div class="col-sm-6 col-xs-6 m_editor-action-button">
+        <button id='btn-edit-<%= content_id %>' type="button" class="btn btn-primary btn-blue-2 mrg5B"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 編集</button><br>
+        <button data-content-id='<%= content_id %>' type="button" class="btn btn-default btn-white-2 content_delete"><i class="fa fa-trash-o" aria-hidden="true"></i> 削除</button>
+      </div>
+    </div>
+  <% end %>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+  var new_record = '<%= new_record %>'
+  if(new_record == 'true'){
+    $('#photo_review_<%= content_id %>').hide();
+  }else {
+    $('#photo_review_<%= content_id %>').show();
+  }
+  $('#btn-edit-<%= content_id %>' ).on('click',function(){
+    $('#photo_review_<%= content_id %>').hide();
+    $('#photo_editor_<%= content_id %>').show();
+  });
+  $('.content_delete').unbind();
+  $("body").undelegate(".content_delete")
+  $('.content_delete').click(function(){
+    var current_element = $(this)
+    var link = '/photos/<%= message_id %>/destroy_photo_group/'+ $(this).data('content-id')
+    $('#destroy_message_content').find("#delete_message_content_id").attr('href', link)
+    $('#destroy_message_content').find("#message_type").text("この写真を本当に削除しますか？")
+    $("#destroy_message_content").modal("show")
+  })
+})
+</script>

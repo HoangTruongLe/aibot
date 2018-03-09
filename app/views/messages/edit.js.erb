@@ -1,0 +1,18 @@
+// keyword
+if ($('.m_messages-wrapper').attr('data-modal-type') == 'primary'){
+  $('tbody#p_keywords').html('<%= escape_javascript render "p_keyword_table" %>');
+  $('#p_paginator').html('<%= escape_javascript(paginate(@keywords, :remote => true).to_s) %>');
+}else if ($('.m_messages-wrapper').attr('data-modal-type') == 'relative') {
+  $('tbody#r_keywords').html('<%= escape_javascript render "messages/r_keyword_table" %>');
+  $('#r_paginator').html('<%= escape_javascript(paginate(@keywords, :remote => true).to_s) %>');
+}
+// choose data for product message
+if (($("#product-messages-modal").data('bs.modal') || {}).isShown) {
+  $('.product-messages-datatable').find('#p_product')[0].innerHTML = "<%= j render partial: 'messages/product_list', locals: { products: @products } %>"
+  $('#product_paginator').html('<%= escape_javascript(paginate(@products, :remote => true).to_s) %>');
+}
+// answer goes to new message
+if (($("#messages-model").data('bs.modal') || {}).isShown) {
+  $("#messages-model").find('#p_messages')[0].innerHTML = "<%= j render partial: 'messages/message_list', locals: { messages: @messages } %>"
+  $('#messages_paginator').html('<%= escape_javascript(paginate(@messages, :remote => true).to_s) %>');
+}

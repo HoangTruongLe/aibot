@@ -1,0 +1,5 @@
+if (($("#product-messages-modal").data('bs.modal') || {}).isShown) {
+  // Change preview
+  $('.product-messages-datatable').find('#p_product')[0].innerHTML = "<%= j render partial: 'messages/product_list', locals: { products: @products } %>"
+  $('#product_paginator').html('<%= escape_javascript(paginate(@products, :remote => true).to_s) %>');
+}

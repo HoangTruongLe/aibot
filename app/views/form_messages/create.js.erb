@@ -1,0 +1,20 @@
+<% unless @form_message.errors.any? %>
+  template_id = "<%= @template_id %>";
+  parent = $("#" + template_id).closest('div[class="m_form-message"]');
+
+  // Change editor
+  editor = $(parent).find('.m_form-message-edit');
+  $(editor)[0].innerHTML = "<%= j render partial: 'messages/form_message_editor', locals: { form_message: @form_message} %>";
+  $(editor).addClass('hidden');
+
+  // Change datapath
+  tr_parent = $(parent).closest('tr');
+  $(tr_parent).attr("data-path", "/message_contents/<%= @form_message.message_content.id %>.json");
+  $(tr_parent).attr("data-msg_content_id", "<%= @form_message.message_content.id %>");
+  $(tr_parent).removeClass('ui-state-disabled');
+
+  preview = $(parent).find('.m_form-message-review');
+  $(preview)[0].innerHTML = "<%= j render partial: 'messages/form_message_review', locals: { form_message: @form_message, preview: false} %>";
+  $(parent).find('.m_form-message-review').removeClass('hidden');
+  $('#spinner').hide();
+<% end %>

@@ -1,0 +1,23 @@
+<div class="row mrg45T">
+  <div class="col-md-offset-3 col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="text-center mrg45B">
+          <h3><%= params[:initial] == "true" ? t('new_pass') : t('change_pass') %></h3>
+        </div>
+        <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+          <%= f.error_notification %>
+          <%= f.input :reset_password_token, as: :hidden %>
+          <%= f.full_error :reset_password_token %>
+          <%= f.input :password, autocomplete: "off", label: "新しいパスワード", required: true, autofocus: true, hint: ("最低#{@minimum_password_length} 文字" if @minimum_password_length) %>
+          <%= f.input :password_confirmation, autocomplete: "off", label: "新しいパスワードを確認", required: true %>
+          <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+              <%= f.button :submit, (params[:initial] == "true" ? t('new_pass_button') : t('change_pass')), class: "btn btn-primary btn-raised btn-lg btn-block"%>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

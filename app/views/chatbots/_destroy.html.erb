@@ -1,0 +1,34 @@
+<!-- Destroy Category modal -->
+<div class="modal fade category-modal" id="destroy_chatbot_content" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog destroy_chatbot">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+			<h4 class="modal-title text-center">削除</h4>
+		</div>
+    <div class="modal-body text-center">
+      <!-- Modal Content -->
+      <span id="chatbot_type"></span>
+    </div>
+		<div class="modal-footer">
+      <a class="btn btn-cancel btn-submit-filter btn-smalll" data-dismiss="modal">キャンセル</a>
+			<a id="delete_chatbot_content_id" class="btn btn-cancel btn-delete btn-submit-filter btn-smalll" data-remote="true" href="" data-method="delete" onclick="delete_chatbot_content()">
+        削除する
+      </a>
+		</div>
+	</div>
+	</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function () {
+  $('#btn-delete-chatbot').click(function(){
+    var current_element = $(this)
+    var link = '/chatbots/<%= @chatbot.id %>'
+    $('#destroy_chatbot_content').find("#delete_chatbot_content_id").attr('href', link)
+    $('#destroy_chatbot_content').find("#delete_chatbot_content_id").attr('data-remote', false)
+    $('#destroy_chatbot_content').find("#chatbot_type").text("このチャットボックスを削除しますか？")
+    $("#destroy_chatbot_content").modal("show")
+  })
+})
+</script>
+<!-- /Destroy Category modal -->

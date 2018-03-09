@@ -1,0 +1,155 @@
+<style type="text/css">
+  #overlay {
+    width: 70% !important;
+    left: 15%;
+  }
+  @media(max-width: 768px) {
+    #overlay {
+      width: 100% !important;
+      left: 0;
+    }
+  }
+</style>
+<div class="container">
+  <div class="row margin-b10">
+    <div class="col-sm-9 col-xs-9">
+      <div class="col-sm-3 col-xs-3">
+        <h4><%= t('.keyword_management')%></h4>
+      </div>
+      <div class="col-sm-7 col-xs-7 pull-right">
+        <h4 class="pull-left">最終更新者: <%= @lasted_update_user %></h4>
+        <h4 class="pull-right">最終更新日: <%= format_datetime(@lasted_update_time) %></h4>
+      </div>
+    </div>
+    <div class="col-sm-3 col-xs-3 text-right">
+      <button data-toggle="modal" data-target="#new_keyword_modal"
+							class="btn btn-primary btn-submit-filter btn-blue"
+							style="width: 180px; font-size: 13px;">
+				<%= t('.create_keyword') %>
+			</button>
+    </div>
+  </div>
+  <div class='row search-border'>
+    <h5><%= t('.search')%></h5>
+    <%= search_form_for @q, url: master_keywords_path, method: :get do |f|%>
+      <div class='col-sm-6 col-xs-12 mrg10B' >
+        <%= f.search_field :id_or_name_cont, placeholder: 'ID, キーワード名で検索', class: 'form-control'%>
+      </div>
+
+      <div class='col-sm-6 col-xs-12'>
+        <div class="col-sm-6 col-xs-12 padding-0 mrg10B">
+          <%= f.label "#{t('.activity_title')}:", style: 'font-weight: normal; line-height: 34px;', class: "activity-label padding-0" %>
+          <%= f.select :activity_eq, Category::ACTIVITY, { include_blank: t('.all'), selected: @q.activity_eq },  { class: "form-control activity-select" } %>
+        </div>
+        <div class="col-sm-6 col-xs-12 form-inline padding-0 text-right">
+          <%= link_to t('.clear'), 'javascript:void(0);', class: 'btn btn-cancel clear-input-search btn-gray btn-clear-filter', style: 'color: #000'%>
+          <%= f.submit t('.search'), class: 'btn btn-save btn-submit-filter'%>
+        </div>
+      </div>
+    <%end%>
+    <!-- <div class="row margin-b10"> -->
+    <div class="col-sm-6 col-xs-6"></div>
+    <div class="col-sm-6 col-xs-6 text-right">
+      <button data-toggle="modal" data-target="#squarespaceModal"
+              class="btn btn-primary btn-submit-filter btn-blue"
+              style="width: 180px; font-size: 12px;">
+        CSVをアップロード
+      </button>
+      <%= link_to "CSVをダウンロード", export_csv_master_keywords_path, class: "btn btn-default download-button btn-gray", style: "color: #286bcc; width: 180px; font-size: 12px;" %>
+    </div>
+      <!-- <div class="center"></div> -->
+    <!-- </div> -->
+  </div>
+  <table class='table table-striped table-bordered '>
+    <thead>
+      <tr class="active">
+        <th width="5%" class="text-center"><%= sort_link(@q, :id) %></th>
+        <th width="20%" class="text-center"> <%=t('activerecord.attributes.keyword.name')%> </th>
+        <th width="10%" class="text-center"> <%=t('activerecord.attributes.keyword.activity')%> </th>
+        <th width="10%" class="text-center"> <%= sort_link(@q, :cpc) %></th>
+        <th width="20%" class="text-center"> <%=t('activerecord.attributes.keyword.master_category')%> </th>
+        <th width="15%" class="text-center"> <%=t('activerecord.attributes.keyword.action')%> </th>
+      </tr>
+    </thead>
+    <tbody>
+    <% if @keywords.size > 0 %>
+      <% @keywords.each do |keyword| %>
+        <tr>
+          <td class="text-center"><%= keyword.id %></td>
+          <td><div class="keyword-name-wrapper"><%= keyword.name %></div></td>
+          <td class="text-center"><%= format_activity(keyword.activity) %></td>
+          <td><%= keyword.cpc %></td>
+          <td><div class="keyword-name-wrapper"><%= keyword.try(:master_category).try(:name) %></div></td>
+          <td class="text-center">
+            <button onclick="update_keyword('<%= keyword.id %>', '<%= keyword.name %>', '<%= keyword.activity %>', '<%= keyword.cpc %>', '<%= keyword.master_category_id %>')"
+      							class='btn btn-primary btn-blue btn-action'>
+      				<%= t('.edit') %>
+      			</button>
+            <button onclick="delete_keyword('<%= keyword.id %>', '<%= keyword.name %>')"
+      							class='btn btn-default btn-gray btn-action'>
+      				<%= t('.delete') %>
+      			</button>
+          </td>
+        </tr>
+      <%end%>
+    <%else%>
+      <tr>
+        <td colspan="6" class="text-center"><%= t('.keyword_not_found') %></td>
+      </tr>
+    <%end%>
+    </tbody>
+  </table>
+
+  <div class='text-center'><%= paginate @keywords %></div>
+</div>
+
+
+<div class="new_modal">
+  <%= render partial: "new", locals: { keyword: Keyword.new } %>
+</div>
+<div class="update_modal">
+  <%= render partial: "update", locals: { keyword: Keyword.new } %>
+</div>
+<div class="destroy_modal">
+  <%= render partial: "destroy" %>
+</div>
+<div class="warning_destroy_modal">
+  <%= render partial: "warning_destroy" %>
+</div>
+
+<!-- CSV Import modal -->
+<div class="modal fade" id="squarespaceModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+    <%= render partial: 'spinner' %>
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+      <h4 class="modal-title" id="lineModalLabel"><%= t('.import_csv') %></h4>
+    </div>
+    <%= form_tag(import_csv_master_keywords_path, multipart: true, method: "post", remote: true) do %>
+    <div class="modal-body">
+      <!-- Modal Content -->
+      <div class="form-group mrg5B">
+        <%= label_tag 'csv_file', t('.file_name'), class: 'label-csv-file mrg10B' %>
+        <label class="input-group-btn">
+          <span class="btn btn-default choose-file"><%= t('.choose_file') %> <%= file_field_tag "csv_file", accept: 'text/csv', style: "display: none;" %></span>
+        </label>
+      </div>
+      <!-- Error logs -->
+      <div id="csv_log" class="form-group mrg10T mrg5B">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="btn-group text-center btn-csv-group" role="group" aria-label="group button">
+        <div class="csv-group close-csv-group text-right" role="group">
+          <%= link_to(t('.close_btn_csv'), master_keywords_path, class: "btn btn-default") %>
+        </div>
+        <div class="csv-group import-csv-group text-left" role="group">
+          <button type="submit" id="import-csv-button" class="btn btn-default btn-hover-green" disabled="true" onclick="$('#spinner').show();" data-action="save" role="button"><%= t('.import_btn_csv') %></button>
+        </div>
+      </div>
+    </div>
+    <% end %>
+  </div>
+  </div>
+</div>

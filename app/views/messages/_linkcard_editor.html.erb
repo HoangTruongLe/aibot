@@ -1,0 +1,41 @@
+<%= form_for link_card, remote: true, html: { class: "form-horizontal", id: "link_card-#{link_card.id}-editor" } do |f| %>
+  <div id="" class="m_editor-linkcard-2 mrg20T template-element">
+    <div class="m_editor-content">
+      <input type="hidden" name="link_card[link_card_id]" class="template-id" value="">
+      <%= f.hidden_field :id %>
+      <%= f.hidden_field :message_id %>
+      <h5>リンクカード</h5>
+      <p class="text-danger invalid-url" style="font-size: 11px; display: none;">有効な形式を入力してください</p>
+      <div class="m_editor-linkcard-wrapper">
+        <%= f.text_field :url, placeholder: "リンク先のURLを入力して下さい" %>
+        <br/>
+        <small>※リンクカードが自動に生成されます</small><br/>
+        <div style="clear: both"></div>
+      </div>
+      <div class="m_text-save">
+        <div class="row mrg5B">
+          <button type="submit" class="btn btn-primary btn-blue-3 submit-linkcard" onclick="$('#spinner').show(); checkValidUrl(this);"><i class="fa fa-pencil-square-o fa-2" aria-hidden="true"></i> 保存</button>
+        </div>
+        <div class="row">
+          <a onclick="<%= link_card.new_record? ? 'remove_card(this)' : 'show_card_review(this)' %>" class="btn btn-default btn-white-3">キャンセル</a>
+        </div>
+      </div>
+      <div style="clear: both"></div>
+    </div>
+  </div>
+<% end %>
+
+<script>
+  function checkValidUrl(elem) {
+    var parent = $(elem).parents('.m_editor-linkcard-2');
+    var url = parent.find('#link_card_url').val();
+    if (isValidURL(url)) {
+      parent.find('p.invalid-url').hide();
+    } else {
+      parent.find('p.invalid-url').show();
+    }
+  }
+  function isValidURL(str) {
+    return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(str);
+  }
+</script>

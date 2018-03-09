@@ -1,0 +1,35 @@
+<% if form_message %>
+<div class="form-message">
+<%= form_for form_message, remote: true, html: { class: "form-horizontal", id: "form_message-#{form_message.id}-editor" } do |f| %>
+  <div class="m_editor-form-2 mrg20T">
+    <div class="m_editor-content template-element" id="">
+      <input type="hidden" name="form_message[form_message_id]" class="template-id" >
+      <%= f.hidden_field :id %>
+      <%= f.hidden_field :message_id %>
+      <h5>メッセージフォーム</h5>
+      <div class="m_editor-form-wrapper">
+        <div class="m_editor-input" onclick="open_form_modal(this)">
+          <% if f.object.form_id %>
+            <span>フォーム: ID<%= f.object.form_id %></span>
+          <% else %>
+            <span>フォームを選択してください</span>
+          <% end %>
+          <%= f.hidden_field :form_id, class: "form_id" %>
+          <a data-toggle="modal" href="javascript:void(0)" onclick="open_form_modal(this)">設定</a>
+        </div>
+        <div style="clear: both"></div>
+      </div>
+      <div class="m_text-save">
+        <div class="row mrg5B">
+          <button type="submit" class="btn btn-primary btn-blue-3 btn-form-submit" disabled onclick="$('#spinner').show();"><i class="fa fa-pencil-square-o fa-2" aria-hidden="true"></i> 保存</button>
+        </div>
+        <div class="row">
+          <a onclick="<%= form_message.new_record? ? 'remove_card(this)' : 'show_card_review(this)' %>" class="btn btn-default btn-white-3">キャンセル</a>
+        </div>
+      </div>
+      <div style="clear: both"></div>
+    </div>
+  </div>
+<% end %>
+</div>
+<% end %>

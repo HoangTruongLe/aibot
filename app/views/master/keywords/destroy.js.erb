@@ -1,0 +1,8 @@
+<% if @keyword.errors.present? %>
+  $('.modal').modal('hide');
+  $("#destroy_error").modal('show');
+<% else %>
+  toastr["success"]("キーワードを削除しました。");
+  $('.modal').modal('hide');
+  location.reload();
+<% end %>

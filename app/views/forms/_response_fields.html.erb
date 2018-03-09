@@ -1,0 +1,83 @@
+<div class="nested-fields col-sm-12 m_editor-question-2 mrg20B" style="background-color: oldlace;">
+  <%= link_to_remove_association 'x', f, {class: "btn btn-danger pull-right", style:"border-radius:50%"} %>
+  <div class="col-sm-10">
+    <div class="form-group">
+      <%= f.label 'アクティビティ', class: "control-label col-sm-3" %>
+      <div class="col-sm-9">
+        <div class="radio radio-primary radio-inline">
+          <%= f.radio_button :activity, true %>
+          <%= f.label :activity_true, t('active') %>
+        </div>
+        <div class="radio radio-primary radio-inline">
+          <%= f.radio_button :activity, false %>
+          <%= f.label :activity_false, t('inactive') %>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label '表示位置', class: "control-label col-sm-3" %>
+      <div class="field col-sm-5">
+        <%= f.number_field :position, {class: "form-control", placeholder: t('.pld_position')} %>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-3">タイプ</label>
+      <div class="col-sm-5">
+        <%= f.select :message_type, {'リンクカード': 'link_card', 'テキストメッセージ': 'text_message'}, {}, {class: 'form-control message_type', onchange:'hide_and_show_contorls(this)'} %>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-10">
+    <div class="form-group link_card_type">
+      <label class="control-label col-sm-3"><%= t('.url') %></label>
+      <div class="field col-sm-5">
+        <%= f.text_field :response_url, {class: "form-control", placeholder: t('.pld_url')} %>
+      </div>
+    </div>
+    <div class="form-group text_message_type">
+      <label class="control-label col-sm-3"><%= t('.text_message') %></label>
+      <div class="field col-sm-5">
+        <%= f.text_field :text_message, {class: "form-control", placeholder: t('.pld_text_message')} %>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-3"><%= t('.key') %></label>
+      <div class="field col-sm-5">
+        <%= f.text_field :response_key, {class: "form-control", placeholder: t('.pld_key')} %>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-3"><%= t('.response_type') %></label>
+      <div class="col-sm-5">
+        <div class="radio radio-primary">
+          <%= f.radio_button :response_type, 'success' %>
+          <%= f.label :response_type_success, t('.success') %>
+        </div>
+        <div class="radio radio-primary">
+          <%= f.radio_button :response_type, 'error' %>
+          <%= f.label :response_type_error, t('.error') %>
+        </div>
+      </div>
+    </div>
+    <%= f.hidden_field :title %>
+    <%= f.hidden_field :description %>
+    <%= f.hidden_field :image_url %>
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+ $('select.message_type').trigger('change')
+})
+  function hide_and_show_contorls(control){
+    switch (control.value) {
+      case 'text_message':
+      $(control).closest('.nested-fields').find('.link_card_type').hide();
+      $(control).closest('.nested-fields').find('.text_message_type').show();
+        break;
+      case 'link_card':
+      $(control).closest('.nested-fields').find('.link_card_type').show();
+      $(control).closest('.nested-fields').find('.text_message_type').hide();
+        break;
+    }
+  }
+</script>

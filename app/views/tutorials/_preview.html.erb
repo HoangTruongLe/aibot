@@ -1,0 +1,67 @@
+<div id="preview_modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content line_message_modal_content">
+      <div class="modal-header preview_modal_header">
+        <button type="button" style="z-index: 99" class="close" data-dismiss="modal">&times;</button>
+        <div class="text-center preview_modal_body">
+          <div class="c_inner cf">
+      			<div class="c_slide js_slider_2 cf">
+              <% tutorial.tutorial_steps.order(:id).each_with_index do |step, index| %>
+      				<div style="width:300px" class="c_item_slide">
+      					<div class="c_img_tutorial">
+      						<img id="<%= 'preview_header_' + index.to_s %>" class="preview_header" src="<%= step.image_url if step %>">
+      					</div>
+      					<div class="info_inner cf">
+      						<div id="<%= 'preview_title_' + index.to_s %>" class="c_title_text mrg20T" style="padding: 5px 30px">
+                    <pre style="font-weight: bold"><%= step.title if step %></pre>
+      						</div>
+      						<div id="<%= 'preview_content_' + index.to_s %>" class="c_profile_description" style="padding: 5px 30px">
+      							<pre><%= step.content if step %></pre>
+      						</div>
+      					</div>
+      				</div>
+              <% end %>
+      			</div>
+      		</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style media="screen">
+
+</style>
+<script type="text/javascript">
+$(function() {
+  $('.js_slider_2').slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    infinite: false,
+    speed: 300,
+    variableWidth: true,
+    prevArrow: false,
+    nextArrow: `<div class="slick_next_btn"><div class="next_btn_wrapper"><div class="btn_next"><pre style="color:white"></pre></div></div></div>`,
+    dots: true
+  });
+});
+$('.js_slider_2').on('afterChange', function(event, slick, currentSlide, nextSlide){
+  switch(currentSlide) {
+    case 0:
+      $('.slick_next_btn > div > div > pre').html($.parseHTML($('#button_wording_0').val()))
+      $('.slick_next_btn').removeAttr('data-dismiss');
+      break;
+    case 1:
+      $('.slick_next_btn > div > div > pre').html($.parseHTML($('#button_wording_1').val()))
+      $('.slick_next_btn').removeAttr('data-dismiss');
+      break;
+    case 2:
+      $('.slick_next_btn > div > div > pre').html($.parseHTML($('#button_wording_2').val()))
+      $('.slick_next_btn').attr('data-dismiss', 'modal')
+      break;
+  }
+});
+function strip_script(a){return a.replace(/<script[^>]*>.*?<\/script>/gi,'')}
+$('#preview_modal').on('shown.bs.modal', function() {
+  $('.js_slider_2').slick('slickGoTo', 0);
+})
+</script>

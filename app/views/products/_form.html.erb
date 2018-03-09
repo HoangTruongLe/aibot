@@ -1,0 +1,350 @@
+<%= form_for @product, html: { class: "form-horizontal" } do |f| %>
+  <%= f.hidden_field :owner_id, value: current_user.id %>
+  <div class="row">
+    <div class="col-sm-6">
+      <h4><%= t('.title') %></h4>
+    </div>
+    <div class="col-sm-6 text-right padding-0">
+      <%= link_to "#{t('.cancel_button')}", products_path, class: "btn btn-cancel" %>
+      <%= f.submit "#{@product.id.present? ? t('.update_button') : t('.save_button')}", class: "btn btn-save" %>
+    </div>
+  </div>
+
+  <% if @product.errors.any? %>
+  <br>
+  <div class="error-log">
+    <h5><%= t("activerecord.errors.error_message")%></h5>
+    <ul>
+      <% @product.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
+  <div class="row form-input-wrapper">
+    <%if @product.id.present? %>
+      <div class="form-group">
+        <div class="col-sm-2 text-right">
+          <%= t('.id') %>
+        </div>
+        <div class="col-sm-9">
+          <%= @product.id %>
+        </div>
+      </div>
+    <%end%>
+    <div class="form-group">
+      <%= f.label :activity, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <div class="radio radio-primary radio-inline">
+          <%= f.radio_button :activity, true %>
+          <%= f.label :activity_true, t('.activity.active') %>
+        </div>
+        <div class="radio radio-primary radio-inline">
+          <%= f.radio_button :activity, false %>
+          <%= f.label :activity_false, t('.activity.inactive') %>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :category_id, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.select :category_id, Category.pluck(:name, :id), {}, { class: "form-control" } %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :site_id, class: "control-label col-sm-2 required" %>
+      <div class="col-sm-9">
+        <%= f.select :site_id, Site.pluck(:name, :id), { include_blank: t('.site') }, { class: "form-control" } %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :name, class: "control-label col-sm-2 required" %>
+      <div class="col-sm-9">
+        <%= f.text_field :name, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :description, class: "control-label col-sm-2 required" %>
+      <div class="col-sm-9">
+        <%= f.text_field :description, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :slug, class: "control-label col-sm-2 required" %>
+      <div class="col-sm-9">
+        <%= f.text_field :slug, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :product_url, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :product_url, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :catch_copy, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :catch_copy, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :price_per_time, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :price_per_time, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :price, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :price, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :campaign, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :campaign, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :order_site, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :order_site, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :status_deliver_time, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :status_deliver_time, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :credit_settlement, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :credit_settlement, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :postpay, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <div class="checkbox checkbox-primary">
+          <%= f.check_box :postpay, class: "", placeholder: true %><label></label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :cod, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <div class="checkbox checkbox-primary">
+          <%= f.check_box :cod, class: "", placeholder: true %><label></label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :bank_transfer, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <div class="checkbox checkbox-primary">
+          <%= f.check_box :bank_transfer, class: "", placeholder: true %><label></label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :store_transfer, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <div class="checkbox checkbox-primary">
+          <%= f.check_box :store_transfer, class: "", placeholder: true %><label></label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :delivery_date, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :delivery_date, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :money_back, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :money_back, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :tags, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :tags, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :evaluation_score_a, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :evaluation_score_a, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :evaluation_score_b, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :evaluation_score_b, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :evaluation_score_c, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :evaluation_score_c, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :evaluation_score_d, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :evaluation_score_d, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :evaluation_score_e, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :evaluation_score_e, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :summary, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :summary, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :evaluation_comment_a, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :evaluation_comment_a, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :evaluation_comment_b, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :evaluation_comment_b, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :evaluation_comment_c, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :evaluation_comment_c, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :evaluation_comment_d, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :evaluation_comment_d, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :evaluation_comment_e, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :evaluation_comment_e, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :manufacturer, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :manufacturer, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :content, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :content, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :price_details, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :price_details, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :useful_ingredients, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :useful_ingredients, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :components, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :components, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :usage_target, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :usage_target, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :specificity, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :specificity, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :evaluation_category_a, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :evaluation_category_a, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :evaluation_category_b, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :evaluation_category_b, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :evaluation_category_c, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :evaluation_category_c, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :evaluation_category_d, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :evaluation_category_d, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :evaluation_category_e, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :evaluation_category_e, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :image_1_url, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :image_1_url, class: "form-control", placeholder: true %>
+      </div>
+    </div><div class="form-group">
+      <%= f.label :image_2_url, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :image_2_url, class: "form-control", placeholder: true %>
+      </div>
+    </div><div class="form-group">
+      <%= f.label :image_3_url, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :image_3_url, class: "form-control", placeholder: true %>
+      </div>
+    </div><div class="form-group">
+      <%= f.label :image_4_url, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :image_4_url, class: "form-control", placeholder: true %>
+      </div>
+    </div><div class="form-group">
+      <%= f.label :image_5_url, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :image_5_url, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6 text-left padding-0">
+      <%= link_to("#{t('.delete_button')}", @product, method: "delete", data: { confirm: t('.delete_confirm') }, class: "btn btn-cancel btn-delete") if @product.id.present?%>
+    </div>
+    <div class="col-sm-6 text-right padding-0">
+      <%= link_to "#{t('.cancel_button')}", products_path, class: "btn btn-cancel" %>
+      <%= f.submit "#{@product.id.present? ? t('.update_button') : t('.save_button')}", class: "btn btn-save" %>
+    </div>
+  </div>
+<% end %>

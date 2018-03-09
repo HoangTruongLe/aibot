@@ -1,0 +1,2 @@
+module MessageContentsHelper
+end

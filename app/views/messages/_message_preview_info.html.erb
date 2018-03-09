@@ -1,0 +1,97 @@
+<div class="col-sm-12 m_infor-right text-right m_messages">
+  <span class="m_infor-username mrg20R">登録者：<%= @message.created_user.name if @message.created_user %></span>
+  <span class="m_infor-username mrg20R">最終更新者： <%= @message.updated_user.name if @message.updated_user %></span>
+  <span class="m_infor-updated mrg20R">更新日時：<%= format_datetime(@message.updated_at) %></span>
+</div>
+<div class="row">
+  <div class="col-sm-12 col-lg-12">
+    <h5>メッセージ設定</h5>
+    <hr>
+  </div>
+</div>
+<table class='table table-bordered'>
+  <tbody >
+    <tr class='active'>
+      <td style="width:15%; text-align:right">id</td>
+      <td><%= @message.id %></td>
+    </tr>
+    <tr class='active'>
+      <td style="width:15%; text-align:right">タイプ</td>
+      <td id="message_pr_type"><%= Message.message_types.key(@message.message_type) %></td>
+    </tr>
+    <tr class='active'>
+      <td style="width:15%; text-align:right">アクティビティ</td>
+      <td id="message_pr_activity"><%= format_activity(@message.activity) %></td>
+    </tr>
+    <tr class='active'>
+      <td style="width:15%; text-align:right">プライオリティ</td>
+      <td id="message_pr_priority"><%= @message.priority %></td>
+    </tr>
+    <tr class='active'>
+      <td style="width:15%; text-align:right">チャットボット</td>
+      <td id="message_pr_chatbot"><%= @message.try(:chatbot).try(:name) %></td>
+    </tr>
+    <tr class='active'>
+      <td style="width:15%; text-align:right">主キーワード</td>
+      <td id="message_pr_keyword"><%= @message.try(:keyword).try(:name) %></td>
+    </tr>
+    <tr class='active'>
+      <td style="width:15%; text-align:right">関連キーワード</td>
+      <td id="message_pr_keywords"><%= @message.keywords.map(&:name).join(', ') %></td>
+    </tr>
+    <tr class='active'>
+      <td style="width:15%; text-align:right">カテゴリー</td>
+      <td id="message_pr_master_category"><%= @message.try(:keyword).try(:master_category).try(:name) %></td>
+    </tr>
+    <tr class='active'>
+      <td style="width:15%; text-align:right">タグ</td>
+      <td id="message_pr_tags"><%= @message.tags.map(&:name).join(', ') %></td>
+    </tr>
+  </tbody>
+</table>
+<h5>メッセージ本文</h5>
+<hr>
+<table id="m_content" class="m_content" data-count="<%= message_contents.count %>">
+  <tbody class='render_section'>
+    <% message_contents.each do |msg_content| %>
+      <% case msg_content.content_type %>
+      <% when "LinkCard" %>
+        <%= render partial: 'linkcard_review', locals: { msg_content: msg_content, link_card: msg_content.content, preview: true } %>
+      <% when "PhotoGroup" %>
+        <% photos = Photo.where(message_id: msg_content.message_id , photo_group_id: msg_content.content_id) %>
+        <% if photos.count > 0 %>
+          <%= render partial: 'photo_review', locals: { msg_content: msg_content, photos: photos, message_id: msg_content.message_id, content_id: msg_content.content_id, new_record: false, preview: true } %>
+        <% end %>
+      <% when "VideoGroup" %>
+        <% video = Video.where(message_id: msg_content.message_id , video_group_id: msg_content.content_id).compact.last %>
+        <% if video %>
+          <%= render partial: 'video_review', locals: { msg_content: msg_content, video: video, message_id: msg_content.message_id, content_id: msg_content.content_id, new_record: false, preview: true } %>
+        <% end %>
+      <% when "TextMessage" %>
+        <%= render partial: 'text_review', locals: { msg_content: msg_content, text_message: msg_content.content, preview: true } %>
+      <% when "Question" %>
+        <%= render partial: 'question_review', locals: { msg_content: msg_content, question: msg_content.content, preview: true } %>
+      <% when "ProductMessage" %>
+        <%= render partial: 'product_message_review', locals: { msg_content: msg_content, product_message: msg_content.content, preview: true } %>
+      <% when "Quote" %>
+        <%= render partial: 'quote_review', locals: { msg_content: msg_content, quote: msg_content.content, preview: true } %>
+      <% when "FormMessage" %>
+        <%= render partial: 'form_message_review', locals: { msg_content: msg_content, form_message: msg_content.content, preview: true } %>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+<script type="text/javascript">
+$('#message_preview_modal').on('shown.bs.modal', function (e) {
+  var message_type = $('[name="message\[message_type\]"][checked="checked"]')
+  if (message_type.val()) $('#message_pr_type').html(message_type.next().html())
+  var message_activity = $('[name="message\[activity\]"][checked="checked"]')
+  if (message_activity.val()) $('#message_pr_activity').html(message_activity.next().html())
+  if ($('#message_priority').val()) $('#message_pr_priority').html($('#message_priority').val())
+  if ($('#p_keyword_box').val()) $('#message_pr_keyword').html($('#p_keyword_box').val().replace('主キーワード※： ', ''))
+  if ($('#r_keyword_box').val()) $('#message_pr_keywords').html($('#r_keyword_box').val().replace('関連キーワード： ', ''))
+  if ($('#tag_box').val()) $('#message_pr_tags').html($('#tag_box').val().replace('タグ： ', ''))
+  if ($('#master_category').val()) $('#message_pr_master_category').html($('#master_category').val())
+  if ($('#selected_chatbot').val()) $('#message_pr_chatbot').html($('#selected_chatbot').val())
+})
+</script>

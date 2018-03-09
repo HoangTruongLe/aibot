@@ -1,0 +1,8 @@
+<% @apikeys.each_with_index do |apikey, index| %>
+  <%= "Access Token #{index + 1}: #{apikey.access_token}" %>
+  <br>
+<% end %>
+<hr>
+<%= simple_form_for :generate_new_api_key, {url: generate_new_api_key_apikey_index_path, method: :post} do |f| %>
+  <%= f.button :submit, "Generate new api key" %>
+<% end %>

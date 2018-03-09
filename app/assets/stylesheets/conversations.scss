@@ -1,0 +1,322 @@
+.conversations .m_editor-quote-textarea .m_quote-content-wrapper {
+    padding: 5px;
+}
+.conversations .m_editor-quote-textarea .m_quote-content-wrapper .m_quote-content .m_quote-title {
+}
+.conversations .m_editor-quote-textarea .m_quote-content-wrapper .m_quote-content .m_quote-title span {
+    color: #888;
+}
+.conversations .m_editor-quote-textarea .m_quote-content-wrapper .m_quote-content .m_quote-reference {
+    line-height: 20px;
+    margin-bottom: 5px;
+}
+.conversations .m_editor-quote-textarea .m_quote-content-wrapper .m_quote-content .m_quote-reference a small {
+    color: #888;
+    font-size: 10px;
+}
+.conversations .m_editor-quote-textarea .m_quote-content-wrapper .m_quote-content .m_quote-comment {
+    color: #888;
+    font-size: 11px;
+    border-left: 5px solid #888;
+    line-height: 20px;
+    padding-left: 5px;
+}
+
+.preview-wrapper-linkcard {
+    width: 400px;
+    padding: 0 !important;
+    margin: 0 auto;
+}
+.preview-wrapper-linkcard a {
+    cursor: pointer;
+}
+.preview-wrapper-linkcard img {
+    cursor: pointer;
+    width: 100%;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+.preview-wrapper-linkcard .preview-content {
+    padding: 10px;
+    background-color: #fff;
+    border-top: 0;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+.preview-wrapper-linkcard .preview-content .preview-title {
+    font-size: 11px;
+    font-weight: bold;
+}
+.preview-wrapper-linkcard .preview-content .preview-description {
+    font-size: 11px;
+    color: #666;
+    margin-top: 10px;
+    margin-bottom: 3px;
+}
+.preview-wrapper-linkcard a.preview-page {
+  display: block;
+  background: #4455bb;
+  color: #fff;
+  margin-top: 1.2em;
+  padding: .8em 0;
+  font-weight: bold;
+  font-size: 1.1em;
+  border-radius: 4px;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.conversation-question .c_chat_talk.c_layout_1 {
+  background: #fff;
+  display: block;
+  padding: 1em;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  position: relative;
+}
+
+.conversation-question .c_chat_talk.c_layout_1.c_over_scroll {
+  -webkit-transition: all 0.2s cubic-bezier(0.9, 0.01, 0, 0.99);
+  -moz-transition: all 0.2s cubic-bezier(0.9, 0.01, 0, 0.99);
+  -ms-transition: all 0.2s cubic-bezier(0.9, 0.01, 0, 0.99);
+  -o-transition: all 0.2s cubic-bezier(0.9, 0.01, 0, 0.99);
+  transition: all 0.2s cubic-bezier(0.9, 0.01, 0, 0.99);
+  height: 200px;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+}
+
+.conversation-question .c_chat_talk.c_layout_1.c_over_scroll.c_hidden {
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.conversation-question .c_chat_talk.c_layout_1 .c_list {
+  position: relative;
+}
+
+.conversation-question .c_chat_talk.c_layout_1 .c_list .c_item {
+  display: block;
+  margin: 1em 0 0 0;
+  padding: 0;
+}
+
+.conversation-question .c_chat_talk.c_layout_1 .c_list .c_item:first-child {
+  margin-top: .2em;
+}
+
+.conversation-question .c_chat_talk.c_layout_1 .c_list .c_item .c_btn {
+  display: block;
+  border: 1px solid #ced3eb;
+  color: #4455bb;
+  background: #f9fafc;
+  font-size: 1em;
+  padding: 1em;
+  border-radius: 4px;
+  position: relative;
+}
+
+.conversation-question .c_chat_talk.c_layout_1 .c_list .c_item .c_btn.c_arrow_right {
+  padding: 1em 1.8em 1em 1em;
+}
+
+.conversation-question .c_chat_talk.c_layout_1 .c_list .c_item .c_btn.c_arrow_right:before {
+  content: '';
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  margin: -6px auto 0 auto;
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-width: 2px 2px 0 0;
+  border-color: #000;
+  border-style: solid;
+  left: inherit;
+  border-color: #4455bb;
+  width: 6px;
+  height: 6px;
+  right: 1em;
+}
+
+.conversation-question .c_chat_talk.c_layout_1 .c_list .c_item .c_btn .c_text {
+  font-weight: bold;
+  margin: 0;
+}
+
+.conversation-product .c_chat_talk.c_layout_2 .c_layout_block {
+  background: #fff;
+  border: 1px solid #eee;
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.conversation-product .c_chat_talk.c_layout_2 .c_layout_block .c_thumb_wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px 6px 0 0 !important;
+}
+
+.conversation-product .c_chat_talk.c_layout_2 .c_layout_block .c_thumb_wrap .c_slide {
+  padding: 0;
+  position: relative;
+}
+
+.conversation-product .c_chat_talk.c_layout_2 .c_layout_block .c_thumb_wrap .c_slide .slick-list {
+  border-radius: 6px 6px 0 0 !important;
+  overflow: hidden !important;
+}
+
+.conversation-product .c_chat_talk.c_layout_2 .c_layout_block .c_thumb_wrap .c_slide .c_item_slide img {
+  width: 100%;
+}
+
+.conversation-product .c_chat_talk.c_layout_2 .c_layout_block .c_thumb_wrap .c_slide .slick-dots {
+  bottom: 8px;
+}
+
+.conversation-product .c_chat_talk.c_layout_2 .c_layout_block .c_thumb_wrap .c_label.c_sale {
+  background: url(img/icon/c_icon-sale.svg) no-repeat -2px -2px;
+  background-size: 60px;
+  display: block;
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  top: 0;
+  left: 0;
+  border-radius: 6px 6px 0 0;
+  overflow: hidden;
+}
+
+.conversation-product .c_chat_talk.c_layout_2 .c_layout_block .c_conts_wrap {
+  padding: 1em;
+}
+
+.conversation-product .c_chat_talk.c_layout_2 .c_layout_block .c_conts_wrap .c_text_wrap .c_text_1 {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.conversation-product .c_chat_talk.c_layout_2 .c_layout_block .c_conts_wrap .c_text_wrap .c_text_2 {
+  font-size: .9em;
+  color: #999;
+}
+
+.conversation-product .c_chat_talk.c_layout_2 .c_layout_block .c_conts_wrap .c_text_lead {
+  margin: .4em 0 0 0;
+  font-size: .9em;
+  color: #333;
+}
+
+.conversation-product .c_chat_talk.c_layout_2 .c_layout_block .c_conts_wrap .c_price {
+  margin: .4em 0 0 0;
+}
+
+.conversation-product .c_chat_talk.c_layout_2 .c_layout_block .c_conts_wrap .c_price .c_price_text {
+  font-weight: bold;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+  color: #333;
+}
+
+.conversation-product .c_chat_talk.c_layout_2 .c_layout_block .c_conts_wrap .c_price .c_price_text.c_before {
+  font-size: 1.3em;
+  text-decoration: line-through;
+  margin: 0 1em 0 0;
+}
+
+.conversation-product .c_chat_talk.c_layout_2 .c_layout_block .c_conts_wrap .c_price .c_price_text.c_after {
+  color: #bb2222;
+  font-size: 1.8em;
+}
+
+.conversation-product .c_chat_talk.c_layout_2 .c_layout_block_text {
+  padding: .6em;
+}
+
+.conversation-product .c_chat_talk.c_layout_2 .c_layout_block_text .c_text .c_btn {
+  font-size: .9em;
+}
+
+.conversation-product .c_chat_talk.c_layout_2 .c_layout_block_text .c_text .c_btn span:before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-top: 3px solid transparent;
+  border-right: 2px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-left: 5px solid #000;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+  margin: 0 2px 0 0;
+  position: relative;
+  bottom: 1px;
+  border-left-color: #666666;
+}
+
+.conversation-product .c_chat_talk.c_layout_2 .c_layout_block_text .c_type1 {
+  float: left;
+}
+
+.conversation-product .c_chat_talk.c_layout_2 .c_layout_block_text .c_type1 .c_btn {
+  color: #666666;
+}
+
+.conversation-product .c_chat_talk.c_layout_2 .c_layout_block_text .c_type2 {
+  float: right;
+}
+
+.conversation-product .c_chat_talk.c_layout_2 .c_layout_block_text .c_type2 .c_btn {
+  color: #4455bb;
+  font-weight: bold;
+}
+
+.conversation-product .c_chat_talk.c_layout_2 .c_layout_block_text .c_type2 .c_btn span:before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-top: 3px solid transparent;
+  border-right: 2px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-left: 5px solid #000;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+  margin: 0 2px 0 0;
+  position: relative;
+  bottom: 1px;
+  border-left-color: #4455bb;
+}
+
+.conversation-product .c_btn_wrap .c_btn {
+  display: block;
+  background: #4455bb;
+  color: #fff;
+  padding: .8em 0;
+  font-weight: bold;
+  font-size: 1.1em;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.conversation-photos {
+  list-style: none;
+  li {
+    list-style: none;
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+}

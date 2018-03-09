@@ -1,0 +1,7 @@
+<% if @master_category.errors.present? %>
+  $("#edit_master_category").find("#master_category_form").replaceWith("<%= j render partial: 'form', locals: { master_category: @master_category, type: 'update' } %>")
+<% else %>
+  toastr["success"]("<%= t('.master_category_updated_successfully') %>");
+  $('.modal').modal('hide');
+  location.reload();
+<% end %>

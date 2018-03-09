@@ -1,0 +1,14 @@
+<% unless @quote.errors.any? %>
+  parent = $("#quote-<%= @quote.id %>-editor").closest('div[class="m_quote"]');
+  $(parent).find('.m_quote-edit').addClass('hidden');
+
+  preview = $(parent).find('.m_quote-review');
+  $(preview)[0].innerHTML = "<%= j render partial: 'messages/quote_review', locals: { quote: @quote, preview: false} %>";
+
+  $(parent).find('.m_quote-review').removeClass('hidden');
+
+  tr_parent = $(parent).closest('tr');
+  $(tr_parent).removeClass('ui-state-disabled');
+
+  $('#spinner').hide();
+<% end %>

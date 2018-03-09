@@ -1,0 +1,24 @@
+<% if @messages.size > 0 %>
+  <% @messages.distinct().each do |message| %>
+    <tr class="<%= "warning" unless has_next_message(message.id) %>">
+      <td class="text-center"><%= message.id %></td>
+      <td class="text-center"><%= Message.message_types.key(message.message_type) %></td>
+      <td class="text-center"><%= format_activity(message.activity) %></td>
+      <td class="text-center"><%= message.priority %></td>
+      <td><%= message.try(:keyword).try(:name) %></td>
+      <td><%= message.keywords.map(&:name).join(', ') %></td>
+      <td><%= message.try(:keyword).try(:master_category).try(:name) %></td>
+      <td class="text-right"><%= format_datetime(message.created_at) %></td>
+      <td class="text-right"><%= format_datetime(message.updated_at) %></td>
+      <td class="text-center">
+        <%= link_to "詳細", message_preview_message_path(message), { class: 'btn btn-default btn-gray btn-action' } %>
+        <%= link_to "編集", edit_message_path(message), { class: 'btn btn-primary btn-blue btn-action' } %>
+        <%= link_to 'レポート', message_detail_report_message_path(message.id), class: "btn btn-primary btn-blue btn-action", style: "width: 70px;" %>
+      </td>
+    </tr>
+  <%end%>
+<%else%>
+  <tr>
+    <td colspan="10" class="text-center">メッセージが見つかりません</td>
+  </tr>
+<%end%>

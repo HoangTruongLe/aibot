@@ -1,0 +1,68 @@
+<div class="container">
+  <div class="row">
+    <div class="pull-right mrg10B">
+      <%= link_to "#{t('.create_site')}", new_site_path, class: "btn btn-primary btn-blue-1", style: "width: 200px"%>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6 padding-0">
+      <h5>ID: <%= @site.id %></h5>
+    </div>
+    <div class="col-sm-6 text-right padding-0">
+      <%= link_to "#{t('.list_button')}", sites_path, class: "btn btn-cancel" %>
+      <% if current_user && current_user.admin? %><%= link_to "#{t('.edit_button')}", edit_site_path(@site), class: "btn btn-save"%><% end %>
+    </div>
+  </div>
+  <div class="row form-input-wrapper">
+    <div class="row">
+      <div class="col-sm-3 text-right">
+        <%= "登録者: #{ @site.try(:user).try(:name) }"%>
+      </div>
+      <div class="col-sm-3 text-right">
+        <%= "登録日時: #{ format_datetime(@site.created_at) }"%>
+      </div>
+    </div>
+    <br>
+
+    <table class="table">
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.site.id') %></td>
+        <td class="column_data"><%= @site.id %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.site.name') %></td>
+        <td class="column_data"><%= @site.name %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.site.site_url') %></td>
+        <td class="column_data"><%= @site.site_url %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.site.api_key') %></td>
+        <td class="column_data"><%= @site.api_key.access_token %></td>
+      </tr>
+      <tr>
+        <td class="column_header"><%= t('activerecord.attributes.site.aibot_address') %></td>
+        <td class="column_data"><%= @site.aibot_address %></td>
+      </tr>
+      <tr>
+      <td class="column_header"><%= t('activerecord.attributes.site.chatbot_script') %></td>
+        <td class="column_data"><pre><code class="html"><%= format_chatbot_script(@site.api_key.access_token, @site.aibot_address, request.protocol + request.host_with_port) %></code></pre></td>
+      </tr>
+      <td class="column_header"><%= t('activerecord.attributes.site.cv_tag_script') %></td>
+        <td class="column_data"><pre><code class="html"><%= format_cv_tag_script(@site.api_key.access_token, request.protocol + request.host_with_port) %></code></pre></td>
+      </tr>
+    </table>
+
+  </div>
+  <div class="row">
+    <div class="col-sm-6 text-left padding-0">
+      <% if current_user && current_user.admin? %><%= link_to "#{t('.delete_button')}", @site, method: "delete", data: { confirm: t('.delete_confirm') }, class: "btn btn-cancel btn-delete" %><% end %>
+    </div>
+    <div class="col-sm-6 text-right padding-0">
+      <%= link_to "#{t('.list_button')}", sites_path, class: "btn btn-cancel" %>
+      <% if current_user && current_user.admin? %><%= link_to "#{t('.edit_button')}", edit_site_path(@site), class: "btn btn-save" %><% end %>
+    </div>
+  </div>
+</div>
+<script>hljs.initHighlightingOnLoad();</script>

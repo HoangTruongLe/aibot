@@ -1,0 +1,9 @@
+<% if @tag.errors.present? %>
+  $('.modal').modal('hide');
+  $("#alert_tag").replaceWith('<p class="mrg25B" id="alert_tag">「<%= @tag.try(:name)%>」は既にメッセージに登録されているため削除できません</p>')
+  $("#tagAlertModal").modal('show');
+<% else %>
+  toastr["success"]("<%= t('.tag_destroy_successfully') %>");
+  $('.modal').modal('hide');
+  location.reload();
+<% end %>

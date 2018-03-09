@@ -1,0 +1,70 @@
+<div class="container">
+  <div class="row margin-b10">
+    <div class="col-sm-12 col-xs-12">
+      <h4><%= t('.title')%></h4>
+    </div>
+  </div>
+
+  <table class='table table-striped table-bordered site-index-table'>
+    <tbody>
+      <tr>
+        <td><strong>ウェブにアクセスするユーザー数</strong></td>
+        <td><%= @user_access_total %></td>
+      </tr>
+      <tr>
+        <td><strong>チャットボットとインタラクティブするユーザ数</strong></td>
+        <td><%= @chatbot_access_total %></td>
+      </tr>
+      <tr>
+        <td><strong>チャットボットとインタラクティブしないユーザ数</strong></td>
+        <td><%= @user_access_total - @chatbot_access_total %></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class='table table-striped table-bordered site-index-table'>
+    <thead>
+      <tr class="active">
+        <th class="text-center"><%=t('.session')%></th>
+        <th class="text-center"><%=t('.location')%></th>
+        <th class="text-center"><%=t('.ip_address')%></th>
+        <th class="text-center"><%=t('.browser')%></th>
+        <th class="text-center"><%=t('.platform')%></th>
+        <th class="text-center"><%=t('.start_time')%></th>
+        <th class="text-center"><%=t('.end_time')%></th>
+        <th class="text-center"><%=t('.time')%></th>
+      </tr>
+    </thead>
+    <tbody>
+    <% if @sessions.size > 0 %>
+      <% @sessions.each do |session| %>
+        <tr>
+          <td class=""><a href="/statistics/conversations/<%= session.id %>"><%= session.session_key %></a></td>
+          <td class=""><%= session.location %></td>
+          <td class=""><%= session.ip_address %></td>
+          <td class=""><%= session.browser %></td>
+          <td class=""><%= session.platform %></td>
+          <td class="text-center"><%= format_datetime(session.start_time) %></td>
+          <td class="text-center"><%= format_datetime(session.end_time) %></td>
+          <td class=""><%= session.end_time.nil? ? 0 : number_with_delimiter((session.end_time - session.start_time).round) %>秒</td>
+        </tr>
+      <%end%>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="text-center"><strong><%= t('.average_time') %> <%= number_with_delimiter(@average_interactive_time.round) %>秒</strong></td>
+      </tr>
+    <%else%>
+      <tr>
+        <td colspan="13" class="text-center"><%= t('.session_not_found') %></td>
+      </tr>
+    <%end%>
+    </tbody>
+  </table>
+  <div class='text-center'><%= paginate @sessions %></div>
+</div>

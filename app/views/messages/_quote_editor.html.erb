@@ -1,0 +1,34 @@
+<%= form_for quote, remote: true, html: { class: "form-horizontal", id: "quote-#{quote.id}-editor" } do |f| %>
+<div class="m_editor-quote-2 mrg20T m_editor-content">
+  <div class="m_editor-content  template-element" id="">
+    <input type="hidden" name="quote[quote_id]" class="template-id">
+    <%= f.hidden_field :id %>
+    <%= f.hidden_field :message_id %>
+    <h5>引用</h5>
+    <p class="text-danger invalid-field" style="font-size: 11px; display: none;">必須のフォーム項目は入力してください。</p>
+    <div class="m_quote-title">
+      <%= f.text_area :content, placeholder: "※ 引用を入力してしてください" %>
+    </div>
+    <div class="m_quote-reference">
+      <%= f.text_field :quote_url, placeholder: "引用のための出典URLを入力（ウェブページの場合）" %>
+    </div>
+    <div class="m_quote-link">
+      <%= f.text_field :quote_source, placeholder: "引用の出典を入力" %>
+    </div>
+    <div class="m_quote-comment">
+      <%= f.text_area :referral_comment, placeholder: "引用の紹介コメントを入力してください" %>
+    </div>
+  </div>
+  <div class="m_quote-save">
+    <div class="row mrg5B">
+      <button type="submit" class="btn btn-primary btn-blue-3" onclick="return checkValidField(this, '.m_editor-quote-2', '#quote_content'); $('#spinner').show();"><i class="fa fa-pencil-square-o fa-2" aria-hidden="true"></i> 保存</button>
+    </div>
+    <div class="row">
+      <a onclick="<%= quote.new_record? ? 'remove_card(this)' : 'show_card_review(this)' %>" class="btn btn-default btn-white-3">キャンセル</a>
+    </div>
+  </div>
+  <div style="clear: both"></div>
+</div>
+<% end %>
+
+

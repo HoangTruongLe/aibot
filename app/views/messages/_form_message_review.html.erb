@@ -1,0 +1,29 @@
+<% unless !form_message || form_message.new_record? %>
+  <div class="m_editor-form-1 mrg20T">
+    <div class="m_editor-content <%= preview ? 'remove_border' : ''%>">
+      <h5>フォーム</h5>
+      <div class="m_editor-product-wrapper">
+        <% if form_message.form.generated_body %>
+          <div class="c_text_body cf row col-centered" >
+            <div class="col-sm-12" id="form_preview"></div>
+            <%= form_message.form.generated_body.try(:html_safe) %>
+            <div class="col-sm-12">
+              <input type="button" class="preview_OK_button" value="OK">
+            </div>
+          </div>
+        <% end %>
+        <div style="clear: both"></div>
+      </div>
+    </div>
+    <% unless preview %>
+      <div class="m_editor-action">
+        <div class="col-sm-6 col-xs-6 m_editor-action-button">
+          <button type="button" class="btn btn-primary btn-blue-2 mrg5B edit-form-message-btn"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 編集</button><br>
+          <button type="button" data-link='<%= "/form_messages/#{form_message.id}" %>' data-type="フォーム" class="btn btn-default btn-white-2 btn-delete-msg-content">
+            <i class="fa fa-trash-o" aria-hidden="true"></i> 削除
+          </button>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

@@ -1,0 +1,57 @@
+<div class="row mrg45T">
+  <div class="col-md-offset-3 col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="text-center mrg45B">
+          <h3 class="mrg10T "><%= t('devise.sessions.login_header') %></h3>
+        </div>
+        <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+          <%= f.label :email %>
+          <%= f.input :email, autofocus: true, required: true, placeholder: t('.email'), label: false %>
+          <%= f.label :password, class: "mrg15T"  %>
+          <%= f.input :password, autocomplete: "off", required: true, placeholder: t('.password'), label: false%>
+          <div class="row mrg10T">
+            <div class="col-md-8 col-md-offset-2">
+              <%= f.submit t("devise.sessions.login"), class: "btn btn-primary btn-raised btn-lg btn-block"%>
+            </div>
+          </div>
+        <% end %>
+        <div class="row mrg10T">
+          <div class="col-md-8 col-md-offset-2 text-center">
+            <%= link_to t("devise.sessions.forgot_password"), new_password_path(resource_name) %><br />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+$(document).ready(function() {
+  var msg = "";
+  var elements = document.getElementsByTagName("INPUT");
+
+  for (var i = 0; i < elements.length; i++) {
+     elements[i].oninvalid = function(e) {
+          if (!e.target.validity.valid) {
+          switch(e.target.id) {
+              case 'user_email':
+                if (e.target.value === '') {
+                  e.target.setCustomValidity("メールアドレスを入力してください");
+                } else {
+                  e.target.setCustomValidity("メールアドレスの形式で入力してください");
+                }
+                break;
+              case 'user_password':
+                e.target.setCustomValidity("パスワードを入力してください");
+                break;
+              default :
+                break;
+          }
+        }
+      };
+    elements[i].oninput = function(e) {
+       e.target.setCustomValidity(msg);
+    };
+  }
+})
+</script>

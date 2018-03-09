@@ -1,0 +1,53 @@
+<%= form_for @site, html: { class: "form-horizontal" } do |f| %>
+	<div class="row">
+    <div class="col-sm-6 padding-0">
+      <h4><%= t('.title') %></h4>
+    </div>
+    <div class="col-sm-6 text-right padding-0">
+      <%= link_to "#{t('.cancel_button')}", sites_path, class: "btn btn-cancel" %>
+      <%= f.submit "#{@site.id.present? ? t('.update_button') : t('.save_button')}", class: "btn btn-save" %>
+    </div>
+  </div>
+	<% if @site.errors.any? %>
+	<br>
+	<div class="error-log">
+		<h5><%= t("activerecord.errors.error_message")%></h5>
+		<ul>
+			<% @site.errors.full_messages.each do |msg| %>
+				<li><%= msg %></li>
+			<% end %>
+		</ul>
+	</div>
+	<% end %>
+  <div class="row form-input-wrapper">
+    <div class="form-group">
+      <%= f.label :name, class: "control-label col-sm-2 required" %>
+      <div class="col-sm-9">
+        <%= f.text_field :name, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :site_url, class: "control-label col-sm-2 required" %>
+      <div class="col-sm-9">
+        <%= f.text_field :site_url, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <% if action_name == 'edit' %>
+    <div class="form-group">
+      <%= f.label :aibot_address, class: "control-label col-sm-2 required" %>
+      <div class="col-sm-9">
+        <%= f.text_field :aibot_address, class: "form-control" %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+  <div class="row">
+		<div class="col-sm-6 text-left padding-0">
+      <%= link_to("#{t('.delete_button')}", @site, method: "delete", data: { confirm: t('.delete_confirm') }, class: "btn btn-cancel btn-delete") if @site.id.present?%>
+    </div>
+    <div class="col-sm-6 text-right padding-0">
+      <%= link_to "#{t('.cancel_button')}", sites_path, class: "btn btn-cancel" %>
+			<%= f.submit "#{@site.id.present? ? t('.update_button') : t('.save_button')}", class: "btn btn-save" %>
+    </div>
+  </div>
+<% end %>

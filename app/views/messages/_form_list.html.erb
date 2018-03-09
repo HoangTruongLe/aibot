@@ -1,0 +1,16 @@
+<% if forms.size > 0 %>
+  <% forms.each do |form| %>
+    <tr>
+      <td class="text-center"><%= form.id %></td>
+      <td><%= format_activity(form.activity) %></td>
+      <td><%= form.form_name %></td>
+      <td class="text-center">
+        <a href="javascript:void(0);" class="btn btn-primary btn-blue btn-action" onclick="choose_form_message(this)" data-id="<%= form.id %>">選択</a>
+      </td>
+    </tr>
+  <% end %>
+<% else %>
+  <tr>
+      <td colspan="8" class="text-center">フォームが見つかりません</td>
+  </tr>
+<% end %>

@@ -1,0 +1,70 @@
+<div class="modal fade" id="product-messages-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div id="modal_id_choice" style="display: none"></div>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">商品を選択する</h4>
+        <div class='row search-border'>
+          <%= search_form_for @p, url: message_product_search_messages_path, remote: true, method: :get do |fp|%>
+            <h4 class="modal-title"></h4>
+            <div class="form-inline">
+              <%= fp.search_field :id_or_name_or_tags_cont, placeholder: 'ID、商品名、商品タグで検索', class: 'form-control', style:'width:70%' %>
+              <%= link_to 'クリア', 'javascript:void(0);', class: 'btn btn-cancel clear-input-search btn-gray btn-clear-filter', style: 'color: #000; width:50px'%>
+              <%= fp.submit '検索', class: 'btn btn-primary', style: 'width:50px'%>
+            </div>
+            <div class="form-inline mrg10T">
+              <label for="">商品カテゴリ：</label>
+              <%= fp.select :category_name_eq, options_from_collection_for_select(Category.activity.all, "name", "name", @p.category_name_eq), { include_blank: '全て' },  { class: "form-control select-search" } %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="modal-body mrg20B">
+        <table class="table table-striped table-bordered table-hover product-messages-datatable">
+          <thead>
+            <tr>
+              <th class="text-center">ID</th>
+              <th>アクティビティ</th>
+              <th class="text-center">サムネイル</th>
+              <th>商品名</th>
+              <th>商品カテゴリ</th>
+              <th>商品タグ</th>
+              <th>価格</th>
+              <th class="text-center">操作</th>
+            </tr>
+          </thead>
+          <tbody id="p_product">
+            <%= render partial: 'messages/product_list', locals: { products: @products  } %>
+          </tbody>
+        </table>
+
+        <div class='text-center'>
+          <div id="product_paginator">
+            <%= paginate @products, :remote => true %>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+  function choose_product_message(message) {
+    $('#product-messages-modal').modal('hide');
+    modal_id = $('#modal_id_choice').attr('data-modal_id');
+    product_message = $("#" + modal_id).closest('.product-message');
+    $(product_message).find('.m_editor-input span').text("商品: ID" + $(message).data("id"));
+    $(product_message).find('.m_editor-input .product_id').val($(message).data("id"));
+    $(product_message).find(".btn-product-submit").removeAttr('disabled');
+  }
+
+  function open_product_modal(modal) {
+    var modal_id = randomString(16);
+    $(modal).attr('id', modal_id);
+    $('#modal_id_choice').attr('data-modal_id', modal_id);
+    $('#product-messages-modal').modal('show');
+  }
+</script>

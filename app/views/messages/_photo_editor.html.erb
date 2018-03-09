@@ -1,0 +1,162 @@
+<div id="photo_editor_<%= content_id %>" class="m_editor-photo-2 mrg20T">
+  <div class="m_editor-content">
+    <h5>画像</h5>
+    <div class="m_editor-photo-wrapper">
+      <div class="dropzone dropzone-previews needsclick" id="upload-dropzone-<%= content_id %>" data-message-id="<%= message_id  %>" action="/photos?message_id=<%= message_id %>">
+        <div class="dz-default dz-message needsclick">
+          <span>アップロードのためにファイルをここにドロップする</span><br>
+          <small>(複数の画像をアップロードできます。すべての画像フォーマットを受け入れます。)</small>
+        </div>
+      </div>
+      <div style="clear: both"></div>
+    </div>
+    <div class="m_text-save">
+      <div class="row mrg5B">
+        <button type="button" id="btn-photo-close-<%= content_id %>" class="btn btn-primary btn-blue-3"><i class="fa fa-pencil-square-o fa-2" aria-hidden="true"></i> 保存</button>
+      </div>
+      <div class="row">
+        <a id='btn-dismiss-<%= content_id %>' class="btn btn-default btn-white-3">キャンセル</a>
+      </div>
+    </div>
+    <div style="clear: both"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  (function ($) {
+  	  $.each(['show', 'hide'], function (i, ev) {
+  	    var el = $.fn[ev];
+  	    $.fn[ev] = function () {
+  	      this.trigger(ev);
+  	      return el.apply(this, arguments);
+  	    };
+  	  });
+  	})(jQuery);
+
+  var photo_editor_id = '#photo_editor_<%= content_id %>'
+  $(photo_editor_id).on("show",function(e){
+    if (!$(photo_editor_id).closest('tr').hasClass( "ui-state-disabled" )){
+      $(photo_editor_id).closest('tr').addClass('ui-state-disabled')
+      $(photo_editor_id).closest('tr').removeClass('ui-sortable-handle')
+    }
+  })
+  $(photo_editor_id).on("hide",function(e){
+    if ($(photo_editor_id).closest('tr').hasClass( "ui-state-disabled" )){
+      $(photo_editor_id).closest('tr').removeClass('ui-state-disabled')
+      $(photo_editor_id).closest('tr').addClass('ui-sortable-handle')
+    }
+  })
+  $(document).ready(function () {
+    var new_record = '<%= new_record %>'
+    if (new_record == "true") {
+      $('#photo_editor_<%= content_id %>').show();
+    } else {
+      $('#photo_editor_<%= content_id %>').hide();
+    }
+    $('#btn-photo-close-<%= content_id %>').on('click', function () {
+      action_dismiss()
+    });
+    $('#btn-dismiss-<%= content_id %>').on('click', function () {
+      action_dismiss()
+    });
+
+    function disable_button_save(dropzone) {
+      if (dropzone.element && dropzone.element.children.length > 1) {
+        $('#btn-photo-close-<%= content_id %>').prop('disabled', false);
+      } else {
+        $('#btn-photo-close-<%= content_id %>').prop('disabled', true);
+      }
+    }
+
+    var message_id = $("#upload-dropzone-<%= content_id %>").attr('data-message-id');
+    Dropzone.autoDiscover = false;
+    var headlineDropzone = new Dropzone("#upload-dropzone-<%= content_id %>", {
+      paramName: "message_photo[photo]",
+      acceptedFiles: '.jpg, .png, .jpeg, .gif', // type of files
+      addRemoveLinks: true,
+      parallelUploads: 10,
+      maxFilesize: 10,
+      params: {
+        content_group_id: "<%= content_id %>",
+        authenticity_token: "<%= form_authenticity_token %>"
+      },
+      init: function () {
+        var dropzone = this
+        disable_button_save(dropzone);
+        $.ajax({
+          type: "GET",
+          url: '/photos/message_photos',
+          contentType: "application/json",
+          data: {
+            message_id: message_id,
+            content_group_id: "<%= content_id %>"
+          },
+          success: function (data) {
+            var mockupFiles = data
+            mockupFiles.photos.forEach(function (file) {
+              var mockFile = {
+                name: file.photo_file_name,
+                size: file.photo_file_size,
+                type: file.photo_content_type
+              };
+              headlineDropzone.options.addedfile.call(headlineDropzone, mockFile);
+              headlineDropzone.options.thumbnail.call(headlineDropzone, mockFile, file.image_url);
+              mockFile.previewElement.classList.add('dz-success');
+              mockFile.previewElement.classList.add('dz-complete');
+              $(mockFile.previewElement).find(".dz-remove").attr('id', file.id);
+              if ($('#image_' + file.id).length == 0) {
+                var input = '<li><img class="dz-image" src="' + file.image_url + '" id="image_' + file.id + '" ></li>'
+                $('#images_preview_<%= content_id %>').append(input)
+              }
+            })
+            disable_button_save(dropzone);
+          }
+        });
+      },
+      sending: function(){
+        $('#spinner').show();
+      },
+      queuecomplete: function(){
+        $('#spinner').hide();
+      },
+      success: function (file, response) {
+        $(file.previewElement).find(".dz-remove").attr('id', response.uploadId)
+        $(file.previewElement).addClass('dz-success')
+        var input = '<li><img class="dz-image centered-and-cropped" width="200" height="150"  src="' + file.dataURL + '" id="image_' + response.uploadId + '" ></li>'
+        $('#images_preview_<%= content_id %>').append(input)
+        disable_button_save(this);
+      },
+      removedfile: function (file) {
+        if (file.status != 'error'){
+          $('#spinner').show();
+          var dropzone = this
+          var id = $(file.previewTemplate).find('.dz-remove').attr('id');
+          $.ajax({
+            type: "DELETE",
+            url: '/photos/' + id,
+            contentType: "application/json",
+            success: function (data) {
+              $('#image_' + id).parent().remove();
+              disable_button_save(dropzone);
+              $('#spinner').hide();
+            }
+          });
+        }
+        var previewElement;
+        return (previewElement = file.previewElement) != null
+          ? (previewElement.parentNode.removeChild(file.previewElement))
+          : (void 0);
+      }
+    });
+
+    function action_dismiss() {
+      if (headlineDropzone.element.children.length > 1) {
+        $('#photo_editor_<%= content_id %>').hide();
+        $('#photo_review_<%= content_id %>').show();
+      } else {
+        $('#photo_editor_<%= content_id %>').remove();
+        $('#photo_review_<%= content_id %>').remove();
+      }
+    }
+  })
+</script>

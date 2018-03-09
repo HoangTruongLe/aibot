@@ -1,0 +1,21 @@
+<% if @link_card && !@link_card.errors.any? %>
+  template_id = "<%= @template_id %>";
+  parent = $("#" + template_id).closest('div[class="m_link-card"]');
+
+  // Change editor
+  editor = $(parent).find('.m_link-card-edit');
+  $(editor)[0].innerHTML = "<%= j render partial: 'messages/linkcard_editor', locals: { link_card: @link_card}  %>";
+  $(editor).addClass('hidden');
+
+  // Change datapath
+  tr_parent = $(parent).closest('tr');
+  $(tr_parent).attr("data-path", "/message_contents/<%= @link_card.message_content.id %>.json");
+  $(tr_parent).attr("data-msg_content_id", "<%= @link_card.message_content.id %>");
+  $(tr_parent).removeClass('ui-state-disabled');
+
+  // Change preview
+  preview = $(parent).find('.m_link-card-review');
+  $(preview)[0].innerHTML = "<%= j render partial: 'messages/linkcard_review', locals: { link_card: @link_card, preview: false}  %>";
+  $(parent).find('.m_link-card-review').removeClass('hidden');
+<% end %>
+$('#spinner').hide();

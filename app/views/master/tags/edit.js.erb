@@ -1,0 +1,8 @@
+$(document).on("ajax:success", "#edit_tag", function(ev, data, xhr, status){
+  $("#form_tag").replaceWith("<%= j render partial: 'form_new', locals: {tag: @tag}%>")
+  $('#tagNewModal').modal()
+});
+
+$(document).on("ajax:error", "#edit_tag", function(e, xhr, status, error){
+  $("#form_tag").replaceWith("<p>ERROR</p>")
+});

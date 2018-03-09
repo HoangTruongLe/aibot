@@ -1,0 +1,6 @@
+<% unless @form_message.errors.any? %>
+  parent = $("#form_message-<%= @form_message.id %>-editor").closest('div[class="m_form-message"]');
+  $(parent).addClass('hidden');
+  $("#destroy_message_content").modal('hide');
+  $("#spinner").hide();
+<% end %>

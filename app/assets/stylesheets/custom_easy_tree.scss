@@ -1,0 +1,57 @@
+.easy-tree {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+  background-color: #fff !important;
+  .glyphicon {
+    height: 12px;
+    margin-top: 8px !important;
+    width: 15px !important;
+  }
+  li {
+    padding: 0 !important;
+    &:last-child::before {
+      height: 25px !important;
+    }
+    >span {
+      width: 100%;
+      color: #000 !important;
+      border: 1px solid #ddd !important;
+      >a {
+        color: #000 !important;
+      }
+    }
+    &.li_selected {
+      span {
+        background: #ddd !important;
+        color: #000 !important;
+        a {
+
+        }
+      }
+    }
+    &.parent_li {
+      >span:hover {
+        background: #ddd !important;
+        color: #000 !important;
+      }
+      >span:hover+ul li span {
+        background: #ddd !important;
+        color: #000 !important;
+      }
+      ul {
+        li {
+          &::after {
+            border-top: 1px solid #ddd !important;
+            height: 20px;
+            top: 25px;
+            width: 30px;
+          }
+          &::before {
+            border-left: 1px solid #ddd !important;
+          }
+        }
+      }
+    }
+
+  }
+}

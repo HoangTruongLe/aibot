@@ -1,0 +1,10 @@
+<tr data-path="<%= msg_content ? message_content_path(msg_content, format: 'json'): '' %>"
+      data-msg_content_id="<%= msg_content.try(:id) %>"
+      class="<%= new_record ? 'ui-state-disabled' : '' %>">
+  <td>
+    <div id="photo_section_<%= content_id %>">
+      <%= render partial: 'messages/photo_editor',  locals:{content_id: content_id, message_id: message_id, msg_content: msg_content, photos: photos, new_record: new_record} %>
+      <%= render partial: 'messages/photo_review',  locals:{content_id: content_id, message_id: message_id, msg_content: msg_content, photos: photos, new_record: new_record, preview: preview} %>
+    </div>
+  </td>
+</tr>

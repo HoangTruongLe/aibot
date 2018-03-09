@@ -1,0 +1,15 @@
+<div class="m_add_answer nested-fields">
+  <%= f.text_field :content, class: "m-answer-title", placeholder: "回答（選択肢）を入力してください" %>
+  <%= f.select :keyword, Keyword.activity.pluck(:name, :id), {}, {multiple: true, class: 'answer-keyword js-example-basic-multiple'} %>
+  <div class="" style="margin-top: 40px;">
+    <%= link_to_remove_association 'ˣ', f, {class: "btn btn-danger"} %>
+  </div>
+</div>
+<script type="text/javascript">
+  $(".answer-keyword").select2({
+    placeholder: "キーワードを選択してください",
+    allowClear: true,
+    width: '100%'
+  });
+
+</script>

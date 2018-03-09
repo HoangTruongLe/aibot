@@ -1,0 +1,6 @@
+<% unless @link_card.errors.any? %>
+  parent = $("#link_card-<%= @link_card.id %>-editor").closest('div[class="m_link-card"]');
+  $(parent).addClass('hidden');
+  $("#destroy_message_content").modal('hide');
+  $('#spinner').hide();
+<% end %>

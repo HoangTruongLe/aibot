@@ -1,0 +1,121 @@
+<div class="container">
+  <div class="row margin-b10">
+    <div class="col-sm-9 col-xs-9">
+      <div class="col-sm-3 col-xs-3">
+        <h4><%= t('tag_title')%></h4>
+      </div>
+      <div class="col-sm-7 col-xs-7 pull-right">
+        <h4 class="pull-left">最終更新者: <%= @lasted_update_user %></h4>
+        <h4 class="pull-right">最終更新日: <%= format_datetime(@lasted_update_time) %></h4>
+      </div>
+    </div>
+    <div class="col-sm-3 col-xs-3 text-right"><%= link_to t('.new'), new_master_tag_path, class: "btn btn-save", style: "width: 180px;", remote: true, id: "new_tag" %></div>
+  </div>
+  <div class='row search-border'>
+    <h5><%= t('.search')%></h5>
+    <%= search_form_for @q, url: master_tags_path, method: :get do |f|%>
+      <div class='col-sm-6 col-xs-12 mrg10B' >
+        <%= f.search_field :id_or_name_cont, placeholder: t('.placeholder_search'), class: 'form-control'%>
+      </div>
+
+      <div class='col-sm-6 col-xs-12'>
+        <div class="col-sm-6 col-xs-12 padding-0 mrg10B">
+          <%= f.label "#{t('.title.activity')}:", style: 'font-weight: normal; line-height: 34px;', class: "activity-label padding-0" %>
+          <%= f.select :activity_eq, Tag::ACTIVITY, { include_blank: t('.all'), selected: @q.activity_eq },  { class: "form-control activity-select" } %>
+        </div>
+        <div class="col-sm-6 col-xs-12 form-inline padding-0 text-center">
+          <%= link_to t('.clear'), 'javascript:void(0);', class: 'btn btn-cancel clear-input-search btn-gray btn-clear-filter', style: 'color: #000'%>
+          <%= f.submit t('.search'), class: 'btn btn-save btn-submit-filter'%>
+        </div>
+      </div>
+    <%end%>
+  </div>
+
+  <table class='table table-striped table-bordered category-index-table'>
+    <thead>
+      <tr class="active">
+        <th width="4%" class="align-vertically"><%= sort_link(@q, :id) %></th>
+        <th width="10%" class="align-vertically"> <%=t('.title.name')%> </th>
+        <th width="10%" class="align-vertically"> <%=t('.title.activity')%> </th>
+        <th width="13%" class="align-vertically"> <%=t('.title.action')%> </th>
+      </tr>
+    </thead>
+    <tbody>
+    <% if @tags.size > 0 %>
+      <%@tags.each do |tag|%>
+        <tr>
+          <td class="text-center"><%= tag.id %></td>
+          <td><%= tag.name %></td>
+          <td class="text-center"><%= format_activity(tag.activity)%></td>
+          <td class="text-center">
+            <%= link_to t('master.tags.action.edit'), edit_master_tag_path(tag), class: 'btn btn-primary btn-blue btn-action', id: 'edit_tag', remote: true%>
+            <%= link_to t('master.tags.action.delete'), 'javascript:void(0);', class: 'btn btn-default btn-gray btn-action confirm_destroy', id: 'confirm_destroy', data: { name: tag.name, path: master_tag_path(tag) }, remote: true %>
+          </td>
+        </tr>
+      <%end%>
+    <%else%>
+      <tr>
+        <td colspan="4" class="text-center"><%= t('.tag_not_found') %></td>
+      </tr>
+    <%end%>
+    </tbody>
+  </table>
+
+  <div class='text-center'><%=paginate @tags%></div>
+
+  <div class="modal tag-modal fade" id="tagNewModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"><%= t('.title.create')%></h4>
+        </div>
+        <div class="modal-body">
+          <div id="form_tag"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="modal tag-modal fade" id="tagDeleteModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title text-center"><%= t('.title.destroy')%></h4>
+        </div>
+        <div class="modal-body text-center">
+          <div id="confirm_tag">
+            <p class='mrg25B' id="confirm_tag_text">
+              <%= t('master.tags.index.confirm_delete_tag')%>
+            </p>
+            <p class='mrg25B'>
+              <%= link_to t('cancel_button'), 'javascript:void(0);', class: 'btn btn-cancel clear-input-search btn-gray mrg10R btn-clear-filter btn-smalll', style: 'color: #286bcc', data: { dismiss: 'modal' }%>
+              <%= link_to t('master.tags.index.destroy'), "#", method: :delete, remote: true, id: 'destroy_tag', class: 'btn btn-cancel btn-clear-filter btn-smalll', style: 'color: #fff; background: #e33933;'%>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal tag-modal fade" id="tagAlertModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-warning">
+      <div class="modal-content modal-content-boder">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title text-center"><%= t('.title.alert')%></h4>
+        </div>
+        <div class="modal-body text-center">
+          <div id="alert_tag"></div>
+          <%= link_to t('.title.comeback'), 'javascript:void(0);', class: 'btn btn-save mrg25B', style: 'color: #fff', data: {dismiss: "modal" }%>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,154 @@
+<%= form_for @category, html: { class: "form-horizontal" } do |f| %>
+	<div class="row">
+    <div class="col-sm-6 padding-0">
+      <h4><%= t('.title') %></h4>
+    </div>
+    <div class="col-sm-6 text-right padding-0">
+      <%= link_to "#{t('.cancel_button')}", categories_path, class: "btn btn-cancel" %>
+      <%= f.submit "#{@category.id.present? ? t('.update_button') : t('.save_button')}", class: "btn btn-save" %>
+    </div>
+  </div>
+	<% if @category.errors.any? %>
+	<br>
+	<div class="error-log">
+		<h5><%= t("activerecord.errors.error_message")%></h5>
+		<ul>
+			<% @category.errors.full_messages.each do |msg| %>
+				<li><%= msg %></li>
+			<% end %>
+		</ul>
+	</div>
+	<% end %>
+  <div class="row form-input-wrapper">
+    <div class="form-group">
+      <%= f.label :name, class: "control-label col-sm-2 required" %>
+      <div class="col-sm-9">
+        <%= f.text_field :name, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :activity, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <div class="radio radio-primary radio-inline">
+          <%= f.radio_button :activity, true %>
+          <%= f.label :activity_true, t('.activity.active') %>
+        </div>
+        <div class="radio radio-primary radio-inline">
+          <%= f.radio_button :activity, false %>
+          <%= f.label :activity_false, t('.activity.inactive') %>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :slug, class: "control-label col-sm-2 required" %>
+      <div class="col-sm-9">
+        <%= f.text_field :slug, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :eval_A_name, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :eval_A_name, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :eval_A_type, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :eval_A_type, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :eval_A_value, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :eval_A_value, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :eval_B_name, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :eval_B_name, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :eval_B_type, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :eval_B_type, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :eval_B_value, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :eval_B_value, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :eval_C_name, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :eval_C_name, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :eval_C_type, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :eval_C_type, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :eval_C_value, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :eval_C_value, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :eval_D_name, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :eval_D_name, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :eval_D_type, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :eval_D_type, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :eval_D_value, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :eval_D_value, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :eval_E_name, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :eval_E_name, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :eval_E_type, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :eval_E_type, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :eval_E_value, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :eval_E_value, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :tags, class: "control-label col-sm-2" %>
+      <div class="col-sm-9">
+        <%= f.text_field :tags, class: "form-control", placeholder: true %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+		<div class="col-sm-6 text-left padding-0">
+      <%= link_to("#{t('.delete_button')}", @category, method: "delete", data: { confirm: t('.delete_confirm') }, class: "btn btn-cancel btn-delete") if @category.id.present?%>
+    </div>
+    <div class="col-sm-6 text-right padding-0">
+      <%= link_to "#{t('.cancel_button')}", categories_path, class: "btn btn-cancel" %>
+			<%= f.submit "#{@category.id.present? ? t('.update_button') : t('.save_button')}", class: "btn btn-save" %>
+    </div>
+  </div>
+<% end %>

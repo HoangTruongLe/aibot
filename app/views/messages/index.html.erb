@@ -1,0 +1,90 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <%= link_to "メッセージレポート", summary_message_report_messages_path, { class: "btn btn-save btn-submit-filter pull-right btn-smalll" } %>
+    </div>
+  </div>
+  <div class='row search-border'>
+    <h5>検索</h5>
+    <%= search_form_for @q, url: messages_path, remote:true, method: :get do |f|%>
+      <div class="row">
+        <div class='col-sm-12 col-xs-12 mrg10B' >
+          <%= f.search_field :message_id_or_keyword_master_category_name_or_keyword_name_or_tags_name_or_keywords_name_cont, placeholder: 'ID、主キーワード、関連キーワード、カテゴリー、タグで検索', class: 'form-control search-input'%>
+        </div>
+
+        <div class='col-sm-12 col-xs-12'>
+          <div class="col-sm-4 col-xs-12 padding-0 mrg10B">
+            <%= f.label 'メッセージタイプ：', style: 'font-weight: normal; line-height: 34px; float: left' %>
+            <%= f.select :message_type_eq,
+                    Message.message_types,
+                    { include_blank: '全て', selected: @q.message_type_eq },
+                    { class: "form-control activity-select pull-left select-search" } %>
+          </div>
+          <div class="col-sm-4 col-xs-12 padding-0 mrg10B">
+            <%= f.label 'アクティビティ：', style: 'font-weight: normal; line-height: 34px;  float: left' %>
+            <%= f.select :activity_eq,
+                    Category::ACTIVITY,
+                    { include_blank: '全て', selected: @q.activity_eq },
+                    { class: "form-control activity-select select-search" } %>
+          </div>
+        </div>
+      </div>
+      <div id='advanced_conditions' class="row" style="display: none">
+        <div class='col-sm-12 col-xs-12 mrg10B' >
+          <%= f.search_field :questions_answers_content_or_text_messages_content_or_questions_content_or_quotes_content_or_quotes_quote_url_or_quotes_quote_source_or_quotes_referral_comment_cont, placeholder: '本文', class: 'form-control search-input'%>
+        </div>
+
+        <div class='col-sm-12 col-xs-12'>
+          <div class="col-sm-4 col-xs-12 padding-0 mrg10B">
+            <%= f.label '画像有無：', style: 'font-weight: normal; line-height: 34px; float: left' %>
+            <%= f.select :photo_exists_true, Message.message_exists,
+                          { include_blank: '全て', selected: @q.photo_exists_true },
+                          { class: "form-control activity-select select-search" } %>
+
+          </div>
+          <div class="col-sm-4 col-xs-12 padding-0 mrg10B">
+            <%= f.label '動画有無：', style: 'font-weight: normal; line-height: 34px;  float: left' %>
+            <%= f.select :video_exists_true, Message.message_exists,
+                                      { include_blank: '全て', selected: @q.video_exists_true },
+                                      { class: "form-control activity-select select-search" } %>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-10 col-xl-10">
+          <a id='ac_trigger' style="display: block" class="mrg10T" href="#">詳細検索 <i class="fa fa-chevron-down" aria-hidden="true"></i></a>
+        </div>
+        <div class="col-sm-2 col-xs-2">
+          <%= link_to t('.clear'), 'javascript:void(0);', class: 'btn btn-cancel clear-input-search btn-gray btn-clear-filter', style: 'color: #000', onclick: "clearFilter();"%>
+          <%= f.submit t('.search'), class: 'btn btn-save btn-submit-filter'%>
+        </div>
+      </div>
+    <%end%>
+  </div>
+  <table class='table table-striped table-bordered'>
+    <thead id="h_messages">
+      <%= render 'messages/h_message' %>
+    </thead>
+    <tbody id="p_messages">
+      <%= render partial: 'messages/message_list', locals: { messages: @messages  } %>
+    </tbody>
+  </table>
+  <div class='text-center'>
+    <div id="messages_paginator">
+      <div class='text-center'><%= paginate @messages.distinct(), remote:true %></div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#ac_trigger').on('click', function(){
+      if ($('#advanced_conditions').css('display') == 'none'){
+        $('#ac_trigger').children('i').attr('class','fa fa-chevron-up')
+        $('#advanced_conditions').show();
+      } else {
+        $('#ac_trigger').children('i').attr('class','fa fa-chevron-down')
+        $('#advanced_conditions').hide();
+      }
+    })
+  })
+</script>

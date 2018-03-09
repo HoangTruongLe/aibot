@@ -1,0 +1,96 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 mrg10B">
+      <%= link_to "#{t('.create_user')}", new_user_path, class: "btn btn-primary btn-blue-1 pull-right", style: "width: 200px"%>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6 col-lg-6">
+      <strong><h5>ID: <%= @user.id %></h5></strong>
+    </div>
+    <div class="col-sm-6 pull-right">
+      <%= link_to "編集する", edit_user_path(@user), { class: 'btn btn-primary btn-blue-1 pull-right mrg10L', style: "width: 150px" } %>
+      <%= link_to "一覧へもどる", users_path, { class: 'btn btn-default btn-white-1 pull-right', style: "width: 150px" } %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-lg-12">
+      <% if @user.errors.any? %>
+        <br>
+        <div class="error-log">
+          <h5><%= t("activerecord.errors.error_message")%></h5>
+          <ul>
+            <% @user.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <br>
+  <div class="col-sm-12 m_infor-right text-right m_messages mrg10B">
+    <span class="m_infor-username mrg20R">登録者： <%= @user.try(:name) %></span>
+    <span class="m_infor-username mrg20R">役割:
+      <% @user.roles.each do |role| %>
+        <span class="m_infor-username mrg20R">
+          <%= role.try(:name) %>
+        </span>
+      <%end %>
+    </span>
+    <span class="m_infor-updated mrg20R">登録日時：<%= format_datetime(@user.created_at) %></span>
+  </div>
+  <table class='table table-bordered mrg20B'>
+    <tbody >
+      <tr class='active'>
+        <td style="width:15%; text-align:right">id</td>
+        <td><%= @user.id %></td>
+      </tr>
+      <tr class='active'>
+        <td style="width:15%; text-align:right">名前</td>
+        <td><%= @user.try(:name) %></td>
+      </tr>
+      <tr class='active'>
+        <td style="width:15%; text-align:right">アクティビティ</td>
+        <td><%= format_activity(@user.activity) %></td>
+      </tr>
+      <tr class='active'>
+        <td style="width:15%; text-align:right">メールアドレス</td>
+        <td><%= @user.try(:email) %></td>
+      </tr>
+      <tr class='active'>
+        <td style="width:15%; text-align:right">サイト</td>
+        <td>
+          <% sites = @user.try(:sites) %>
+          <% sites.each_with_index do |site, index| %>
+            <%= link_to site.try(:name) + " (" + site.site_url + ")", site_path(site) %><%= ", " unless index == sites.size - 1 %>
+          <% end %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="row">
+    <div class="col-sm-2">
+      <a id="btn-delete-user" class='btn btn-default btn-white-1' data-remote='true'><span style="color:red">削除</span></a>
+    </div>
+    <div class="col-sm-10 pull-right">
+      <%= link_to "編集する", edit_user_path(@user), { class: 'btn btn-primary btn-blue-1 pull-right mrg10L', style: "width: 150px" } %>
+      <%= link_to "一覧へもどる", users_path, { class: 'btn btn-default btn-white-1 pull-right', style: "width: 150px" } %>
+    </div>
+  </div>
+</div>
+
+<%= render partial: 'destroy' %>
+<%= render partial: "warning_destroy" %>
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('#btn-delete-user').click(function(){
+      var current_element = $(this)
+      var link = '/users/<%= @user.id %>'
+      $('#destroy_user_content').find("#delete_user_content_id").attr('href', link)
+      $('#destroy_user_content').find("#delete_user_content_id").attr('data-remote', false)
+      $('#destroy_user_content').find("#user_type").text("このユーザーを削除しますか？。")
+      $("#destroy_user_content").modal("show")
+    })
+  })
+</script>

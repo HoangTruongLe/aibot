@@ -1,0 +1,135 @@
+// Place all the styles related to the category controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.padding-0 {
+  padding: 0;
+}
+
+.btn-cancel {
+  background-color: #eeeeee;
+  width: 120px;
+}
+
+.btn-save {
+  background-color: #286bcc;
+  color: #fff;
+  width: 120px;
+}
+
+.btn-save:hover {
+  color: #eee;
+}
+
+.btn-delete {
+  color: #e33933;
+}
+
+.form-input-wrapper {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: #fbfbfb;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border: 1px solid #cccccc;
+  padding: 30px;
+
+  .bootstrap-tagsinput {
+    width: 100%;
+  }
+
+  label {
+    font-weight: normal;
+  }
+
+  .radio label {
+    font-size: 13px;
+  }
+
+  table {
+    border-top: none;
+
+    th, td {
+      background-color: #eee;
+      border: 1px solid #fff;
+      font-size: 13px;
+      vertical-align: middle !important;
+    }
+    th {
+      width: 15%;
+      text-align: right;
+      padding: 15px 15px !important;
+    }
+    td {
+      width: 85%;
+      padding: 15px 25px !important;
+    }
+  }
+
+  .row {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}
+
+.search-border {
+  border: 1px solid #ddd;
+  padding: 10px 10px 15px;
+  margin: 0;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.index-action {
+  padding: 5px;
+  border-radius: 5px;
+  color: #fff;
+}
+
+.index-action.btn-cancel{
+  background-color: #949494;
+}
+
+table.category-index-table tbody > tr > td {
+  vertical-align: middle;
+  border: 1px solid #ddd;
+}
+
+.category-index-table th {
+  text-align: center;
+}
+
+.pagination > li > a {
+  color: #000;
+  background-color: #ddd;
+  margin-left: 5px;
+}
+
+.pagination > .active > a, .pagination > .active > a:hover {
+  background-color: grey;
+  border-color: grey;
+}
+
+.pagination > li > a:hover {
+  color: #000;
+}
+
+.sort_link {
+  color: #333;
+}
+
+.activity-label,
+.activity-select {
+  width: 40%;
+  float: left;
+}
+
+@media screen and (max-width: 768px) {
+  .activity-label {
+    width: 100%;
+  }
+  .activity-select {
+    width: 100%;
+  }
+}

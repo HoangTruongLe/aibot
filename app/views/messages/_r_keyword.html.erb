@@ -1,0 +1,128 @@
+<!-- Modal -->
+<div id="relative_modal" class="modal fade" role="dialog">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <br>
+          <h4 class="modal-title">関連キーワード</h4>
+          <div id='relative_tags_holder' class='search-border tags_holder'></div>
+          <div class='row search-border'>
+            <%= search_form_for @k, remote: true, url: relative_keywords_search_master_keywords_path, method: :get do |f|%>
+            <div class="form-inline">
+              <%= f.search_field :master_category_name_or_id_or_name_cont, placeholder: 'ID、キーワード名、カテゴリ名', class: 'form-control input-search-relative', style:'width:70%' %>
+              <%= link_to 'クリア', 'javascript:void(0);', class: 'btn btn-cancel clear-input-search-r btn-gray btn-clear-filter', style: 'color: #000; width:50px'%>
+              <%= f.submit '検索', class: 'btn btn-primary', style: 'width:50px'%>
+            </div>
+            <%end%>
+          </div>
+        </div>
+        <div class="modal-body">
+          <table class='table table-striped table-bordered '>
+            <thead>
+              <tr class="active">
+                <th width="10%" class="text-center"><%= sort_link(@k, :id) %></th>
+                <th width="40%" class="text-center">
+                  <%=t('activerecord.attributes.keyword.name')%>
+                </th>
+                <th width="40%" class="text-center">
+                  <%=t('activerecord.attributes.keyword.master_category')%>
+                </th>
+                <th width="10%" class="text-center">
+                  <%=t('activerecord.attributes.keyword.action')%>
+                </th>
+              </tr>
+            </thead>
+            <tbody id="r_keywords">
+              <%= render 'r_keyword_table' %>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <br>
+          <div class="text-center">
+            <div id="r_paginator">
+              <%= paginate @keywords, :remote => true %>
+            </div>
+            <button id="btn_relative_ok" type="button" name="button" class='btn btn-primary btn-blue-1 text-center' data-dismiss="modal">決定</button>
+          </div>
+        </div>
+        <br>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $('#relative_modal').on('shown.bs.modal', function (e) {
+    manipulate_tagholder()
+  })
+  $('#relative_modal').on('hidden.bs.modal', function (e) {
+    $('#message_keyword_ids').val(keyword_ids.join(" "))
+    if (keyword_names.length > 0){
+      $('#r_keyword_box').val('関連キーワード： ' +  keyword_names.join(", "))
+    }else {
+      $('#r_keyword_box').val(null)
+    }
+  })
+  var message_keywords = '<%= message_keywords %>'
+  var keyword_arr = JSON.parse(message_keywords.replace(new RegExp('&quot;', 'g'), "\""))
+  var keyword_ids = []
+  var keyword_names = []
+
+  for(item of keyword_arr){
+    insert_relatetive_keyword(item[0], item[1])
+  }
+
+  function insert_relatetive_keyword(keyword_id, keyword_name){
+    if (keyword_ids.indexOf(parseInt(keyword_id)) == -1) {
+      if ($('#r_keyword_box').val() == '') {
+        $('#r_keyword_box').val('関連キーワード： ' + keyword_name)
+        append_keyword(keyword_id, keyword_name)
+      } else {
+        $('#r_keyword_box').val( $('#r_keyword_box').val() + ', ' + keyword_name)
+        append_keyword(keyword_id, keyword_name)
+      }
+    }
+  }
+
+  function append_keyword(keyword_id, keyword_name) {
+    $('#relative_tags_holder').append(tag_to_append(keyword_id, keyword_name))
+    keyword_ids.push(parseInt(keyword_id))
+    keyword_names.push(keyword_name)
+  }
+
+  function delete_keyword(keyword_id, keyword_name){
+    if (keyword_id) {
+      $('#relative_keyword_'+ keyword_id).remove();
+      keyword_ids.splice(keyword_ids.indexOf(parseInt(keyword_id)), 1)
+      keyword_names.splice($.inArray(keyword_name, keyword_names), 1)
+    } else {
+      $('.keyword_tag').remove();
+      keyword_ids = []
+      keyword_names = []
+    }
+  }
+
+  function tag_to_append(keyword_id, keyword_name){
+    return `<div class="keyword_tag"  id='relative_keyword_` + keyword_id + `'>`+ keyword_name +`
+                <i onclick="delete_keyword('`+ keyword_id +`', '`+ keyword_name +`')" class="fa fa-times" aria-hidden="true"></i>
+              </div>`
+  }
+
+  $('#relative_tags_holder').bind("DOMSubtreeModified",function(){
+    manipulate_tagholder()
+  });
+
+  function manipulate_tagholder(){
+    if ($('#relative_tags_holder').find('.keyword_tag').length > 0){
+      $('#relative_tags_holder').show();
+      if (!$('#relative_tags_holder span').hasClass('tags_clear_btn')){
+        $('#relative_tags_holder').append("<span onclick='delete_keyword(null)' class='tags_clear_btn'>全て解除</span>");
+      }
+    }else{
+      $('#relative_tags_holder').hide();
+      $('#relative_tags_holder').html('');
+    }
+  }
+</script>

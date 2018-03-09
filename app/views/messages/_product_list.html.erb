@@ -1,0 +1,20 @@
+<% if products.size > 0 %>
+  <% products.each do |product| %>
+    <tr>
+      <td class="text-center"><%= product.id %></td>
+      <td><%= format_activity(product.activity) %></td>
+      <td class="text-center"><img width="70" src="<%= split_string_to_array(product.image_1_url, product.image_2_url, product.image_3_url, product.image_4_url, product.image_5_url)[0] %>"/></td>
+      <td><%= product.name %></td>
+      <td><%= product.try(:category).try(:name) %></td>
+      <td><%= product.price %></td>
+      <td><%= product.id %></td>
+      <td class="text-center">
+        <a href="javascript:void(0);" class="btn btn-primary btn-blue btn-action" onclick="choose_product_message(this)" data-id="<%= product.id %>">選択</a>
+      </td>
+    </tr>
+  <% end %>
+<% else %>
+  <tr>
+      <td colspan="8" class="text-center">製品が見つかりません</td>
+  </tr>
+<% end %>

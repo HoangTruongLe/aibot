@@ -1,0 +1,3 @@
+$('#p_messages').html("<%= escape_javascript render partial: 'messages/message_list', locals: { messages: @messages } %>")
+$('#messages_paginator').html('<%= escape_javascript(paginate(@messages.distinct(), :remote => true).to_s) %>');
+$('#h_messages').html('<%= escape_javascript(render "messages/h_message") %>');

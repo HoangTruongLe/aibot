@@ -1,0 +1,60 @@
+<!-- Modal -->
+<div id="tag_modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title text-center">タグ設定</h4>
+      </div>
+      <div class="modal-body">
+        <select id='tags_box' class="js-example-basic-multiple" width='100%' multiple="multiple">
+          <% if @tags %>
+            <% @tags.each do |t| %>
+            <option value="<%= t.id %>"><%= t.name %></option>
+            <% end %>
+          <% end %>
+        </select>
+      </div>
+      <br>
+      <div class="modal-footer">
+        <br>
+        <div class="text-center">
+          <button id="btn_tag_ok" type="button" name="button" class='btn btn-primary btn-blue-1 text-center' data-dismiss="modal">決定</button>
+        </div>
+      </div>
+      <br>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  var message_tags = '<%= message_tags %>'
+  var tag_arr = JSON.parse(message_tags.replace(new RegExp('&quot;', 'g'), "\""))
+
+  for(item of tag_arr){
+    var option = new Option(item[1], item[0]);
+    option.selected = true;
+    $("#tags_box").append(option);
+    $("#tags_box").trigger("change");
+  }
+
+  $("#tags_box").select2({
+    placeholder: "タグを選択してください",
+    allowClear: true,
+    width: '100%'
+  });
+
+  $('#tag_modal').on('hidden.bs.modal', function (e) {
+    var tag_ids = []
+    var tag_names = []
+    for(item of $('#tags_box').select2('data')){
+      tag_ids.push(parseInt(item['id']))
+      tag_names.push(item['text'])
+    }
+    $('#message_tag_ids').val(tag_ids.join(" "))
+    if (tag_names.length > 0){
+      $('#tag_box').val('タグ： ' +  tag_names.join(", "))
+    }else {
+      $('#tag_box').val(null)
+    }
+  })
+</script>

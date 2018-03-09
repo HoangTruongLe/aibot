@@ -1,0 +1,152 @@
+<% video_src = nil  %>
+<% if video  %>
+  <% if video.video_type == 'youtube'%>
+    <% video_src = video.youtube_url %>
+  <% end %>
+<% end %>
+<div id='video_editor_<%= content_id%>' class="m_editor-video-2 mrg20T">
+  <div class="m_editor-content">
+    <h5>動画</h5>
+    <div class="m_editor-video-wrapper">
+      <p>Youtubeまたは動画ファイルをアップロードしてください</p>
+      <div class="m_video-youtube">
+        <input value="<%= video_src %>" type="text" id='video_url_<%= content_id%>' data-message-id="<%= message_id %>" name="youtube_video" placeholder="YoutubeのURLを入力してください" />
+        <span id='upload_youtube_<%= content_id%>' class="btn btn-primary btn-blue-1">Youtubeからアップロード</span>
+      </div>
+      <button type="button" id="btn-video-close_<%= content_id%>" class="btn btn-primary btn-blue-1">動画ファイルをアップロード</button>
+      <input style="display:none" id="fileupload_<%= content_id%>" type="file" name="files[" data-message-id="<%= message_id %>" accept=".mp4" data-url="/videos" multiple>
+    </div>
+    <div class="m_text-save">
+      <div class="row">
+        <a id='btn-video-dismiss-<%= content_id %>' class="btn btn-default btn-white-3">キャンセル</a>
+      </div>
+    </div>
+    <div style="clear: both"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+(function ($) {
+	  $.each(['show', 'hide'], function (i, ev) {
+	    var el = $.fn[ev];
+	    $.fn[ev] = function () {
+	      this.trigger(ev);
+	      return el.apply(this, arguments);
+	    };
+	  });
+	})(jQuery);
+
+var video_editor_id = '#video_editor_<%= content_id%>'
+$(video_editor_id).on("show",function(e){
+  if (!$(video_editor_id).closest('tr').hasClass( "ui-state-disabled" )){
+    $(video_editor_id).closest('tr').addClass('ui-state-disabled')
+    $(video_editor_id).closest('tr').removeClass('ui-sortable-handle')
+  }
+})
+$(video_editor_id).on("hide",function(e){
+  if ($(video_editor_id).closest('tr').hasClass( "ui-state-disabled" )){
+    $(video_editor_id).closest('tr').removeClass('ui-state-disabled')
+    $(video_editor_id).closest('tr').addClass('ui-sortable-handle')
+  }
+})
+
+$(document).ready(function() {
+  var new_record = '<%= new_record %>'
+  if(new_record == "true"){
+    $('#video_editor_<%= content_id %>').show();
+  }else {
+    $('#video_editor_<%= content_id %>').hide();
+  }
+  var content_id = '<%= content_id%>'
+  var message_id, validateYouTubeUrl;
+  message_id = $('#fileupload_'+ content_id).attr('data-message-id');
+
+  $('#btn-video-close_'+ content_id).click(function () {
+      $("#fileupload_"+ content_id).trigger('click');
+  });
+
+  $('#btn-video-dismiss-<%= content_id %>').on('click',function(){
+    if ($('#video_review_container_<%= content_id%>').children().length > 0){
+      $('#video_editor_<%= content_id%>').hide();
+      $('#video_review_<%= content_id%>').show();
+    }else{
+      $('#video_editor_<%= content_id%>').hide();
+      $('#video_review_<%= content_id%>').hide();
+    }
+  })
+
+  validateYouTubeUrl = function(val) {
+    var match, regExp;
+    if (val !== void 0 || val !== '') {
+      regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+      match = val.match(regExp);
+      if (match) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
+
+  $('#fileupload_'+ content_id).fileupload({
+    formData: {
+      message_id: message_id,
+      video_type: 'upload',
+      content_group_id: content_id
+    },
+    paramName: 'message_video[video]',
+    dataType: 'json',
+    acceptedFiles: '.mp4',
+    done: function(e, data) {
+      var video_tag = `<video id='video_showcase_`+ content_id +`' class='center-block' data-video-id='' width="320px" height="240px" controls>
+                        <source id='video_preview_`+ content_id +`' type="video/mp4">
+                      </video>`
+      $('#video_review_container_'+ content_id).html(video_tag)
+      var $source;
+      $source = $('#video_preview_'+ content_id);
+      $source[0].src = URL.createObjectURL(data.files[0]);
+      $source.parent()[0].load();
+      $('#video_preview_'+ content_id).attr('type', data.files[0].type);
+      $('#video_preview_'+ content_id).attr('data-video-id', data.result.uploadId);
+      $('#video_editor_'+ content_id).hide();
+      $('#video_review_'+ content_id).show();
+      $('#spinner').hide();
+    },
+    submit: function(e, data){
+      $('#spinner').show();
+    }
+  });
+
+  $('#upload_youtube_'+ content_id).on('click', function(evt) {
+    var changedEmbeded;
+    message_id = $('#video_url_'+ content_id).attr('data-message-id');
+    if (validateYouTubeUrl($('#video_url_'+ content_id).val())) {
+      changedEmbeded = $('#video_url_'+ content_id).val();
+      changedEmbeded = changedEmbeded.replace('watch?v=', 'embed/').split('&')[0];
+      $.ajax({
+        type: 'POST',
+        url: '/videos',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify({
+          message_video: 'video',
+          youtube_url: changedEmbeded,
+          message_id: message_id,
+          video_type: 'youtube',
+          content_group_id: content_id
+        }),
+        success: function(res) {
+          var video_tag = '<div id="youtube_frame_'+ content_id +'" class="hs-responsive-embed-youtube"><iframe src="' + changedEmbeded + '"frameborder="0" width="50%" allowfullscreen ></iframe></div>';
+          $('#video_review_container_'+ content_id).html(video_tag)
+          $('#youtube_frame_'+ content_id).attr('data-video-id', res.uploadId);
+          $('#video_editor_'+ content_id).hide();
+          $('#video_review_'+ content_id).show();
+        }
+      });
+    } else {
+      $('#alert_modal').modal('show');
+    }
+  });
+
+});
+</script>

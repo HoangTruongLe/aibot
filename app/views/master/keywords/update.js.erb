@@ -1,0 +1,7 @@
+<% if @keyword.errors.present? %>
+  $("#update_keyword_modal").find("#keyword_form").replaceWith("<%= j render partial: 'form', locals: { keyword: @keyword, type: 'update' } %>")
+<% else %>
+  toastr["success"]("<%= t('.keyword_updated_successfully') %>");
+  $('.modal').modal('hide');
+  location.reload();
+<% end %>

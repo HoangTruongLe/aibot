@@ -1,0 +1,7 @@
+meta_inspector:
+  user_agent: 'facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)'
+site:
+  aibot_address: 'https://s3-ap-northeast-1.amazonaws.com/bucket-prd-aichatbot/index.html'
+messages_filter:
+  messages_display_number_filter: 5 # display_number: 5%, digest_number: 95%
+

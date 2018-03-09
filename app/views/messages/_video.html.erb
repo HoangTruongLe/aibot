@@ -1,0 +1,10 @@
+<tr data-path="<%= msg_content ? message_content_path(msg_content, format: 'json'): '' %>"
+      data-msg_content_id="<%= msg_content.try(:id) %>"
+      class="<%= new_record ? 'ui-state-disabled' : '' %>">
+  <td>
+    <div id="video_section_<%= content_id %>">
+      <%= render partial: 'messages/video_editor',  locals: { content_id: content_id, message_id: message_id, msg_content: msg_content, video: video, new_record: new_record } %>
+      <%= render partial: 'messages/video_review',  locals: { content_id: content_id, message_id: message_id, msg_content: msg_content, video: video, new_record: new_record, preview: preview } %>
+    </div>
+  </td>
+</tr>

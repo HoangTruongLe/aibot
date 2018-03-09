@@ -1,0 +1,53 @@
+<div id='video_review_<%= content_id%>' class="m_editor-video-1 mrg20T">
+  <div class="m_editor-content <%= preview ? 'remove_border' : ''%>">
+    <h5>動画</h5>
+    <div class="m_editor-video-wrapper">
+      <div class="m_video-preview center-block">
+        <div id='video_review_container_<%= content_id%>'>
+          <% if video  %>
+            <% if video.video_type == 'youtube'%>
+              <div id="youtube_frame_<%= content_id%>" class="hs-responsive-embed-youtube">
+                <iframe src="<%= video.youtube_url %>"frameborder="0" width="50%" allowfullscreen ></iframe>
+              </div>
+            <% else %>
+              <video id='video_showcase_<%= content_id%>' class='center-block' data-video-id='' width="320px" height="240px" controls>
+                <source id='video_preview_<%= content_id%>' src="<%= video.video.expiring_url %>" type="video/mp4">
+              </video>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <div style="clear: both"></div>
+    </div>
+  </div>
+  <% unless preview %>
+    <div class="m_editor-action">
+      <div class="col-sm-6 col-xs-6 m_editor-action-button">
+        <button id='btn-video-edit-<%= content_id%>' type="button" class="btn btn-primary btn-blue-2 mrg5B"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 編集</button><br>
+        <button data-content-id='<%= content_id %>' type="button" class="btn btn-default btn-white-2 content_video_delete"><i class="fa fa-trash-o" aria-hidden="true"></i> 削除</button>
+      </div>
+    </div>
+  <% end %>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+  var new_record = '<%= new_record %>'
+  if(new_record == "true"){
+    $('#video_review_<%= content_id %>').hide();
+  }else {
+    $('#video_review_<%= content_id %>').show();
+  }
+  $('#btn-video-edit-<%= content_id %>' ).on('click',function(){
+    $('#video_editor_<%= content_id %>').show();
+    $('#video_review_<%= content_id %>').hide();
+  });
+  $('.content_video_delete').unbind();
+  $("body").undelegate(".content_video_delete")
+  $('.content_video_delete').click(function(){
+    var link = '/videos/<%= message_id %>/destroy_video_group/'+ $(this).data('content-id')
+    $('#destroy_message_content').find("#delete_message_content_id").attr('href', link)
+    $('#destroy_message_content').find("#message_type").text("このビデオを本当に削除しますか？")
+    $("#destroy_message_content").modal("show")
+  })
+})
+</script>

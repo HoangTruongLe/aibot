@@ -1,0 +1,26 @@
+<div class="m_editor-question-1 mrg20T">
+  <div class="m_editor-content <%= preview ? 'remove_border' : ''%>">
+    <h5>クエッション</h5>
+    <div class="m_editor-question-textarea">
+      <h6>質問</h6>
+      <p class="content_wrapper"><%= question.content %></p>
+      <h6>回答</h6>
+      <% question.answers.order('id ASC').each_with_index do |ans, index| %>
+        <div class="m_answer-wrapper <%= 'answer-no-has-next-message' unless ans.has_next_msg %>">
+          <p class="m_answer-title"><%= "選択肢#{(index + 1).to_s}：#{ ans.content }" %></p>
+          <p class="m_answer-message mrg10R"><%= "キーワード：#{ ans.try(:keyword).map { |k| [Keyword.find_by_id(k).try(:name)]}.join(', ') }" %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <% unless preview %>
+    <div class="m_editor-action">
+      <div class="col-sm-6 col-xs-6 m_editor-action-button">
+        <button type="button" class="btn btn-primary btn-blue-2 mrg5B edit-question-btn"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 編集</button><br>
+        <button type="button" data-link='<%= "/questions/#{question.id}" %>' data-type="クエッション" class="btn btn-default btn-white-2 btn-delete-msg-content">
+          <i class="fa fa-trash-o" aria-hidden="true"></i> 削除
+        </button>
+      </div>
+    </div>
+  <% end %>
+</div>

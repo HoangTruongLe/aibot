@@ -1,0 +1,22 @@
+<% unless @question.errors.any? %>
+  template_id = "<%= @template_id %>";
+  parent = $("#" + template_id).closest('div[class="m_question"]');
+
+  // Change editor
+  editor = $(parent).find('.m_question-edit');
+  $(editor)[0].innerHTML = "<%= j render partial: 'messages/question_editor', locals: { question: @question } %>";
+  $(editor).addClass('hidden');
+
+  // Change datapath
+  tr_parent = $(parent).closest('tr');
+  $(tr_parent).attr("data-path", "/message_contents/<%= @question.message_content.id %>.json");
+  $(tr_parent).attr("data-msg_content_id", "<%= @question.message_content.id %>");
+  $(tr_parent).removeClass('ui-state-disabled');
+
+  // Change preview
+  preview = $(parent).find('.m_question-review');
+  $(preview)[0].innerHTML = "<%= j render partial: 'messages/question_review', locals: { question: @question, preview:false }  %>";
+  $(parent).find('.m_question-review').removeClass('hidden');
+
+  $('#spinner').hide();
+<% end %>

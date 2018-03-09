@@ -1,0 +1,30 @@
+// Place all the styles related to the MasterCategories controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.category-info {
+  margin-top: 8px !important;
+}
+
+.category-action {
+  float: right;
+  margin-right: 10px;
+}
+
+.category-modal {
+  .modal-content {
+    background: #fbfbfb;
+    .modal-body {
+      border: none;
+      .form-input-wrapper {
+        border: none;
+        margin: 0px;
+      }
+    }
+
+    .modal-footer {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+  }
+}

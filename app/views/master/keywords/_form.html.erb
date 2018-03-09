@@ -1,0 +1,59 @@
+<%= form_for [:master, keyword], multipart: true, method: type == 'new' ? "post" : "put",
+                      remote: true, html: { class: "form-horizontal", id: "keyword_form", style: "margin-top: -20px;" } do |f| %>
+<div class="modal-body">
+  <% if keyword.errors.any? %>
+  <br>
+  <div class="error-log">
+    <h5><%= t("activerecord.errors.error_message")%></h5>
+    <ul>
+      <% keyword.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
+  <!-- Modal Content -->
+  <%= f.hidden_field :id %>
+  <div class="row form-input-wrapper">
+    <div class="form-group">
+      <%= f.label :name, class: "control-label col-sm-3" %>
+      <div class="col-sm-9">
+        <%= f.text_field :name, class: "form-control", placeholder: 'キーワード名を入力してください' %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :activity, class: "control-label col-sm-3" %>
+      <div class="col-sm-9">
+        <div class="radio radio-primary radio-inline">
+          <%= f.radio_button :activity, true %>
+          <%= f.label :activity_true, t('active') %>
+        </div>
+        <div class="radio radio-primary radio-inline">
+          <%= f.radio_button :activity, false %>
+          <%= f.label :activity_false, t('inactive') %>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :cpc, class: "control-label col-sm-3" %>
+      <div class="col-sm-9">
+        <%= f.number_field :cpc, class: "form-control", placeholder: "CPC", value: 0, min: 0, max: 999999999999999 %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :master_category_id, class: "control-label col-sm-3" %>
+      <div class="col-sm-9">
+        <%= f.select :master_category_id, MasterCategory.activity.pluck(:name, :id), { include_blank: t('.please_choose_master_category') }, { class: "form-control" } %>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <a class="btn btn-cancel btn-submit-filter btn-smalll" data-dismiss="modal">
+    <%= t('cancel_button') %>
+  </a>
+  <button type="submit" class="btn btn-primary btn-submit-filter btn-blue btn-smalll" data-disable-with="<%= type == 'new' ? t('.register') : t('.update') %>" data-action="save" role="button">
+    <%= type == 'new' ? t('.register') : t('.update') %>
+  </button>
+</div>
+<% end %>

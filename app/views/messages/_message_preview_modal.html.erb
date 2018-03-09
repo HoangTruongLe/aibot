@@ -1,0 +1,21 @@
+<div id="message_preview_modal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-dialog-message">
+    <div class="modal-content modal-content-message">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title text-center">メッセッジプレビュー</h4>
+      </div>
+      <div class="modal-body">
+        <%= render partial: 'messages/message_preview_info', locals: { message_contents: @message_contents } %>
+      </div>
+      <br>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('#message_preview_modal').on('hidden.bs.modal', function (e) {
+    $('#message_preview_modal').remove();
+  })
+})
+</script>

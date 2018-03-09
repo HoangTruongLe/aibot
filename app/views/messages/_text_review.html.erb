@@ -1,0 +1,33 @@
+<% unless text_message.new_record? %>
+  <div class="m_editor-text-1 mrg20T">
+
+    <div class="m_editor-content <%= preview ? 'remove_border' : ''%>">
+      <!-- Message Editor Content -->
+      <h5>テキスト</h5>
+      <div class="m_editor-text-textarea">
+        <div class="m_editor-textarea">
+          <div class="textarea"><%= raw text_message.try(:content) %></div>
+          <i class="fa fa-play" aria-hidden="true"></i>
+        </div>
+        <div class="m_editor-textarea-emoji">
+          <div>
+            <img src="https://cdn3.iconfinder.com/data/icons/3d-printing-icon-set/512/Engineer.png" />
+            <span><%= text_message.try(:chatbot_emotion).try(:emotion) %></span>
+          </div>
+        </div>
+        <div style="clear: both"></div>
+      </div>
+      <!-- End Message Editor Content -->
+    </div>
+    <% unless preview %>
+      <div class="m_editor-action">
+        <div class="col-sm-6 col-xs-6 m_editor-action-button">
+          <button type="button" class="btn btn-primary btn-blue-2 mrg5B edit-text-message-btn"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 編集</button><br>
+          <button type="button" data-link='<%= "/text_messages/#{text_message.id}" %>' data-type="テキスト" class="btn btn-default btn-white-2 btn-delete-msg-content">
+            <i class="fa fa-trash-o" aria-hidden="true"></i> 削除
+          </button>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

@@ -1,0 +1,51 @@
+<%= form_for question, remote: true, html: { class: "form-horizontal", id: "question-#{ question.id }-editor" } do |f| %>
+  <div id="" class="m_editor-question-2 mrg20T m_editor-content template-element">
+    <input type="hidden" name="question[question_id]" class="template-id">
+    <div class="m_editor-content">
+      <!-- Message Editor Content -->
+      <h5>クエッション</h5>
+      <p class="text-danger invalid-field" style="font-size: 11px; display: none;">必須のフォーム項目は入力してください。</p>
+      <div class="m_editor-question-textarea">
+        <p>質問：</p>
+        <%= f.hidden_field :id %>
+        <%= f.hidden_field :message_id %>
+        <div class="m_editor-textarea">
+          <%= f.text_area :content, placeholder: "質問を入力してください", class: "textarea" %>
+
+          <i class="fa fa-play" aria-hidden="true"></i>
+        </div>
+        <div class="m_editor-textarea-emoji">
+          <div>
+            <img src="https://cdn3.iconfinder.com/data/icons/3d-printing-icon-set/512/Engineer.png" />
+            <%= f.select :chatbot_emotion_id, options_from_collection_for_select(ChatbotEmotion.all, "id", "emotion", question.chatbot_emotion_id), {},{ class: "form-control" } %>
+          </div>
+        </div>
+        <div style="clear: both"></div>
+      </div>
+      <div class="m_editor-question-textarea">
+        <p>回答：</p>
+        <div class="m_editor-question-textarea">
+          <%= f.fields_for :answers do |ans| %>
+            <%= render 'answer_fields', f: ans %>
+          <% end %>
+          <div style="clear: both"></div>
+          <div class="links">
+            <br>
+            <%= link_to_add_association '選択肢を追加', f, :answers, { class: "btn btn-primary btn-blue-1 m_add_answer-button"} %>
+          </div>
+        </div>
+        <div style="clear: both"></div>
+      </div>
+      <!-- End Message Editor Content -->
+    </div>
+    <div class="m_text-save">
+      <div class="row mrg5B">
+        <button type="submit" class="btn btn-primary btn-blue-3" onclick="return checkValidField(this, '.m_editor-question-2', '#question_content'); $('#spinner').show();"><i class="fa fa-pencil-square-o fa-2" aria-hidden="true"></i> 保存</button>
+      </div>
+      <div class="row">
+        <a onclick="<%= question.new_record? ? 'remove_card(this)' : 'show_card_review(this)' %>" class="btn btn-default btn-white-3">キャンセル</a>
+      </div>
+    </div>
+    <div style="clear: both"></div>
+  </div>
+<% end %>

@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="col-sm-12">
+    <%= link_to "ストーリー詳細レポート", messages_report_story_path(@story.id), { class: "btn btn-save btn-submit-filter pull-right btn-smalll" }%>
+  </div>
+  <h4><strong>ID: <%= @story.id %></strong></h4>
+  <% if @messages.size > 0 %>
+    <% @messages.each do |message|%>
+      <div class="message_block">
+        <div class='message_info'><p><strong>メッセージID: <%= message.id %>, &nbsp;&nbsp;&nbsp;&nbsp; 主キーワード: <%= message.try(:keyword).try(:name) %></strong></p></div>
+        <% message_contents = message.message_contents.includes(:content).order(:row_order)%>
+        <% if message_contents.size > 0%>
+          <table id="m_content" class="m_content" data-count="<%= message_contents.count %>">
+          <tbody class='render_section'>
+            <% message_contents.each do |msg_content| %>
+              <% if msg_content.content_type == "LinkCard" %>
+                <%= render partial: 'messages/linkcard_review', locals: { msg_content: msg_content, link_card: msg_content.content, preview: true } %>
+
+              <% end %>
+              <% if msg_content.content_type == "PhotoGroup" %>
+                <% photos = Photo.where(message_id: msg_content.message_id , photo_group_id: msg_content.content_id) %>
+                <% if photos.count > 0 %>
+                  <%= render partial: 'messages/photo_review', locals: { msg_content: msg_content, photos: photos, message_id: msg_content.message_id, content_id: msg_content.content_id, new_record: false, preview: true } %>
+
+                <% end %>
+              <% end %>
+              <% if msg_content.content_type == "VideoGroup" %>
+                <% video = Video.where(message_id: msg_content.message_id , video_group_id: msg_content.content_id).compact.last %>
+                <% if video %>
+                  <%= render partial: 'messages/video_review', locals: { msg_content: msg_content, video: video, message_id: msg_content.message_id, content_id: msg_content.content_id, new_record: false, preview: true } %>
+
+                <% end %>
+              <% end %>
+              <% if msg_content.content_type == "TextMessage" %>
+                <%= render partial: 'messages/text_review', locals: { msg_content: msg_content, text_message: msg_content.content, preview: true } %>
+
+              <% end %>
+              <% if msg_content.content_type == "Question" %>
+                <%= render partial: 'messages/question_review', locals: { msg_content: msg_content, question: msg_content.content, preview: true } %>
+
+              <% end %>
+              <% if msg_content.content_type == "ProductMessage" %>
+                <%= render partial: 'messages/product_message_review', locals: { msg_content: msg_content, product_message: msg_content.content, preview: true } %>
+
+              <% end %>
+              <% if msg_content.content_type == "Quote" %>
+                <%= render partial: 'messages/quote_review', locals: { msg_content: msg_content, quote: msg_content.content, preview: true } %>
+
+              <% end %>
+            <% end %>
+          </tbody>
+        </table>
+        <% end %>
+      </div>
+      <br>
+    <% end %>
+  <% end %>
+</div>

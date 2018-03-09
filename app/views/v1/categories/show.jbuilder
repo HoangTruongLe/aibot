@@ -1,0 +1,22 @@
+if @category.present?
+  json.id @category.id
+  json.name @category.name
+  json.slug @category.slug
+  json.tags @category.tags
+  json.eval_A_name @category.eval_A_name
+  json.eval_A_type @category.eval_A_type
+  json.eval_A_value @category.eval_A_value
+  json.eval_B_name @category.eval_B_name
+  json.eval_B_type @category.eval_B_type
+  json.eval_B_value @category.eval_B_value
+  json.eval_C_name @category.eval_C_name
+  json.eval_C_type @category.eval_C_type
+  json.eval_C_value @category.eval_C_value
+  json.eval_D_name @category.eval_D_name
+  json.eval_D_type @category.eval_D_type
+  json.eval_D_value @category.eval_D_value
+  json.eval_E_name @category.eval_E_name
+  json.eval_E_type @category.eval_E_type
+  json.eval_E_value @category.eval_E_value
+  json.activity @category.activity
+end

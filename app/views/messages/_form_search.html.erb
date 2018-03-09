@@ -1,0 +1,62 @@
+<div class="modal fade" id="form-messages-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div id="modal_id_choice" style="display: none"></div>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">フォームを選択する</h4>
+        <div class='row search-border'>
+          <%= search_form_for @f, url: message_form_search_messages_path, remote: true, method: :get do |fp|%>
+            <h4 class="modal-title"></h4>
+            <div class="form-inline">
+              <%= fp.search_field :id_or_form_name_cont, placeholder: 'ID、フォームで検索', class: 'form-control', style:'width:70%' %>
+              <%= link_to 'クリア', 'javascript:void(0);', class: 'btn btn-cancel clear-input-search btn-gray btn-clear-filter', style: 'color: #000; width:50px'%>
+              <%= fp.submit '検索', class: 'btn btn-primary', style: 'width:50px'%>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="modal-body mrg20B">
+        <table class="table table-striped table-bordered table-hover form-messages-datatable">
+          <thead>
+            <tr>
+              <th class="text-center">ID</th>
+              <th>アクティビティ</th>
+              <th class="text-center">フォーム名</th>
+              <th class="text-center">操作</th>
+            </tr>
+          </thead>
+          <tbody id="p_form">
+            <%= render partial: 'messages/form_list', locals: { forms: @forms  } %>
+          </tbody>
+        </table>
+
+        <div class='text-center'>
+          <div id="form_paginator">
+            <%= paginate @forms, :remote => true %>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+  function choose_form_message(message) {
+    $('#form-messages-modal').modal('hide');
+    modal_id = $('#modal_id_choice').attr('data-modal_id');
+    form_message = $("#" + modal_id).closest('.form-message');
+    $(form_message).find('.m_editor-input span').text("フォーム: ID" + $(message).data("id"));
+    $(form_message).find('.m_editor-input .form_id').val($(message).data("id"));
+    $(form_message).find(".btn-form-submit").removeAttr('disabled');
+  }
+
+  function open_form_modal(modal) {
+    var modal_id = randomString(16);
+    $(modal).attr('id', modal_id);
+    $('#modal_id_choice').attr('data-modal_id', modal_id);
+    $('#form-messages-modal').modal('show');
+  }
+</script>

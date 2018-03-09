@@ -1,0 +1,72 @@
+<% unless !product_message || product_message.new_record? %>
+  <% product = product_message.product %>
+  <div class="m_editor-product-1 mrg20T">
+    <div class="m_editor-content <%= preview ? 'remove_border' : ''%>">
+      <h5>商品カード</h5>
+      <div class="m_editor-product-wrapper">
+        <div class="m_product-textarea">
+          <div class="m_product-url">
+            <h5>商品名：</h5>
+            <p><a href="" target="_blank"><%= product.try(:name) %></a></p>
+          </div>
+          <div class="m_product-title">
+            <h5>タグ：</h5>
+            <p><%= product.try(:tags) %></p>
+          </div>
+          <div class="m_product-description">
+            <h5>内容：</h5>
+            <p><%= product.try(:catch_copy) %></p>
+          </div>
+          <div class="m_product-price">
+            <div class="col-sm-6 m_product-price-1">
+              <strong>価格：</strong><span>　<%= number_to_currency(product.try(:price)) %></span>
+            </div>
+            <div class="col-sm-6 m_product-price-2">
+              <strong>特価：</strong><span>　<%= number_to_currency(product.try(:campaign).to_i) %></span>
+            </div>
+          </div>
+        </div>
+        <div class="m_product-preview">
+          <div class="preview-wrapper">
+            <div class="m_slide_list">
+              <div class="m_item_slide">
+                <img src="<%= split_string_to_array(product.try(:image_1_url), product.try(:image_2_url), product.try(:image_3_url), product.try(:image_4_url), product.try(:image_5_url)).first %>" alt="">
+              </div>
+              <!-- <div class="m_item_slide">
+                <img src="https://placehold.jp/3d6f3b/ffffff/640x480.png?text=product 2" alt="">
+              </div>
+              <div class="m_item_slide">
+                <img src="https://placehold.jp/3d6f3b/ffffff/640x480.png?text=product 3" alt="">
+              </div>
+              <div class="m_item_slide">
+                <img src="https://placehold.jp/3d6f3b/ffffff/640x480.png?text=product 4" alt="">
+              </div>
+              <div class="m_item_slide">
+                <img src="https://placehold.jp/3d6f3b/ffffff/640x480.png?text=product 5" alt="">
+              </div> -->
+            </div>
+            <div class="preview-content">
+              <div class="preview-title"><%= product.try(:name) %></div>
+              <div class="preview-tag"><%=  product.try(:tags) %></div>
+              <div class="preview-description"><%= product.try(:catch_copy) %></div>
+              <div class="preview-price">
+                <span><%= number_to_currency(product.try(:price)) %></span>&nbsp;&nbsp;&nbsp;&nbsp;<strong><%= number_to_currency(product.try(:campaign).to_i) %></strong>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="clear: both"></div>
+      </div>
+    </div>
+    <% unless preview %>
+      <div class="m_editor-action">
+        <div class="col-sm-6 col-xs-6 m_editor-action-button">
+          <button type="button" class="btn btn-primary btn-blue-2 mrg5B edit-product-message-btn"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 編集</button><br>
+          <button type="button" data-link='<%= "/product_messages/#{product_message.id}" %>' data-type="商品" class="btn btn-default btn-white-2 btn-delete-msg-content">
+            <i class="fa fa-trash-o" aria-hidden="true"></i> 削除
+          </button>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

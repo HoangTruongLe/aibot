@@ -1,0 +1,118 @@
+<%= form_for @user, method: type == 'new' ? "post" : "put", html: { class: "form-horizontal"} do |f| %>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <h5><%= type == 'new' ? "ユーザー新規追加" : "ユーザー編集"%></h5>
+    </div>
+    <div class="col-sm-6 text-right">
+      <%= link_to "キャンセル", users_path, { class: 'btn btn-default btn-white-1 btn-smalll' } %>
+      <button type="submit" class="btn btn-primary btn-submit-filter btn-blue btn-smalll">
+        <%= type == 'new' ? '登録する' : '更新する' %>
+      </button>
+    </div>
+  </div>
+<div class="col-sm-12">
+  <!-- Modal Content -->
+  <% if @user.errors.any? %>
+    <br>
+    <div class="row error-log">
+      <h5><%= t("activerecord.errors.error_message")%></h5>
+      <ul>
+        <% @user.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= f.hidden_field :id %>
+  <div class="row form-input-wrapper">
+    <% if type == 'edit'%>
+    <div class="form-group">
+      <%= f.label :id, class: "control-label col-sm-3" %>
+      <div class="col-sm-9 mrg5T">
+        <label><strong><%= @user.id %></strong></label>
+      </div>
+    </div>
+    <% end %>
+    <div class="form-group">
+      <%= f.label '名前', class: "control-label col-sm-3 required" %>
+      <div class="col-sm-9">
+        <%= f.text_field :name, class: "form-control", placeholder: '名前を入力してください', autofocus: true  %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label '役割', class: "control-label col-sm-3 required" %>
+      <div class="col-sm-9">
+        <% Role.all.each do |role| %>
+          <div class="radio radio-primary radio-inline">
+            <%= radio_button_tag 'user[role_ids][]', role.id, @user.role_ids.include?(role.id), { id: dom_id(role), class: "user_role_id role-#{role.name}", "data-role": "#{role.name}" } %>
+            <%= label_tag dom_id(role), t(role.name) %><br>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label 'アクティビティ', class: "control-label col-sm-3" %>
+      <div class="col-sm-9">
+        <div class="radio radio-primary radio-inline">
+          <%= f.radio_button :activity, true %>
+          <%= f.label :activity_true, t('active') %>
+        </div>
+        <div class="radio radio-primary radio-inline">
+          <%= f.radio_button :activity, false %>
+          <%= f.label :activity_false, t('inactive') %>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label 'メールアドレス', class: "control-label col-sm-3 required" %>
+      <div class="col-sm-9">
+        <%= f.text_field :email, class: "form-control", placeholder: 'メールアドレスを入力してください' %>
+      </div>
+    </div>
+    <% if type == 'edit' %>
+    <div class="form-group">
+      <%= f.label 'パスワード', class: "control-label col-sm-3 " %>
+      <div class="col-sm-9">
+        <%= f.password_field :password, class: "form-control", autocomplete: "off", placeholder: 'パスワードを入力してください' %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label 'パスワード（確認）', class: "control-label col-sm-3" %>
+      <div class="col-sm-9">
+        <%= f.password_field :password_confirmation, class: "form-control", autocomplete: "off", placeholder: '確認用のパスワードを入力してください' %>
+      </div>
+    </div>
+    <% end %>
+    <div class="form-group sites-input" style="display: <%= f.object.admin? ? 'none' : 'block' %> ">
+      <%= f.label 'サイト', class: "required control-label col-sm-3" %>
+      <div class="col-sm-9">
+        <%= f.select :site_ids, Site.all.map { |site| [site.site_url, site.id] }, { include_hidden: false }, { multiple: true, class: 'user-sites js-example-basic-multiple' } %>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-6 text-right col-sm-offset-6">
+    <%= link_to "キャンセル", users_path, { class: 'btn btn-default btn-white-1 btn-smalll' } %>
+    <button type="submit" class="btn btn-primary btn-submit-filter btn-blue btn-smalll">
+      <%= type == 'new' ? '登録する' : '更新する' %>
+    </button>
+  </div>
+</div>
+</div>
+<% end %>
+<script type="text/javascript">
+  $(".user-sites").select2({
+    placeholder: "複数のサイトを選択してください！",
+    allowClear: true,
+    width: '100%'
+  });
+  $('.user_role_id').on('change', function() {
+    if ($(this).data('role') == 'admin') {
+      $('.sites-input').hide();
+    } else {
+      $('.sites-input').show();
+    }
+  });
+</script>

@@ -1,0 +1,22 @@
+// Place all the styles related to the home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.table-user-information {
+  tbody tr:first-child {
+    border-top: 0;
+  }
+  tbody tr {
+    border-top: 1px solid rgb(221, 221, 221);
+    td {
+      border-top: 0;
+    }
+  }
+}
+
+ul#submenu1 > li > a{
+  padding: 20px 55px;
+}
+ul#submenu-statistic > li > a{
+  padding: 20px 55px;
+}

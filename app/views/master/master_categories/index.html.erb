@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="row margin-b10">
+    <div class="col-sm-9 col-xs-9">
+      <div class="col-sm-3 col-xs-3">
+        <h4><%= t('.master_category')%></h4>
+      </div>
+      <div class="col-sm-7 col-xs-7 pull-right">
+        <h4 class="pull-left">最終更新者: <%= @lasted_update_user %></h4>
+        <h4 class="pull-right">最終更新日: <%= format_datetime(@lasted_update_time) %></h4>
+      </div>
+    </div>
+    <div class="col-sm-3 col-xs-3 text-right">
+      <button onclick="set_parent_id()"
+							class="btn btn-primary btn-submit-filter btn-blue"
+							style="width: 180px; font-size: 13px;">
+				<%= t('.create_master_category') %>
+			</button>
+    </div>
+  </div>
+  <div class='row search-border'>
+    <h5><%= t('.search')%></h5>
+    <%= search_form_for @q, url: master_master_categories_path, method: :get do |f|%>
+      <div class='col-sm-6 col-xs-12 mrg10B' >
+        <%= f.search_field :name_cont, placeholder: t('.placeholder_search'), class: 'form-control'%>
+      </div>
+
+      <div class='col-sm-6 col-xs-12'>
+        <div class="col-sm-6 col-xs-12 padding-0 mrg10B">
+          <%= f.label "#{t('.activity_title')}:", style: 'font-weight: normal; line-height: 34px;', class: "activity-label padding-0" %>
+          <%= f.select :activity_eq, Category::ACTIVITY, { include_blank: t('.all'), selected: @q.activity_eq },  { class: "form-control activity-select" } %>
+        </div>
+        <div class="col-sm-6 col-xs-12 form-inline padding-0 text-center">
+          <%= link_to t('.clear'), 'javascript:void(0);', class: 'btn btn-cancel clear-input-search btn-gray btn-clear-filter', style: 'color: #000'%>
+          <%= f.submit t('.search'), class: 'btn btn-save btn-submit-filter'%>
+        </div>
+      </div>
+    <%end%>
+  </div>
+  <div class="row search-border">
+    <% if @master_categories.size > 0 %>
+      <div class="easy-tree">
+        <ul>
+          <%= raw render_master_categories_tree(@master_categories) %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="new_modal">
+  <%= render partial: "new", locals: { master_category: MasterCategory.new } %>
+</div>
+
+<div class="update_modal">
+  <%= render partial: "update", locals: { master_category: MasterCategory.new }  %>
+</div>
+
+<div class="destroy_modal">
+  <%= render partial: "destroy" %>
+</div>
+
+<div class="warning_destroy_modal">
+  <%= render partial: "warning_destroy" %>
+</div>
